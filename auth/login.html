@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Chumbi Digital | Login</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fraunces:wght@400;600;700&family=Work+Sans:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../assets/css/styles.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="nav-shell">
+        <div class="brand">
+          <div class="brand-mark">CD</div>
+          <div>
+            <strong>Chumbi Digital</strong>
+            <span>Portafolio, blog y laboratorio creativo</span>
+          </div>
+        </div>
+        <nav class="site-nav">
+          <a href="../index.html">index.html</a>
+          <a href="../quien-soy.html">quien soy</a>
+          <a href="../que-hago.html">que hago</a>
+          <a href="../que-hice.html">que hice</a>
+          <a href="../el-dojo.html">el dojo</a>
+          <a href="../donde-te-enseno.html">donde te enseno</a>
+          <a href="../que-onda-con-todo.html">que onda con todo</a>
+          <a href="../blog/index.html">blog</a>
+          <a href="../tools/index.html">herramientas</a>
+          <a href="../exclusive/index.html">exclusivo</a>
+          <a href="login.html">login</a>
+        </nav>
+      </div>
+    </header>
+
+    <main>
+      <section class="hero" data-reveal>
+        <div>
+          <span class="badge">Acceso</span>
+          <h1>Login</h1>
+          <p>
+            Ingresa para ver contenido exclusivo y herramientas privadas.
+            Este login es una maqueta y se conecta a una sesion local.
+          </p>
+        </div>
+        <div class="form-shell" data-reveal>
+          <form data-auth-form>
+            <label for="email">Correo</label>
+            <input id="email" name="email" type="email" placeholder="tu@email.com" required />
+            <label for="password">Clave</label>
+            <input id="password" name="password" type="password" placeholder="********" required />
+            <button class="button button-primary" type="submit">Entrar</button>
+          </form>
+          <p class="status">Aun no tienes cuenta? <a href="register.html">Crear acceso</a>.</p>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <p>Chumbi Digital  -  <span data-year></span>  -  Hecho para compartir energia creativa.</p>
+    </footer>
+
+    <script src="../assets/js/main.js"></script>
+    <script src="../assets/js/auth.js"></script>
+  </body>
+</html>

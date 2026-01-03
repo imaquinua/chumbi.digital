@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Chumbi Digital | Exclusivo</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fraunces:wght@400;600;700&family=Work+Sans:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../assets/css/styles.css" />
+  </head>
+  <body data-page="exclusive">
+    <header class="site-header">
+      <div class="nav-shell">
+        <div class="brand">
+          <div class="brand-mark">CD</div>
+          <div>
+            <strong>Chumbi Digital</strong>
+            <span>Portafolio, blog y laboratorio creativo</span>
+          </div>
+        </div>
+        <nav class="site-nav">
+          <a href="../index.html">index.html</a>
+          <a href="../quien-soy.html">quien soy</a>
+          <a href="../que-hago.html">que hago</a>
+          <a href="../que-hice.html">que hice</a>
+          <a href="../el-dojo.html">el dojo</a>
+          <a href="../donde-te-enseno.html">donde te enseno</a>
+          <a href="../que-onda-con-todo.html">que onda con todo</a>
+          <a href="../blog/index.html">blog</a>
+          <a href="../tools/index.html">herramientas</a>
+          <a href="index.html">exclusivo</a>
+          <a href="../auth/login.html">login</a>
+        </nav>
+      </div>
+    </header>
+
+    <main>
+      <section class="hero" data-reveal>
+        <div>
+          <span class="badge">Miembros</span>
+          <h1>Contenido exclusivo</h1>
+          <p>
+            Documentos, avances y recursos privados para miembros registrados.
+          </p>
+        </div>
+        <div class="card" data-auth-locked>
+          <h3>Necesitas iniciar sesion</h3>
+          <p>Este contenido esta reservado para miembros.</p>
+          <a class="button button-primary" href="../auth/login.html">Ir al login</a>
+        </div>
+        <div class="card is-hidden" data-auth-unlocked>
+          <h3>Bienvenido, <span data-auth-username></span></h3>
+          <p>Tu acceso esta activo. Aqui tienes lo mas reciente:</p>
+          <div class="list">
+            <div class="list-item">Guia privada del dojo.</div>
+            <div class="list-item">Plantillas para prototipos rapidos.</div>
+            <div class="list-item">Calendario de sesiones privadas.</div>
+          </div>
+          <button class="button button-secondary" type="button" data-auth-logout>Salir</button>
+        </div>
+      </section>
+
+      <div class="section-title" data-reveal>
+        <h2>Material reservado</h2>
+        <span>Disponible solo para miembros</span>
+      </div>
+      <section class="card-grid" data-reveal>
+        <article class="card">
+          <h3>Playbook del laboratorio</h3>
+          <p>Procesos internos y checklist de lanzamiento.</p>
+        </article>
+        <article class="card">
+          <h3>Repositorio de recursos</h3>
+          <p>Links, assets y referencias en tiempo real.</p>
+        </article>
+        <article class="card">
+          <h3>Sesiones privadas</h3>
+          <p>Agenda y grabaciones en acceso controlado.</p>
+        </article>
+      </section>
+    </main>
+
+    <footer>
+      <p>Chumbi Digital  -  <span data-year></span>  -  Hecho para compartir energia creativa.</p>
+    </footer>
+
+    <script src="../assets/js/main.js"></script>
+    <script src="../assets/js/auth.js"></script>
+  </body>
+</html>

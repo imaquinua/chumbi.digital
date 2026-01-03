@@ -1,0 +1,387 @@
+/*
+  IMPROVEMENT: 
+  - Using a more modern and vibrant color palette.
+  - Using a more consistent naming convention for variables.
+*/
+:root {
+  color-scheme: light;
+  --color-background: #f8f5f2;
+  --color-surface: #ffffff;
+  --color-primary: #1a1a1a;
+  --color-secondary: #5a5a5a;
+  --color-accent: #e58a57;
+  --color-accent-2: #3c8a8a;
+  --color-highlight: #f8d58c;
+  --shadow-color: rgba(0, 0, 0, 0.1);
+  --radius: 1.25rem;
+  --font-display: "Fraunces", "Georgia", serif;
+  --font-body: "Work Sans", "Helvetica", sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-body);
+  background: var(--color-background);
+  color: var(--color-primary);
+  line-height: 1.7;
+  min-height: 100vh;
+  /* IMPROVEMENT: Soften the background gradients for a more subtle effect */
+  background-image:
+    radial-gradient(circle at 15% 20%, rgba(229, 138, 87, 0.1), transparent 50%),
+    radial-gradient(circle at 85% 10%, rgba(60, 138, 138, 0.1), transparent 45%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.8), rgba(248, 245, 242, 0.8));
+  animation: fadeIn 0.8s ease-out;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+  transition: color 0.2s ease-in-out;
+}
+
+a:hover {
+  color: var(--color-accent);
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+/* IMPROVEMENT: Refined header with a more subtle shadow and better alignment */
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  backdrop-filter: blur(16px);
+  background: rgba(248, 245, 242, 0.8);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+  box-shadow: 0 2px 10px var(--shadow-color);
+}
+
+.nav-shell {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 1.25rem 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.brand {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+
+.brand-mark {
+  width: 52px;
+  height: 52px;
+  border-radius: 0.875rem;
+  background: var(--color-accent);
+  color: #fff;
+  display: grid;
+  place-items: center;
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  letter-spacing: 1px;
+  box-shadow: 0 10px 20px rgba(229, 138, 87, 0.2);
+  transition: transform 0.2s ease-in-out;
+}
+
+.brand:hover .brand-mark {
+  transform: scale(1.05);
+}
+
+.brand strong {
+  display: block;
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+
+.brand span {
+  color: var(--color-secondary);
+  font-size: 0.875rem;
+}
+
+.site-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem 1.25rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.site-nav a {
+  padding: 0.5rem 0.75rem;
+  border-radius: 999px;
+  background: transparent;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.site-nav a:hover {
+  background: rgba(0, 0, 0, 0.05);
+  color: var(--color-primary);
+}
+
+.site-nav a[aria-current="page"] {
+  background: rgba(60, 138, 138, 0.1);
+  color: var(--color-accent-2);
+  font-weight: 600;
+}
+
+main {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 3rem 1.5rem 5rem;
+}
+
+/* IMPROVEMENT: More impactful hero section with better typography */
+.hero {
+  display: grid;
+  gap: 2rem;
+  align-items: center;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  padding: 3rem;
+  background: var(--color-surface);
+  border-radius: var(--radius);
+  box-shadow: 0 25px 50px -12px var(--shadow-color);
+  border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.hero h1 {
+  font-family: var(--font-display);
+  font-size: clamp(2.5rem, 5vw, 3.5rem);
+  margin: 0 0 0.75rem;
+  line-height: 1.2;
+}
+
+.hero p {
+  color: var(--color-secondary);
+  margin: 0 0 1.5rem;
+  font-size: 1.125rem;
+}
+
+.hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+/* IMPROVEMENT: Refined buttons with hover effects and transitions */
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.875rem 1.5rem;
+  border-radius: 999px;
+  border: 1px solid transparent;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+.button-primary {
+  background: var(--color-accent);
+  color: #fff;
+  border-color: var(--color-accent);
+}
+
+.button-secondary {
+  background: transparent;
+  border-color: var(--color-accent-2);
+  color: var(--color-accent-2);
+}
+
+.button-secondary:hover {
+  background: var(--color-accent-2);
+  color: #fff;
+}
+
+.section-title {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  margin: 4rem 0 1.5rem;
+}
+
+.section-title h2 {
+  font-family: var(--font-display);
+  font-size: 2rem;
+  margin: 0;
+}
+
+.section-title span {
+  color: var(--color-secondary);
+  font-size: 0.875rem;
+}
+
+.card-grid {
+  display: grid;
+  gap: 1.5rem;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+}
+
+/* IMPROVEMENT: Enhanced cards with hover effects */
+.card {
+  background: var(--color-surface);
+  border-radius: 1rem;
+  padding: 1.5rem;
+  box-shadow: 0 8px 16px var(--shadow-color);
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 24px var(--shadow-color);
+}
+
+.card h3 {
+  margin: 0 0 0.5rem;
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+}
+
+.card p {
+  margin: 0 0 1rem;
+  color: var(--color-secondary);
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.75rem;
+  padding: 0.25rem 0.75rem;
+  border-radius: 999px;
+  background: var(--color-highlight);
+  color: #5a4400;
+  font-weight: 600;
+}
+
+.list {
+  display: grid;
+  gap: 1rem;
+}
+
+.list-item {
+  padding: 1rem;
+  border-radius: 1rem;
+  background: rgba(255, 255, 255, 0.7);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  font-size: 0.9375rem;
+}
+
+.form-shell {
+  max-width: 480px;
+  padding: 2rem;
+  background: var(--color-surface);
+  border-radius: var(--radius);
+  box-shadow: 0 20px 40px var(--shadow-color);
+}
+
+form {
+  display: grid;
+  gap: 1.25rem;
+}
+
+label {
+  font-weight: 600;
+  font-size: 0.9375rem;
+}
+
+input,
+textarea {
+  padding: 0.875rem 1rem;
+  border-radius: 0.75rem;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  font-family: var(--font-body);
+  font-size: 1rem;
+  background: #fff;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+input:focus,
+textarea:focus {
+  outline: none;
+  border-color: var(--color-accent-2);
+  box-shadow: 0 0 0 3px rgba(60, 138, 138, 0.2);
+}
+
+.status {
+  padding: 1rem;
+  border-radius: 1rem;
+  border: 1px dashed rgba(0, 0, 0, 0.2);
+  background: rgba(255, 255, 255, 0.6);
+}
+
+.is-hidden {
+  display: none;
+}
+
+footer {
+  padding: 3rem 1.5rem 4rem;
+  text-align: center;
+  color: var(--color-secondary);
+  font-size: 0.875rem;
+}
+
+[data-reveal] {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+
+[data-reveal].is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* IMPROVEMENT: Refined responsive layout */
+@media (max-width: 768px) {
+  .nav-shell {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .site-nav {
+    justify-content: flex-start;
+    gap: 0.5rem 1rem;
+  }
+
+  .hero {
+    padding: 2rem;
+    text-align: center;
+  }
+  
+  .hero-actions {
+    justify-content: center;
+  }
+
+  main {
+    padding-top: 2rem;
+  }
+}
