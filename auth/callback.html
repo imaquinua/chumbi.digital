@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Autenticando... | Chumbi</title>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            accent: '#E85D4C',
+            cream: '#FAF8F5',
+            charcoal: '#0F0E0D',
+            ink: '#2D2A26',
+            ash: '#E8E4DE',
+            stone: '#8C8579',
+          },
+          fontFamily: {
+            display: ['Instrument Serif', 'serif'],
+            body: ['Outfit', 'sans-serif'],
+          },
+        }
+      }
+    }
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+  <!-- Supabase SDK -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body class="bg-cream dark:bg-charcoal min-h-screen flex items-center justify-center"
+      x-data="{ darkMode: localStorage.getItem('darkMode') === 'true' }"
+      x-init="document.documentElement.classList.toggle('dark', darkMode)">
+
+  <div class="text-center p-8">
+    <!-- Loading spinner -->
+    <div class="w-16 h-16 mx-auto mb-6">
+      <svg class="animate-spin text-accent" fill="none" viewBox="0 0 24 24">
+        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+      </svg>
+    </div>
+
+    <h1 class="font-display text-2xl text-ink dark:text-ash mb-2">Autenticando...</h1>
+    <p class="text-stone" id="status">Procesando tu acceso</p>
+  </div>
+
+  <script>
+    // Configuracion Supabase
+    const SUPABASE_URL = 'https://yjdrvgmgitqiaoejfxil.supabase.co';
+    const SUPABASE_ANON_KEY = 'sb_publishable_64AxB3y1XI9_WrO4xW6bUg_hmlmBT7i';
+
+    // Procesar callback
+    {
+      const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+      // Procesar callback OAuth
+      async function handleCallback() {
+        const status = document.getElementById('status');
+
+        try {
+          // Obtener sesion del hash/query params
+          const { data: { session }, error } = await supabase.auth.getSession();
+
+          if (error) {
+            console.error('Error de autenticacion:', error);
+            status.textContent = 'Error: ' + error.message;
+            setTimeout(() => {
+              window.location.href = '/auth/login.html?error=oauth_failed';
+            }, 2000);
+            return;
+          }
+
+          if (session) {
+            status.textContent = 'Acceso exitoso. Redirigiendo...';
+            setTimeout(() => {
+              window.location.href = '/lms/dashboard/';
+            }, 1000);
+          } else {
+            status.textContent = 'No se pudo completar el acceso';
+            setTimeout(() => {
+              window.location.href = '/auth/login.html';
+            }, 2000);
+          }
+        } catch (err) {
+          console.error('Error:', err);
+          status.textContent = 'Error inesperado';
+          setTimeout(() => {
+            window.location.href = '/auth/login.html?error=unknown';
+          }, 2000);
+        }
+      }
+
+      // Ejecutar al cargar
+      handleCallback();
+    }
+  </script>
+
+  <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>C</text></svg>">
+  <title>Leccion | Chumbi Dojo</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+
+  <!-- Marked.js para Markdown -->
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            accent: '#E85D4C',
+            'accent-hover': '#D14836',
+            cream: '#FAF8F5',
+            paper: '#F5F2ED',
+            ink: '#2D2A26',
+            charcoal: '#0F0E0D',
+            'charcoal-light': '#1A1816',
+            ash: '#E8E4DE',
+            stone: '#8C8579',
+          },
+          fontFamily: {
+            display: ['Instrument Serif', 'serif'],
+            body: ['Outfit', 'sans-serif'],
+          },
+        }
+      }
+    }
+  </script>
+  <style>
+    [x-cloak] { display: none !important; }
+
+    /* Prose styles for markdown content */
+    .prose { max-width: none; line-height: 1.8; }
+    .prose h1 { font-family: 'Instrument Serif', serif; font-size: 2.25rem; margin-bottom: 1.5rem; margin-top: 2rem; }
+    .prose h2 { font-family: 'Instrument Serif', serif; font-size: 1.75rem; margin-bottom: 1rem; margin-top: 2rem; }
+    .prose h3 { font-family: 'Instrument Serif', serif; font-size: 1.25rem; margin-bottom: 0.75rem; margin-top: 1.5rem; }
+    .prose p { margin-bottom: 1.25rem; }
+    .prose ul, .prose ol { margin-bottom: 1.25rem; padding-left: 1.5rem; }
+    .prose li { margin-bottom: 0.5rem; }
+    .prose blockquote {
+      border-left: 4px solid #E85D4C;
+      padding-left: 1.25rem;
+      margin: 1.5rem 0;
+      font-style: italic;
+      color: #8C8579;
+    }
+    .prose code {
+      background: rgba(0,0,0,0.05);
+      padding: 0.2rem 0.4rem;
+      border-radius: 0.25rem;
+      font-size: 0.9em;
+    }
+    .dark .prose code {
+      background: rgba(255,255,255,0.1);
+    }
+    .prose pre {
+      background: #1a1816;
+      padding: 1rem;
+      border-radius: 0.75rem;
+      overflow-x: auto;
+      margin: 1.5rem 0;
+    }
+    .prose pre code {
+      background: none;
+      padding: 0;
+      color: #E8E4DE;
+    }
+    .prose strong { font-weight: 600; }
+    .prose a { color: #E85D4C; text-decoration: underline; }
+    .prose img { border-radius: 0.75rem; margin: 1.5rem 0; }
+
+    /* Video container */
+    .video-container {
+      position: relative;
+      padding-bottom: 56.25%;
+      height: 0;
+      overflow: hidden;
+      border-radius: 1rem;
+      background: #0F0E0D;
+    }
+    .video-container iframe,
+    .video-container video {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+    }
+  </style>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body class="bg-cream dark:bg-charcoal text-ink dark:text-ash font-body antialiased min-h-screen"
+      x-data="{
+        darkMode: localStorage.getItem('darkMode') === 'true',
+        user: null,
+        lesson: null,
+        course: null,
+        allLessons: [],
+        progress: null,
+        loading: true,
+        completing: false,
+        error: '',
+        sidebarOpen: false,
+
+        async init() {
+          document.documentElement.classList.toggle('dark', this.darkMode);
+
+          const params = new URLSearchParams(window.location.search);
+          const slug = params.get('slug');
+
+          if (!slug) {
+            window.location.href = '../index.html';
+            return;
+          }
+
+          await AuthStore.init();
+          this.user = AuthStore.user;
+
+          window.addEventListener('auth:changed', (e) => {
+            this.user = e.detail.user;
+          });
+
+          await this.loadLesson(slug);
+        },
+
+        async loadLesson(slug) {
+          if (!window.supabaseClient) {
+            this.loading = false;
+            return;
+          }
+
+          try {
+            // Cargar leccion con curso
+            const { data: lesson, error: lessonError } = await supabaseClient
+              .from('lessons')
+              .select('*, courses(*)')
+              .eq('slug', slug)
+              .single();
+
+            if (lessonError || !lesson) {
+              this.error = 'Leccion no encontrada';
+              this.loading = false;
+              return;
+            }
+
+            this.lesson = lesson;
+            this.course = lesson.courses;
+            document.title = lesson.title + ' | ' + this.course.title;
+
+            // Verificar acceso
+            if (!lesson.is_free_preview && this.course.price_tier !== 'free') {
+              if (!this.user || !AuthStore.hasAccessToTier(this.course.price_tier)) {
+                window.location.href = '../course/?slug=' + this.course.slug;
+                return;
+              }
+            }
+
+            // Cargar todas las lecciones del curso
+            const { data: allLessons } = await supabaseClient
+              .from('lessons')
+              .select('id, slug, title, duration_minutes, order_index')
+              .eq('course_id', this.course.id)
+              .order('order_index', { ascending: true });
+
+            this.allLessons = allLessons || [];
+
+            // Cargar progreso si esta autenticado
+            if (this.user) {
+              const { data: progress } = await supabaseClient
+                .from('lesson_progress')
+                .select('*')
+                .eq('user_id', this.user.id)
+                .eq('lesson_id', lesson.id)
+                .single();
+
+              this.progress = progress;
+            }
+
+          } catch (error) {
+            console.error('Error:', error);
+            this.error = 'Error al cargar la leccion';
+          }
+
+          this.loading = false;
+        },
+
+        async markComplete() {
+          if (!this.user || this.completing) return;
+
+          this.completing = true;
+
+          try {
+            const { data, error } = await supabaseClient
+              .from('lesson_progress')
+              .upsert({
+                user_id: this.user.id,
+                lesson_id: this.lesson.id,
+                completed: true,
+                progress_percent: 100,
+                completed_at: new Date().toISOString()
+              }, {
+                onConflict: 'user_id,lesson_id'
+              })
+              .select()
+              .single();
+
+            if (!error) {
+              this.progress = data;
+
+              // Verificar si completo el curso
+              await this.checkCourseCompletion();
+            }
+          } catch (error) {
+            console.error('Error:', error);
+          }
+
+          this.completing = false;
+        },
+
+        async checkCourseCompletion() {
+          // Contar lecciones completadas
+          const { data: completedLessons } = await supabaseClient
+            .from('lesson_progress')
+            .select('id')
+            .eq('user_id', this.user.id)
+            .eq('completed', true)
+            .in('lesson_id', this.allLessons.map(l => l.id));
+
+          if (completedLessons?.length === this.allLessons.length) {
+            // Curso completado!
+            await supabaseClient
+              .from('user_enrollments')
+              .update({ completed_at: new Date().toISOString() })
+              .eq('user_id', this.user.id)
+              .eq('course_id', this.course.id);
+
+            // Mostrar mensaje de felicitacion
+            alert('Felicidades! Has completado el curso: ' + this.course.title);
+          }
+        },
+
+        get currentIndex() {
+          return this.allLessons.findIndex(l => l.id === this.lesson?.id);
+        },
+
+        get prevLesson() {
+          if (this.currentIndex <= 0) return null;
+          return this.allLessons[this.currentIndex - 1];
+        },
+
+        get nextLesson() {
+          if (this.currentIndex >= this.allLessons.length - 1) return null;
+          return this.allLessons[this.currentIndex + 1];
+        },
+
+        renderMarkdown(content) {
+          if (!content) return '';
+          return marked.parse(content);
+        },
+
+        getVideoEmbed(url, provider) {
+          if (!url) return '';
+
+          if (provider === 'youtube' || url.includes('youtube.com') || url.includes('youtu.be')) {
+            const videoId = url.includes('youtu.be')
+              ? url.split('/').pop()
+              : new URL(url).searchParams.get('v');
+            return '<iframe src=\"https://www.youtube.com/embed/' + videoId + '\" frameborder=\"0\" allowfullscreen></iframe>';
+          }
+
+          if (provider === 'vimeo' || url.includes('vimeo.com')) {
+            const videoId = url.split('/').pop();
+            return '<iframe src=\"https://player.vimeo.com/video/' + videoId + '\" frameborder=\"0\" allowfullscreen></iframe>';
+          }
+
+          if (provider === 'loom' || url.includes('loom.com')) {
+            const videoId = url.split('/').pop();
+            return '<iframe src=\"https://www.loom.com/embed/' + videoId + '\" frameborder=\"0\" allowfullscreen></iframe>';
+          }
+
+          // Default: video directo
+          return '<video src=\"' + url + '\" controls></video>';
+        }
+      }"
+      x-init="init()">
+
+  <!-- Mobile Sidebar Overlay -->
+  <div
+    x-show="sidebarOpen"
+    x-cloak
+    @click="sidebarOpen = false"
+    class="fixed inset-0 bg-charcoal/50 z-40 lg:hidden"
+  ></div>
+
+  <!-- Sidebar -->
+  <aside
+    :class="sidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'"
+    class="fixed top-0 left-0 h-full w-80 bg-paper dark:bg-charcoal-light border-r border-ink/5 dark:border-ash/10 z-50 transition-transform lg:z-30 overflow-y-auto"
+  >
+    <!-- Header -->
+    <div class="p-4 border-b border-ink/5 dark:border-ash/10">
+      <a href="../course/?slug=" x-bind:href="'../course/?slug=' + course?.slug" class="flex items-center gap-2 text-stone hover:text-accent transition-colors text-sm mb-3">
+        <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
+        </svg>
+        Volver al curso
+      </a>
+      <h2 class="font-display text-lg text-ink dark:text-ash line-clamp-2" x-text="course?.title"></h2>
+    </div>
+
+    <!-- Lessons List -->
+    <nav class="p-4">
+      <p class="text-xs text-stone uppercase tracking-wider mb-3">Lecciones</p>
+      <div class="space-y-1">
+        <template x-for="(l, i) in allLessons" :key="l.id">
+          <a
+            :href="'?slug=' + l.slug"
+            :class="l.id === lesson?.id ? 'bg-accent/10 text-accent' : 'hover:bg-ink/5 dark:hover:bg-ash/5'"
+            class="flex items-center gap-3 p-3 rounded-lg transition-colors"
+          >
+            <span class="w-6 h-6 rounded-full bg-ink/10 dark:bg-ash/10 flex items-center justify-center text-xs" x-text="i + 1"></span>
+            <span class="flex-grow text-sm line-clamp-1" x-text="l.title"></span>
+            <span x-show="l.duration_minutes" class="text-xs text-stone" x-text="l.duration_minutes + 'm'"></span>
+          </a>
+        </template>
+      </div>
+    </nav>
+  </aside>
+
+  <!-- Main Content -->
+  <div class="lg:ml-80">
+    <!-- Top Bar -->
+    <header class="sticky top-0 z-20 bg-cream/90 dark:bg-charcoal/90 backdrop-blur-xl border-b border-ink/5 dark:border-ash/5">
+      <div class="flex items-center justify-between px-6 py-4">
+        <!-- Mobile menu button -->
+        <button
+          @click="sidebarOpen = true"
+          class="lg:hidden w-10 h-10 rounded-full bg-ink/5 dark:bg-ash/10 flex items-center justify-center"
+        >
+          <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"/>
+          </svg>
+        </button>
+
+        <!-- Lesson title -->
+        <h1 class="font-display text-lg text-ink dark:text-ash truncate flex-grow mx-4" x-text="lesson?.title"></h1>
+
+        <!-- Actions -->
+        <div class="flex items-center gap-2">
+          <button
+            @click="darkMode = !darkMode; localStorage.setItem('darkMode', darkMode); document.documentElement.classList.toggle('dark', darkMode)"
+            class="w-10 h-10 rounded-full bg-ink/5 dark:bg-ash/10 flex items-center justify-center hover:bg-accent hover:text-cream transition-all"
+          >
+            <svg x-show="!darkMode" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+              <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"/>
+            </svg>
+            <svg x-show="darkMode" x-cloak class="w-5 h-5 text-amber-400" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0z" clip-rule="evenodd"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- Content -->
+    <main class="px-6 py-8 max-w-4xl mx-auto">
+
+      <!-- Loading -->
+      <div x-show="loading" class="flex items-center justify-center py-20">
+        <div class="animate-spin w-8 h-8 border-2 border-accent border-t-transparent rounded-full"></div>
+      </div>
+
+      <!-- Error -->
+      <div x-show="!loading && error" class="text-center py-20">
+        <p class="text-red-500 mb-4" x-text="error"></p>
+        <a href="../index.html" class="text-accent hover:underline">Volver a cursos</a>
+      </div>
+
+      <!-- Lesson Content -->
+      <div x-show="!loading && lesson" x-cloak>
+
+        <!-- Video (if video lesson) -->
+        <div x-show="lesson?.video_url" class="mb-8">
+          <div class="video-container" x-html="getVideoEmbed(lesson?.video_url, lesson?.video_provider)"></div>
+        </div>
+
+        <!-- Markdown Content -->
+        <article class="prose dark:text-ash" x-html="renderMarkdown(lesson?.content_markdown)"></article>
+
+        <!-- Complete Button -->
+        <div class="mt-12 pt-8 border-t border-ink/10 dark:border-ash/10">
+          <template x-if="user && !progress?.completed">
+            <button
+              @click="markComplete()"
+              :disabled="completing"
+              class="flex items-center gap-2 bg-green-500 hover:bg-green-600 text-white px-6 py-3 rounded-xl transition-colors disabled:opacity-50"
+            >
+              <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/>
+              </svg>
+              <span x-show="!completing">Marcar como completada</span>
+              <span x-show="completing">Guardando...</span>
+            </button>
+          </template>
+
+          <template x-if="progress?.completed">
+            <div class="flex items-center gap-2 text-green-500">
+              <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+              </svg>
+              <span>Leccion completada</span>
+            </div>
+          </template>
+
+          <template x-if="!user">
+            <p class="text-stone">
+              <a href="../../auth/login.html" class="text-accent hover:underline">Inicia sesion</a> para guardar tu progreso
+            </p>
+          </template>
+        </div>
+
+        <!-- Navigation -->
+        <div class="flex items-center justify-between mt-8 pt-8 border-t border-ink/10 dark:border-ash/10">
+          <!-- Previous -->
+          <div>
+            <template x-if="prevLesson">
+              <a :href="'?slug=' + prevLesson.slug" class="flex items-center gap-2 text-stone hover:text-accent transition-colors">
+                <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/>
+                </svg>
+                <div class="text-left">
+                  <p class="text-xs">Anterior</p>
+                  <p class="text-sm font-medium" x-text="prevLesson.title"></p>
+                </div>
+              </a>
+            </template>
+          </div>
+
+          <!-- Next -->
+          <div>
+            <template x-if="nextLesson">
+              <a :href="'?slug=' + nextLesson.slug" class="flex items-center gap-2 text-stone hover:text-accent transition-colors">
+                <div class="text-right">
+                  <p class="text-xs">Siguiente</p>
+                  <p class="text-sm font-medium" x-text="nextLesson.title"></p>
+                </div>
+                <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/>
+                </svg>
+              </a>
+            </template>
+            <template x-if="!nextLesson && progress?.completed">
+              <a :href="'../course/?slug=' + course?.slug" class="flex items-center gap-2 bg-accent hover:bg-accent-hover text-cream px-4 py-2 rounded-lg transition-colors">
+                Volver al curso
+                <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/>
+                </svg>
+              </a>
+            </template>
+          </div>
+        </div>
+
+      </div>
+    </main>
+  </div>
+
+  <!-- Scripts -->
+  <script src="../../assets/js/supabase-client.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+</body>
+</html>

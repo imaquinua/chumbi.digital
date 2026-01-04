@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>C</text></svg>">
+  <title>Mi Dojo | Chumbi</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            accent: '#E85D4C',
+            'accent-hover': '#D14836',
+            cream: '#FAF8F5',
+            paper: '#F5F2ED',
+            ink: '#2D2A26',
+            charcoal: '#0F0E0D',
+            'charcoal-light': '#1A1816',
+            ash: '#E8E4DE',
+            stone: '#8C8579',
+          },
+          fontFamily: {
+            display: ['Instrument Serif', 'serif'],
+            body: ['Outfit', 'sans-serif'],
+          },
+        }
+      }
+    }
+  </script>
+  <style>
+    [x-cloak] { display: none !important; }
+  </style>
+
+  <!-- Supabase SDK -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body class="bg-cream dark:bg-charcoal text-ink dark:text-ash font-body antialiased min-h-screen"
+      x-data="{
+        ...createAuthComponent(),
+        enrolledCourses: [],
+        recentProgress: [],
+        certificates: [],
+        stats: { completed: 0, inProgress: 0, totalHours: 0 },
+        loadingData: true,
+
+        async init() {
+          // Inicializar auth
+          await AuthStore.init();
+          this.user = AuthStore.user;
+          this.profile = AuthStore.profile;
+          this.loading = false;
+
+          // Redirigir si no esta autenticado
+          if (!this.user) {
+            window.location.href = '/auth/login.html';
+            return;
+          }
+
+          // Escuchar cambios de auth
+          window.addEventListener('auth:changed', (e) => {
+            this.user = e.detail.user;
+            this.profile = e.detail.profile;
+            if (!this.user) {
+              window.location.href = '/auth/login.html';
+            }
+          });
+
+          // Cargar datos del dashboard
+          await this.loadDashboardData();
+        },
+
+        async loadDashboardData() {
+          if (!window.supabaseClient) {
+            this.loadingData = false;
+            return;
+          }
+
+          try {
+            // Cargar cursos inscritos
+            const { data: enrollments } = await supabaseClient
+              .from('user_enrollments')
+              .select('*, courses(*)')
+              .eq('user_id', this.user.id)
+              .order('enrolled_at', { ascending: false });
+
+            this.enrolledCourses = enrollments || [];
+
+            // Calcular estadisticas
+            this.stats.completed = this.enrolledCourses.filter(e => e.completed_at).length;
+            this.stats.inProgress = this.enrolledCourses.filter(e => !e.completed_at).length;
+
+            // Cargar certificados
+            const { data: certs } = await supabaseClient
+              .from('certificates')
+              .select('*, courses(title)')
+              .eq('user_id', this.user.id)
+              .order('issued_at', { ascending: false })
+              .limit(3);
+
+            this.certificates = certs || [];
+
+          } catch (error) {
+            console.error('Error cargando datos:', error);
+          }
+
+          this.loadingData = false;
+        },
+
+        get tierLabel() {
+          const labels = {
+            'free': 'Gratuito',
+            'premium': 'Premium',
+            'vip': 'VIP'
+          };
+          return labels[this.profile?.subscription_tier] || 'Gratuito';
+        },
+
+        get tierColor() {
+          const colors = {
+            'free': 'bg-stone/20 text-stone',
+            'premium': 'bg-amber-500/20 text-amber-600 dark:text-amber-400',
+            'vip': 'bg-purple-500/20 text-purple-600 dark:text-purple-400'
+          };
+          return colors[this.profile?.subscription_tier] || colors.free;
+        }
+      }"
+      x-init="$nextTick(() => { document.documentElement.classList.toggle('dark', localStorage.getItem('darkMode') === 'true') })">
+
+  <!-- Header -->
+  <header class="fixed top-0 left-0 right-0 z-50 bg-cream/90 dark:bg-charcoal/90 backdrop-blur-xl border-b border-ink/5 dark:border-ash/5">
+    <div class="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
+      <a href="../../index.html" class="flex items-center gap-3">
+        <div class="w-10 h-10">
+          <svg viewBox="0 0 40 40" class="w-full h-full">
+            <path d="M20 4 C32 4 36 12 36 20 C36 28 32 36 20 36 C10 36 4 30 4 22" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" class="text-accent"/>
+            <text x="20" y="26" text-anchor="middle" class="text-ink dark:text-ash font-display text-sm" fill="currentColor">C</text>
+          </svg>
+        </div>
+        <span class="font-display text-lg text-ink dark:text-ash">Chumbi</span>
+      </a>
+
+      <nav class="flex items-center gap-4">
+        <a href="../index.html" class="text-stone hover:text-accent transition-colors text-sm">Cursos</a>
+        <a href="certificates.html" class="text-stone hover:text-accent transition-colors text-sm">Certificados</a>
+
+        <!-- User menu -->
+        <div class="flex items-center gap-3 ml-4">
+          <div class="text-right hidden sm:block">
+            <p class="text-sm font-medium text-ink dark:text-ash" x-text="displayName"></p>
+            <p class="text-xs" :class="tierColor" x-text="tierLabel"></p>
+          </div>
+          <button
+            @click="signOut()"
+            class="w-10 h-10 rounded-full bg-ink/5 dark:bg-ash/10 flex items-center justify-center hover:bg-red-500 hover:text-cream transition-all"
+            title="Salir"
+          >
+            <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/>
+            </svg>
+          </button>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="pt-24 pb-12 px-6">
+    <div class="max-w-6xl mx-auto">
+
+      <!-- Loading State -->
+      <div x-show="loading" class="flex items-center justify-center py-20">
+        <div class="animate-spin w-8 h-8 border-2 border-accent border-t-transparent rounded-full"></div>
+      </div>
+
+      <!-- Dashboard Content -->
+      <div x-show="!loading" x-cloak>
+
+        <!-- Welcome Section -->
+        <div class="mb-12">
+          <h1 class="font-display text-4xl md:text-5xl text-ink dark:text-ash mb-2">
+            Bienvenido, <span x-text="displayName" class="text-accent"></span>
+          </h1>
+          <p class="text-stone text-lg">Tu dojo personal de aprendizaje</p>
+        </div>
+
+        <!-- Stats Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+          <!-- Courses In Progress -->
+          <div class="bg-paper dark:bg-charcoal-light rounded-2xl p-6 border border-ink/5 dark:border-ash/10">
+            <div class="flex items-center gap-4">
+              <div class="w-12 h-12 bg-blue-500/10 rounded-xl flex items-center justify-center">
+                <svg class="w-6 h-6 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
+                </svg>
+              </div>
+              <div>
+                <p class="text-3xl font-display text-ink dark:text-ash" x-text="stats.inProgress">0</p>
+                <p class="text-stone text-sm">En progreso</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Completed Courses -->
+          <div class="bg-paper dark:bg-charcoal-light rounded-2xl p-6 border border-ink/5 dark:border-ash/10">
+            <div class="flex items-center gap-4">
+              <div class="w-12 h-12 bg-green-500/10 rounded-xl flex items-center justify-center">
+                <svg class="w-6 h-6 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                </svg>
+              </div>
+              <div>
+                <p class="text-3xl font-display text-ink dark:text-ash" x-text="stats.completed">0</p>
+                <p class="text-stone text-sm">Completados</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Certificates -->
+          <div class="bg-paper dark:bg-charcoal-light rounded-2xl p-6 border border-ink/5 dark:border-ash/10">
+            <div class="flex items-center gap-4">
+              <div class="w-12 h-12 bg-accent/10 rounded-xl flex items-center justify-center">
+                <svg class="w-6 h-6 text-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"/>
+                </svg>
+              </div>
+              <div>
+                <p class="text-3xl font-display text-ink dark:text-ash" x-text="certificates.length">0</p>
+                <p class="text-stone text-sm">Certificados</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- My Courses Section -->
+        <div class="mb-12">
+          <div class="flex items-center justify-between mb-6">
+            <h2 class="font-display text-2xl text-ink dark:text-ash">Mis Cursos</h2>
+            <a href="../index.html" class="text-accent hover:underline text-sm">Ver todos los cursos</a>
+          </div>
+
+          <!-- Loading courses -->
+          <div x-show="loadingData" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <template x-for="i in 3">
+              <div class="bg-paper dark:bg-charcoal-light rounded-2xl p-6 border border-ink/5 dark:border-ash/10 animate-pulse">
+                <div class="w-full h-32 bg-ink/10 dark:bg-ash/10 rounded-xl mb-4"></div>
+                <div class="h-4 bg-ink/10 dark:bg-ash/10 rounded w-3/4 mb-2"></div>
+                <div class="h-3 bg-ink/10 dark:bg-ash/10 rounded w-1/2"></div>
+              </div>
+            </template>
+          </div>
+
+          <!-- Enrolled courses -->
+          <div x-show="!loadingData && enrolledCourses.length > 0" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <template x-for="enrollment in enrolledCourses" :key="enrollment.id">
+              <a :href="'../course/' + enrollment.courses.slug + '.html'" class="group bg-paper dark:bg-charcoal-light rounded-2xl overflow-hidden border border-ink/5 dark:border-ash/10 hover:border-accent/30 transition-all">
+                <!-- Thumbnail -->
+                <div class="aspect-video bg-gradient-to-br from-accent/20 to-accent/5 relative">
+                  <img x-show="enrollment.courses.thumbnail_url" :src="enrollment.courses.thumbnail_url" :alt="enrollment.courses.title" class="w-full h-full object-cover"/>
+                  <!-- Progress badge -->
+                  <div class="absolute top-3 right-3">
+                    <span x-show="enrollment.completed_at" class="px-2 py-1 bg-green-500 text-white text-xs rounded-full">Completado</span>
+                    <span x-show="!enrollment.completed_at" class="px-2 py-1 bg-blue-500 text-white text-xs rounded-full">En progreso</span>
+                  </div>
+                </div>
+                <!-- Content -->
+                <div class="p-5">
+                  <h3 class="font-display text-lg text-ink dark:text-ash group-hover:text-accent transition-colors" x-text="enrollment.courses.title"></h3>
+                  <p class="text-stone text-sm mt-1 line-clamp-2" x-text="enrollment.courses.description"></p>
+                  <!-- Progress bar -->
+                  <div class="mt-4">
+                    <div class="flex items-center justify-between text-xs text-stone mb-1">
+                      <span>Progreso</span>
+                      <span x-text="enrollment.completed_at ? '100%' : 'En curso'"></span>
+                    </div>
+                    <div class="w-full h-2 bg-ink/10 dark:bg-ash/10 rounded-full overflow-hidden">
+                      <div class="h-full bg-accent rounded-full transition-all" :style="'width: ' + (enrollment.completed_at ? 100 : 30) + '%'"></div>
+                    </div>
+                  </div>
+                </div>
+              </a>
+            </template>
+          </div>
+
+          <!-- No courses -->
+          <div x-show="!loadingData && enrolledCourses.length === 0" class="bg-paper dark:bg-charcoal-light rounded-2xl p-12 border border-ink/5 dark:border-ash/10 text-center">
+            <div class="w-16 h-16 bg-accent/10 rounded-full flex items-center justify-center mx-auto mb-4">
+              <svg class="w-8 h-8 text-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25"/>
+              </svg>
+            </div>
+            <h3 class="font-display text-xl text-ink dark:text-ash mb-2">Aun no tienes cursos</h3>
+            <p class="text-stone mb-6">Explora nuestro catalogo y comienza tu aprendizaje</p>
+            <a href="../index.html" class="inline-flex items-center gap-2 bg-accent hover:bg-accent-hover text-cream px-6 py-3 rounded-full transition-colors">
+              Ver cursos
+              <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
+              </svg>
+            </a>
+          </div>
+        </div>
+
+        <!-- Recent Certificates -->
+        <div x-show="certificates.length > 0">
+          <div class="flex items-center justify-between mb-6">
+            <h2 class="font-display text-2xl text-ink dark:text-ash">Certificados Recientes</h2>
+            <a href="certificates.html" class="text-accent hover:underline text-sm">Ver todos</a>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <template x-for="cert in certificates" :key="cert.id">
+              <div class="bg-paper dark:bg-charcoal-light rounded-2xl p-6 border border-ink/5 dark:border-ash/10">
+                <div class="flex items-start gap-4">
+                  <div class="w-12 h-12 bg-accent/10 rounded-xl flex items-center justify-center flex-shrink-0">
+                    <svg class="w-6 h-6 text-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"/>
+                    </svg>
+                  </div>
+                  <div class="flex-grow">
+                    <h3 class="font-medium text-ink dark:text-ash" x-text="cert.courses?.title || 'Curso'"></h3>
+                    <p class="text-stone text-sm" x-text="new Date(cert.issued_at).toLocaleDateString('es-ES', { year: 'numeric', month: 'long', day: 'numeric' })"></p>
+                    <a :href="cert.pdf_url" target="_blank" class="text-accent text-sm hover:underline mt-2 inline-block">Descargar PDF</a>
+                  </div>
+                </div>
+              </div>
+            </template>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </main>
+
+  <!-- Scripts -->
+  <script src="../../assets/js/supabase-client.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+</body>
+</html>

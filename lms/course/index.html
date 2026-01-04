@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>C</text></svg>">
+  <title>Curso | Chumbi Dojo</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            accent: '#E85D4C',
+            'accent-hover': '#D14836',
+            cream: '#FAF8F5',
+            paper: '#F5F2ED',
+            ink: '#2D2A26',
+            charcoal: '#0F0E0D',
+            'charcoal-light': '#1A1816',
+            ash: '#E8E4DE',
+            stone: '#8C8579',
+          },
+          fontFamily: {
+            display: ['Instrument Serif', 'serif'],
+            body: ['Outfit', 'sans-serif'],
+          },
+        }
+      }
+    }
+  </script>
+  <style>
+    [x-cloak] { display: none !important; }
+    .prose { max-width: none; }
+    .prose h1, .prose h2, .prose h3 { font-family: 'Instrument Serif', serif; }
+    .prose h1 { font-size: 2rem; margin-bottom: 1rem; }
+    .prose h2 { font-size: 1.5rem; margin-top: 2rem; margin-bottom: 0.75rem; }
+    .prose p { margin-bottom: 1rem; line-height: 1.75; }
+    .prose ul, .prose ol { margin-bottom: 1rem; padding-left: 1.5rem; }
+    .prose li { margin-bottom: 0.5rem; }
+    .prose blockquote { border-left: 3px solid #E85D4C; padding-left: 1rem; font-style: italic; color: #8C8579; }
+  </style>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body class="bg-cream dark:bg-charcoal text-ink dark:text-ash font-body antialiased min-h-screen"
+      x-data="{
+        darkMode: localStorage.getItem('darkMode') === 'true',
+        user: null,
+        profile: null,
+        course: null,
+        lessons: [],
+        enrollment: null,
+        progress: {},
+        loading: true,
+        enrolling: false,
+        error: '',
+
+        async init() {
+          document.documentElement.classList.toggle('dark', this.darkMode);
+
+          // Obtener slug del curso de la URL
+          const params = new URLSearchParams(window.location.search);
+          const slug = params.get('slug');
+
+          if (!slug) {
+            window.location.href = '../index.html';
+            return;
+          }
+
+          // Inicializar auth
+          await AuthStore.init();
+          this.user = AuthStore.user;
+          this.profile = AuthStore.profile;
+
+          window.addEventListener('auth:changed', (e) => {
+            this.user = e.detail.user;
+            this.profile = e.detail.profile;
+          });
+
+          // Cargar datos del curso
+          await this.loadCourse(slug);
+        },
+
+        async loadCourse(slug) {
+          if (!window.supabaseClient) {
+            this.loading = false;
+            return;
+          }
+
+          try {
+            // Cargar curso
+            const { data: course, error: courseError } = await supabaseClient
+              .from('courses')
+              .select('*')
+              .eq('slug', slug)
+              .eq('is_published', true)
+              .single();
+
+            if (courseError || !course) {
+              this.error = 'Curso no encontrado';
+              this.loading = false;
+              return;
+            }
+
+            this.course = course;
+            document.title = course.title + ' | Chumbi Dojo';
+
+            // Cargar lecciones
+            const { data: lessons } = await supabaseClient
+              .from('lessons')
+              .select('*')
+              .eq('course_id', course.id)
+              .order('order_index', { ascending: true });
+
+            this.lessons = lessons || [];
+
+            // Si el usuario esta autenticado, cargar enrollment y progreso
+            if (this.user) {
+              const { data: enrollment } = await supabaseClient
+                .from('user_enrollments')
+                .select('*')
+                .eq('user_id', this.user.id)
+                .eq('course_id', course.id)
+                .single();
+
+              this.enrollment = enrollment;
+
+              // Cargar progreso de lecciones
+              if (enrollment) {
+                const lessonIds = this.lessons.map(l => l.id);
+                const { data: progressData } = await supabaseClient
+                  .from('lesson_progress')
+                  .select('*')
+                  .eq('user_id', this.user.id)
+                  .in('lesson_id', lessonIds);
+
+                if (progressData) {
+                  progressData.forEach(p => {
+                    this.progress[p.lesson_id] = p;
+                  });
+                }
+              }
+            }
+
+          } catch (error) {
+            console.error('Error cargando curso:', error);
+            this.error = 'Error al cargar el curso';
+          }
+
+          this.loading = false;
+        },
+
+        async enroll() {
+          if (!this.user) {
+            window.location.href = '../../auth/login.html';
+            return;
+          }
+
+          this.enrolling = true;
+
+          try {
+            const { data, error } = await supabaseClient
+              .from('user_enrollments')
+              .insert({
+                user_id: this.user.id,
+                course_id: this.course.id,
+                payment_status: this.course.price_tier === 'free' ? 'free' : 'pending'
+              })
+              .select()
+              .single();
+
+            if (!error) {
+              this.enrollment = data;
+            }
+          } catch (error) {
+            console.error('Error al inscribirse:', error);
+          }
+
+          this.enrolling = false;
+        },
+
+        canAccess() {
+          if (!this.course) return false;
+          if (this.course.price_tier === 'free') return true;
+          if (!this.user) return false;
+          return AuthStore.hasAccessToTier(this.course.price_tier);
+        },
+
+        get completedLessons() {
+          return Object.values(this.progress).filter(p => p.completed).length;
+        },
+
+        get progressPercent() {
+          if (this.lessons.length === 0) return 0;
+          return Math.round((this.completedLessons / this.lessons.length) * 100);
+        },
+
+        isLessonCompleted(lessonId) {
+          return this.progress[lessonId]?.completed || false;
+        },
+
+        canAccessLesson(lesson) {
+          if (lesson.is_free_preview) return true;
+          return this.enrollment && this.canAccess();
+        },
+
+        getTierBadge(tier) {
+          const badges = {
+            'free': { label: 'Gratis', class: 'bg-green-500/20 text-green-600 dark:text-green-400' },
+            'premium': { label: 'Premium', class: 'bg-amber-500/20 text-amber-600 dark:text-amber-400' },
+            'vip': { label: 'VIP', class: 'bg-purple-500/20 text-purple-600 dark:text-purple-400' }
+          };
+          return badges[tier] || badges.free;
+        },
+
+        getDifficultyLabel(level) {
+          const labels = { 'beginner': 'Principiante', 'intermediate': 'Intermedio', 'advanced': 'Avanzado' };
+          return labels[level] || level;
+        }
+      }"
+      x-init="init()">
+
+  <!-- Header -->
+  <header class="fixed top-0 left-0 right-0 z-50 bg-cream/90 dark:bg-charcoal/90 backdrop-blur-xl border-b border-ink/5 dark:border-ash/5">
+    <div class="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
+      <a href="../index.html" class="flex items-center gap-3">
+        <div class="w-10 h-10">
+          <svg viewBox="0 0 40 40" class="w-full h-full">
+            <path d="M20 4 C32 4 36 12 36 20 C36 28 32 36 20 36 C10 36 4 30 4 22" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" class="text-accent"/>
+            <text x="20" y="26" text-anchor="middle" class="text-ink dark:text-ash font-display text-sm" fill="currentColor">C</text>
+          </svg>
+        </div>
+        <span class="font-display text-lg text-ink dark:text-ash">Chumbi Dojo</span>
+      </a>
+
+      <nav class="flex items-center gap-4">
+        <button
+          @click="darkMode = !darkMode; localStorage.setItem('darkMode', darkMode); document.documentElement.classList.toggle('dark', darkMode)"
+          class="w-10 h-10 rounded-full bg-ink/5 dark:bg-ash/10 flex items-center justify-center hover:bg-accent hover:text-cream transition-all"
+        >
+          <svg x-show="!darkMode" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+            <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"/>
+          </svg>
+          <svg x-show="darkMode" x-cloak class="w-5 h-5 text-amber-400" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0z" clip-rule="evenodd"/>
+          </svg>
+        </button>
+
+        <template x-if="user">
+          <a href="../dashboard/" class="flex items-center gap-2 bg-accent hover:bg-accent-hover text-cream px-4 py-2 rounded-full text-sm transition-colors">
+            Mi Dojo
+          </a>
+        </template>
+
+        <template x-if="!user">
+          <a href="../../auth/login.html" class="bg-accent hover:bg-accent-hover text-cream px-4 py-2 rounded-full text-sm transition-colors">
+            Entrar
+          </a>
+        </template>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="pt-24 pb-12 px-6">
+    <div class="max-w-6xl mx-auto">
+
+      <!-- Loading -->
+      <div x-show="loading" class="flex items-center justify-center py-20">
+        <div class="animate-spin w-8 h-8 border-2 border-accent border-t-transparent rounded-full"></div>
+      </div>
+
+      <!-- Error -->
+      <div x-show="!loading && error" class="text-center py-20">
+        <p class="text-red-500 mb-4" x-text="error"></p>
+        <a href="../index.html" class="text-accent hover:underline">Volver a cursos</a>
+      </div>
+
+      <!-- Course Content -->
+      <div x-show="!loading && course" x-cloak>
+
+        <!-- Hero Section -->
+        <div class="grid md:grid-cols-3 gap-8 mb-12">
+          <!-- Course Info -->
+          <div class="md:col-span-2">
+            <!-- Breadcrumb -->
+            <nav class="flex items-center gap-2 text-sm text-stone mb-4">
+              <a href="../index.html" class="hover:text-accent">Cursos</a>
+              <span>/</span>
+              <span x-text="course?.title"></span>
+            </nav>
+
+            <!-- Badge -->
+            <span :class="getTierBadge(course?.price_tier).class" class="inline-block px-3 py-1 rounded-full text-xs font-medium mb-4" x-text="getTierBadge(course?.price_tier).label"></span>
+
+            <!-- Title -->
+            <h1 class="font-display text-4xl md:text-5xl text-ink dark:text-ash mb-4" x-text="course?.title"></h1>
+
+            <!-- Description -->
+            <p class="text-lg text-stone mb-6" x-text="course?.description"></p>
+
+            <!-- Meta -->
+            <div class="flex flex-wrap items-center gap-4 text-sm text-stone">
+              <span class="flex items-center gap-1">
+                <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                </svg>
+                <span x-text="course?.estimated_hours + ' horas'"></span>
+              </span>
+              <span class="flex items-center gap-1">
+                <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>
+                </svg>
+                <span x-text="lessons.length + ' lecciones'"></span>
+              </span>
+              <span x-text="getDifficultyLabel(course?.difficulty_level)"></span>
+            </div>
+          </div>
+
+          <!-- Sidebar Card -->
+          <div class="bg-paper dark:bg-charcoal-light rounded-2xl p-6 border border-ink/5 dark:border-ash/10 h-fit">
+            <!-- Progress (if enrolled) -->
+            <div x-show="enrollment" class="mb-6">
+              <div class="flex items-center justify-between text-sm mb-2">
+                <span class="text-stone">Tu progreso</span>
+                <span class="font-medium text-ink dark:text-ash" x-text="progressPercent + '%'"></span>
+              </div>
+              <div class="w-full h-2 bg-ink/10 dark:bg-ash/10 rounded-full overflow-hidden">
+                <div class="h-full bg-accent rounded-full transition-all" :style="'width: ' + progressPercent + '%'"></div>
+              </div>
+              <p class="text-xs text-stone mt-2" x-text="completedLessons + ' de ' + lessons.length + ' lecciones'"></p>
+            </div>
+
+            <!-- CTA Button -->
+            <template x-if="!enrollment && canAccess()">
+              <button
+                @click="enroll()"
+                :disabled="enrolling"
+                class="w-full py-3 px-6 bg-accent hover:bg-accent-hover text-cream font-medium rounded-xl transition-all disabled:opacity-50"
+              >
+                <span x-show="!enrolling">Comenzar curso gratis</span>
+                <span x-show="enrolling">Inscribiendo...</span>
+              </button>
+            </template>
+
+            <template x-if="!enrollment && !canAccess()">
+              <div class="text-center">
+                <p class="text-stone text-sm mb-4">Este curso requiere acceso Premium</p>
+                <a href="../../auth/login.html" class="block w-full py-3 px-6 bg-accent hover:bg-accent-hover text-cream font-medium rounded-xl transition-all text-center">
+                  Desbloquear acceso
+                </a>
+              </div>
+            </template>
+
+            <template x-if="enrollment && lessons.length > 0">
+              <a
+                :href="'../lesson/?slug=' + lessons[0].slug"
+                class="block w-full py-3 px-6 bg-accent hover:bg-accent-hover text-cream font-medium rounded-xl transition-all text-center"
+              >
+                Continuar aprendiendo
+              </a>
+            </template>
+          </div>
+        </div>
+
+        <!-- Long Description -->
+        <div x-show="course?.long_description" class="prose dark:prose-invert mb-12 text-ink dark:text-ash">
+          <div x-html="course?.long_description"></div>
+        </div>
+
+        <!-- Lessons List -->
+        <div>
+          <h2 class="font-display text-2xl text-ink dark:text-ash mb-6">Contenido del curso</h2>
+
+          <div class="space-y-3">
+            <template x-for="(lesson, index) in lessons" :key="lesson.id">
+              <div class="bg-paper dark:bg-charcoal-light rounded-xl border border-ink/5 dark:border-ash/10 overflow-hidden">
+                <a
+                  :href="canAccessLesson(lesson) ? '../lesson/?slug=' + lesson.slug : '#'"
+                  :class="canAccessLesson(lesson) ? 'hover:bg-ink/5 dark:hover:bg-ash/5' : 'opacity-60 cursor-not-allowed'"
+                  class="flex items-center gap-4 p-4 transition-colors"
+                  @click="!canAccessLesson(lesson) && $event.preventDefault()"
+                >
+                  <!-- Number / Check -->
+                  <div
+                    :class="isLessonCompleted(lesson.id) ? 'bg-green-500 text-white' : 'bg-ink/10 dark:bg-ash/10 text-stone'"
+                    class="w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0 font-medium"
+                  >
+                    <svg x-show="isLessonCompleted(lesson.id)" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/>
+                    </svg>
+                    <span x-show="!isLessonCompleted(lesson.id)" x-text="index + 1"></span>
+                  </div>
+
+                  <!-- Content -->
+                  <div class="flex-grow">
+                    <h3 class="font-medium text-ink dark:text-ash" x-text="lesson.title"></h3>
+                    <div class="flex items-center gap-3 text-xs text-stone mt-1">
+                      <span x-show="lesson.duration_minutes" x-text="lesson.duration_minutes + ' min'"></span>
+                      <span x-show="lesson.is_free_preview" class="text-green-500">Vista previa gratis</span>
+                    </div>
+                  </div>
+
+                  <!-- Icon -->
+                  <div class="flex-shrink-0">
+                    <template x-if="canAccessLesson(lesson)">
+                      <svg class="w-5 h-5 text-stone" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"/>
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                      </svg>
+                    </template>
+                    <template x-if="!canAccessLesson(lesson)">
+                      <svg class="w-5 h-5 text-stone" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
+                      </svg>
+                    </template>
+                  </div>
+                </a>
+              </div>
+            </template>
+          </div>
+
+          <!-- No lessons -->
+          <div x-show="lessons.length === 0" class="text-center py-12 text-stone">
+            <p>Este curso aun no tiene lecciones disponibles.</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </main>
+
+  <!-- Scripts -->
+  <script src="../../assets/js/supabase-client.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+</body>
+</html>

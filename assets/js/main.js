@@ -36,6 +36,10 @@ document.addEventListener('DOMContentLoaded', async () => {
   // Cargar includes primero
   await includeHTML();
 
+  // Marcar que los includes están listos
+  window.includesReady = true;
+  document.dispatchEvent(new CustomEvent('includes:loaded'));
+
   // Inicializar AOS (Animate On Scroll)
   if (typeof AOS !== 'undefined') {
     AOS.init({

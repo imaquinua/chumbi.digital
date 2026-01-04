@@ -1,0 +1,779 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>C</text></svg>">
+  <title>Cursos | Admin Chumbi</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            accent: '#E85D4C',
+            'accent-hover': '#D14836',
+            cream: '#FAF8F5',
+            paper: '#F5F2ED',
+            ink: '#2D2A26',
+            charcoal: '#0F0E0D',
+            'charcoal-light': '#1A1816',
+            ash: '#E8E4DE',
+            stone: '#8C8579',
+          },
+          fontFamily: {
+            display: ['Instrument Serif', 'serif'],
+            body: ['Outfit', 'sans-serif'],
+          },
+        }
+      }
+    }
+  </script>
+  <style>
+    [x-cloak] { display: none !important; }
+  </style>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body class="bg-cream dark:bg-charcoal text-ink dark:text-ash font-body antialiased min-h-screen"
+      x-data="coursesAdmin()"
+      x-init="init()">
+
+  <!-- Sidebar (same as index) -->
+  <aside class="fixed top-0 left-0 h-full w-64 bg-paper dark:bg-charcoal-light border-r border-ink/5 dark:border-ash/10 z-40">
+    <div class="p-6 border-b border-ink/5 dark:border-ash/10">
+      <a href="../../index.html" class="flex items-center gap-3">
+        <div class="w-10 h-10">
+          <svg viewBox="0 0 40 40" class="w-full h-full">
+            <path d="M20 4 C32 4 36 12 36 20 C36 28 32 36 20 36 C10 36 4 30 4 22" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" class="text-accent"/>
+            <text x="20" y="26" text-anchor="middle" class="text-ink dark:text-ash font-display text-sm" fill="currentColor">C</text>
+          </svg>
+        </div>
+        <div>
+          <span class="font-display text-lg text-ink dark:text-ash block">Chumbi</span>
+          <span class="text-xs text-stone">Admin Panel</span>
+        </div>
+      </a>
+    </div>
+
+    <nav class="p-4">
+      <p class="text-xs text-stone uppercase tracking-wider mb-3 px-3">Menu</p>
+      <ul class="space-y-1">
+        <li>
+          <a href="index.html" class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-ink/5 dark:hover:bg-ash/5 text-stone hover:text-ink dark:hover:text-ash transition-colors">
+            <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/>
+            </svg>
+            Dashboard
+          </a>
+        </li>
+        <li>
+          <a href="courses.html" class="flex items-center gap-3 px-3 py-2 rounded-lg bg-accent/10 text-accent">
+            <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
+            </svg>
+            Cursos
+          </a>
+        </li>
+        <li>
+          <a href="users.html" class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-ink/5 dark:hover:bg-ash/5 text-stone hover:text-ink dark:hover:text-ash transition-colors">
+            <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"/>
+            </svg>
+            Usuarios
+          </a>
+        </li>
+      </ul>
+    </nav>
+  </aside>
+
+  <!-- Main Content -->
+  <main class="ml-64 min-h-screen">
+    <!-- Top Bar -->
+    <header class="sticky top-0 z-30 bg-cream/90 dark:bg-charcoal/90 backdrop-blur-xl border-b border-ink/5 dark:border-ash/5 px-8 py-4">
+      <div class="flex items-center justify-between">
+        <h1 class="font-display text-2xl text-ink dark:text-ash">Cursos</h1>
+        <div class="flex items-center gap-2">
+          <!-- Dark Mode Toggle -->
+          <button
+            @click="toggleDarkMode()"
+            class="w-10 h-10 rounded-full bg-ink/5 dark:bg-ash/10 flex items-center justify-center transition-all hover:bg-accent hover:text-cream"
+          >
+            <svg x-show="!darkMode" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+              <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"/>
+            </svg>
+            <svg x-show="darkMode" x-cloak class="w-5 h-5 text-amber-400" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0z" clip-rule="evenodd"/>
+            </svg>
+          </button>
+          <button @click="openCreateModal()" class="inline-flex items-center gap-2 bg-accent hover:bg-accent-hover text-cream px-4 py-2 rounded-lg text-sm transition-colors">
+            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/>
+            </svg>
+            Nuevo Curso
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- Content -->
+    <div class="p-8">
+      <!-- Loading -->
+      <div x-show="loading" class="flex items-center justify-center py-20">
+        <div class="animate-spin w-8 h-8 border-2 border-accent border-t-transparent rounded-full"></div>
+      </div>
+
+      <!-- Courses List -->
+      <div x-show="!loading" x-cloak>
+        <!-- Empty State -->
+        <div x-show="courses.length === 0" class="bg-paper dark:bg-charcoal-light rounded-2xl p-12 border border-ink/5 dark:border-ash/10 text-center">
+          <div class="w-20 h-20 bg-accent/10 rounded-full flex items-center justify-center mx-auto mb-6">
+            <svg class="w-10 h-10 text-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
+            </svg>
+          </div>
+          <h3 class="font-display text-2xl text-ink dark:text-ash mb-2">No hay cursos</h3>
+          <p class="text-stone mb-6">Crea tu primer curso para comenzar</p>
+          <button @click="openCreateModal()" class="inline-flex items-center gap-2 bg-accent hover:bg-accent-hover text-cream px-6 py-3 rounded-lg transition-colors">
+            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/>
+            </svg>
+            Crear Curso
+          </button>
+        </div>
+
+        <!-- Courses Grid -->
+        <div x-show="courses.length > 0" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <template x-for="course in courses" :key="course.id">
+            <div class="bg-paper dark:bg-charcoal-light rounded-2xl overflow-hidden border border-ink/5 dark:border-ash/10 group">
+              <!-- Thumbnail -->
+              <div class="aspect-video bg-gradient-to-br from-accent/20 to-accent/5 relative">
+                <img x-show="course.thumbnail_url" :src="course.thumbnail_url" class="w-full h-full object-cover"/>
+                <div x-show="!course.thumbnail_url" class="w-full h-full flex items-center justify-center">
+                  <svg class="w-12 h-12 text-accent/30" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                  </svg>
+                </div>
+
+                <!-- Status Badge -->
+                <div class="absolute top-3 left-3">
+                  <span
+                    :class="course.is_published ? 'bg-green-500 text-white' : 'bg-amber-500 text-white'"
+                    class="px-2 py-1 rounded-full text-xs font-medium"
+                    x-text="course.is_published ? 'Publicado' : 'Borrador'"
+                  ></span>
+                </div>
+
+                <!-- Tier Badge -->
+                <div class="absolute top-3 right-3">
+                  <span
+                    :class="{
+                      'bg-green-500/20 text-green-600': course.price_tier === 'free',
+                      'bg-amber-500/20 text-amber-600': course.price_tier === 'premium',
+                      'bg-purple-500/20 text-purple-600': course.price_tier === 'vip'
+                    }"
+                    class="px-2 py-1 rounded-full text-xs font-medium capitalize"
+                    x-text="course.price_tier"
+                  ></span>
+                </div>
+              </div>
+
+              <!-- Content -->
+              <div class="p-5">
+                <h3 class="font-display text-lg text-ink dark:text-ash mb-1 line-clamp-1" x-text="course.title"></h3>
+                <p class="text-stone text-sm line-clamp-2 mb-3" x-text="course.description"></p>
+
+                <!-- Meta -->
+                <div class="flex items-center gap-3 text-xs text-stone mb-4">
+                  <span class="flex items-center gap-1">
+                    <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/>
+                    </svg>
+                    <span x-text="(course.lessons_count || 0) + ' lecciones'"></span>
+                  </span>
+                  <span x-text="course.estimated_hours + 'h'"></span>
+                </div>
+
+                <!-- Actions -->
+                <div class="flex items-center gap-2">
+                  <a :href="'course.html?id=' + course.id" class="flex-grow bg-accent hover:bg-accent-hover text-cream px-4 py-2 rounded-lg text-sm text-center transition-colors">
+                    Editar
+                  </a>
+                  <button
+                    @click="togglePublish(course)"
+                    class="px-3 py-2 rounded-lg text-sm transition-colors"
+                    :class="course.is_published ? 'bg-amber-500/10 text-amber-600 hover:bg-amber-500/20' : 'bg-green-500/10 text-green-600 hover:bg-green-500/20'"
+                    :title="course.is_published ? 'Despublicar' : 'Publicar'"
+                  >
+                    <svg x-show="course.is_published" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21"/>
+                    </svg>
+                    <svg x-show="!course.is_published" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
+                    </svg>
+                  </button>
+                  <button
+                    @click="confirmDelete(course)"
+                    class="px-3 py-2 rounded-lg text-sm bg-red-500/10 text-red-500 hover:bg-red-500/20 transition-colors"
+                    title="Eliminar"
+                  >
+                    <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+                    </svg>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </template>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Create/Edit Course Modal -->
+  <div
+    x-show="showModal"
+    x-cloak
+    class="fixed inset-0 z-50 flex items-center justify-center p-4"
+    @keydown.escape.window="showModal = false"
+  >
+    <!-- Backdrop -->
+    <div class="absolute inset-0 bg-charcoal/50 backdrop-blur-sm" @click="showModal = false"></div>
+
+    <!-- Modal -->
+    <div class="relative bg-cream dark:bg-charcoal-light rounded-2xl shadow-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto">
+      <!-- Header -->
+      <div class="sticky top-0 bg-cream dark:bg-charcoal-light border-b border-ink/5 dark:border-ash/10 px-6 py-4 flex items-center justify-between">
+        <h2 class="font-display text-xl text-ink dark:text-ash" x-text="editingCourse ? 'Editar Curso' : 'Nuevo Curso'"></h2>
+        <button @click="showModal = false" class="text-stone hover:text-ink dark:hover:text-ash">
+          <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
+          </svg>
+        </button>
+      </div>
+
+      <!-- Form -->
+      <form @submit.prevent="saveCourse()" class="p-6 space-y-6">
+        <!-- Title -->
+        <div>
+          <label class="block text-sm font-medium text-ink dark:text-ash mb-2">Titulo *</label>
+          <input
+            type="text"
+            x-model="form.title"
+            required
+            class="w-full px-4 py-3 rounded-xl bg-paper dark:bg-charcoal border border-ink/10 dark:border-ash/10 focus:border-accent outline-none transition-all text-ink dark:text-ash"
+            placeholder="Ej: Introduccion al Desarrollo Web"
+          />
+        </div>
+
+        <!-- Slug -->
+        <div>
+          <label class="block text-sm font-medium text-ink dark:text-ash mb-2">Slug (URL) *</label>
+          <input
+            type="text"
+            x-model="form.slug"
+            required
+            pattern="[a-z0-9\-]+"
+            class="w-full px-4 py-3 rounded-xl bg-paper dark:bg-charcoal border border-ink/10 dark:border-ash/10 focus:border-accent outline-none transition-all text-ink dark:text-ash font-mono text-sm"
+            placeholder="introduccion-desarrollo-web"
+            @input="form.slug = $event.target.value.toLowerCase().replace(/[^a-z0-9\-]/g, '')"
+          />
+          <p class="text-xs text-stone mt-1">Solo letras minusculas, numeros y guiones</p>
+        </div>
+
+        <!-- Description -->
+        <div>
+          <label class="block text-sm font-medium text-ink dark:text-ash mb-2">Descripcion breve *</label>
+          <textarea
+            x-model="form.description"
+            required
+            rows="2"
+            class="w-full px-4 py-3 rounded-xl bg-paper dark:bg-charcoal border border-ink/10 dark:border-ash/10 focus:border-accent outline-none transition-all text-ink dark:text-ash resize-none"
+            placeholder="Una breve descripcion del curso..."
+          ></textarea>
+        </div>
+
+        <!-- Long Description -->
+        <div>
+          <label class="block text-sm font-medium text-ink dark:text-ash mb-2">Descripcion larga (HTML/Markdown)</label>
+          <textarea
+            x-model="form.long_description"
+            rows="4"
+            class="w-full px-4 py-3 rounded-xl bg-paper dark:bg-charcoal border border-ink/10 dark:border-ash/10 focus:border-accent outline-none transition-all text-ink dark:text-ash resize-none font-mono text-sm"
+            placeholder="<p>Descripcion detallada...</p>"
+          ></textarea>
+        </div>
+
+        <!-- Row: Tier + Difficulty -->
+        <div class="grid grid-cols-2 gap-4">
+          <div>
+            <label class="block text-sm font-medium text-ink dark:text-ash mb-2">Tipo de acceso</label>
+            <select
+              x-model="form.price_tier"
+              class="w-full px-4 py-3 rounded-xl bg-paper dark:bg-charcoal border border-ink/10 dark:border-ash/10 focus:border-accent outline-none transition-all text-ink dark:text-ash"
+            >
+              <option value="free">Gratis</option>
+              <option value="premium">Premium</option>
+              <option value="vip">VIP</option>
+            </select>
+          </div>
+
+          <div>
+            <label class="block text-sm font-medium text-ink dark:text-ash mb-2">Dificultad</label>
+            <select
+              x-model="form.difficulty_level"
+              class="w-full px-4 py-3 rounded-xl bg-paper dark:bg-charcoal border border-ink/10 dark:border-ash/10 focus:border-accent outline-none transition-all text-ink dark:text-ash"
+            >
+              <option value="beginner">Principiante</option>
+              <option value="intermediate">Intermedio</option>
+              <option value="advanced">Avanzado</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Row: Hours + Order -->
+        <div class="grid grid-cols-2 gap-4">
+          <div>
+            <label class="block text-sm font-medium text-ink dark:text-ash mb-2">Horas estimadas</label>
+            <input
+              type="number"
+              x-model="form.estimated_hours"
+              min="1"
+              class="w-full px-4 py-3 rounded-xl bg-paper dark:bg-charcoal border border-ink/10 dark:border-ash/10 focus:border-accent outline-none transition-all text-ink dark:text-ash"
+              placeholder="5"
+            />
+          </div>
+
+          <div>
+            <label class="block text-sm font-medium text-ink dark:text-ash mb-2">Orden</label>
+            <input
+              type="number"
+              x-model="form.order_index"
+              min="0"
+              class="w-full px-4 py-3 rounded-xl bg-paper dark:bg-charcoal border border-ink/10 dark:border-ash/10 focus:border-accent outline-none transition-all text-ink dark:text-ash"
+              placeholder="0"
+            />
+          </div>
+        </div>
+
+        <!-- Tags -->
+        <div>
+          <label class="block text-sm font-medium text-ink dark:text-ash mb-2">Tags (separados por coma)</label>
+          <input
+            type="text"
+            x-model="form.tags_string"
+            class="w-full px-4 py-3 rounded-xl bg-paper dark:bg-charcoal border border-ink/10 dark:border-ash/10 focus:border-accent outline-none transition-all text-ink dark:text-ash"
+            placeholder="web, javascript, css"
+          />
+        </div>
+
+        <!-- Thumbnail -->
+        <div>
+          <label class="block text-sm font-medium text-ink dark:text-ash mb-2">Imagen del curso (opcional)</label>
+
+          <!-- Preview -->
+          <div x-show="form.thumbnail_url || imagePreview" class="mb-3">
+            <div class="relative inline-block">
+              <img
+                :src="imagePreview || form.thumbnail_url"
+                class="w-40 h-24 object-cover rounded-lg border border-ink/10 dark:border-ash/10"
+              />
+              <button
+                type="button"
+                @click="form.thumbnail_url = ''; imagePreview = ''; imageFile = null"
+                class="absolute -top-2 -right-2 w-6 h-6 bg-red-500 text-white rounded-full flex items-center justify-center text-sm hover:bg-red-600"
+              >×</button>
+            </div>
+          </div>
+
+          <!-- Upload area -->
+          <div
+            x-show="!form.thumbnail_url && !imagePreview"
+            class="border-2 border-dashed border-ink/20 dark:border-ash/20 rounded-xl p-6 text-center hover:border-accent/50 transition-colors cursor-pointer"
+            @click="$refs.fileInput.click()"
+            @dragover.prevent="$el.classList.add('border-accent')"
+            @dragleave.prevent="$el.classList.remove('border-accent')"
+            @drop.prevent="handleImageDrop($event)"
+          >
+            <input
+              type="file"
+              x-ref="fileInput"
+              accept="image/*"
+              class="hidden"
+              @change="handleImageSelect($event)"
+            />
+            <svg class="w-10 h-10 mx-auto text-stone mb-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+            </svg>
+            <p class="text-stone text-sm">Arrastra una imagen o haz click para seleccionar</p>
+            <p class="text-stone/60 text-xs mt-1">PNG, JPG hasta 2MB</p>
+          </div>
+
+          <!-- Or URL -->
+          <div class="mt-3">
+            <button
+              type="button"
+              @click="showUrlInput = !showUrlInput"
+              class="text-xs text-accent hover:underline"
+            >
+              O pegar URL de imagen
+            </button>
+            <input
+              x-show="showUrlInput"
+              x-cloak
+              type="url"
+              x-model="form.thumbnail_url"
+              @input="imagePreview = ''"
+              class="mt-2 w-full px-4 py-2 rounded-lg bg-paper dark:bg-charcoal border border-ink/10 dark:border-ash/10 focus:border-accent outline-none transition-all text-ink dark:text-ash text-sm"
+              placeholder="https://..."
+            />
+          </div>
+        </div>
+
+        <!-- Error -->
+        <div x-show="error" class="bg-red-500/10 text-red-500 px-4 py-3 rounded-xl text-sm" x-text="error"></div>
+
+        <!-- Actions -->
+        <div class="flex items-center gap-3 pt-4">
+          <button
+            type="button"
+            @click="showModal = false"
+            class="flex-1 px-4 py-3 rounded-xl border border-ink/10 dark:border-ash/10 text-stone hover:text-ink dark:hover:text-ash transition-colors"
+          >
+            Cancelar
+          </button>
+          <button
+            type="submit"
+            :disabled="saving"
+            class="flex-1 px-4 py-3 rounded-xl bg-accent hover:bg-accent-hover text-cream transition-colors disabled:opacity-50"
+          >
+            <span x-show="!saving" x-text="editingCourse ? 'Guardar cambios' : 'Crear curso'"></span>
+            <span x-show="saving">Guardando...</span>
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Delete Confirmation Modal -->
+  <div
+    x-show="showDeleteModal"
+    x-cloak
+    class="fixed inset-0 z-50 flex items-center justify-center p-4"
+  >
+    <div class="absolute inset-0 bg-charcoal/50 backdrop-blur-sm" @click="showDeleteModal = false"></div>
+    <div class="relative bg-cream dark:bg-charcoal-light rounded-2xl shadow-2xl w-full max-w-md p-6">
+      <h3 class="font-display text-xl text-ink dark:text-ash mb-2">Eliminar curso</h3>
+      <p class="text-stone mb-6">Estas seguro de eliminar "<span x-text="deletingCourse?.title" class="font-medium"></span>"? Esta accion no se puede deshacer.</p>
+      <div class="flex gap-3">
+        <button @click="showDeleteModal = false" class="flex-1 px-4 py-3 rounded-xl border border-ink/10 dark:border-ash/10 text-stone hover:text-ink transition-colors">
+          Cancelar
+        </button>
+        <button @click="deleteCourse()" :disabled="saving" class="flex-1 px-4 py-3 rounded-xl bg-red-500 hover:bg-red-600 text-white transition-colors disabled:opacity-50">
+          <span x-show="!saving">Eliminar</span>
+          <span x-show="saving">Eliminando...</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="../../assets/js/supabase-client.js"></script>
+  <script>
+    function coursesAdmin() {
+      return {
+        user: null,
+        profile: null,
+        loading: true,
+        darkMode: localStorage.getItem('darkMode') === 'true',
+        courses: [],
+        showModal: false,
+        showDeleteModal: false,
+        editingCourse: null,
+        deletingCourse: null,
+        saving: false,
+        error: '',
+        imageFile: null,
+        imagePreview: '',
+        showUrlInput: false,
+        form: {
+          title: '',
+          slug: '',
+          description: '',
+          long_description: '',
+          price_tier: 'free',
+          difficulty_level: 'beginner',
+          estimated_hours: 5,
+          order_index: 0,
+          tags_string: '',
+          thumbnail_url: ''
+        },
+
+        async init() {
+          document.documentElement.classList.toggle('dark', localStorage.getItem('darkMode') === 'true');
+
+          // Modo demo si no hay Supabase
+          if (!window.supabaseClient) {
+            this.user = { email: 'demo@chumbi.digital' };
+            this.profile = { full_name: 'Admin Demo', role: 'admin' };
+            this.courses = [];
+            this.loading = false;
+            if (new URLSearchParams(window.location.search).get('new') === 'true') {
+              this.openCreateModal();
+            }
+            return;
+          }
+
+          await AuthStore.init();
+          this.user = AuthStore.user;
+          this.profile = AuthStore.profile;
+
+          if (!this.user) {
+            window.location.href = '/auth/login.html';
+            return;
+          }
+
+          await this.loadCourses();
+          this.loading = false;
+
+          // Check if should open create modal
+          if (new URLSearchParams(window.location.search).get('new') === 'true') {
+            this.openCreateModal();
+          }
+        },
+
+        toggleDarkMode() {
+          this.darkMode = !this.darkMode;
+          localStorage.setItem('darkMode', this.darkMode);
+          document.documentElement.classList.toggle('dark', this.darkMode);
+        },
+
+        async loadCourses() {
+          if (!window.supabaseClient) return;
+
+          try {
+            const { data, error } = await supabaseClient
+              .from('courses')
+              .select('*, lessons(count)')
+              .order('order_index', { ascending: true });
+
+            if (!error) {
+              this.courses = (data || []).map(course => ({
+                ...course,
+                lessons_count: course.lessons?.[0]?.count || 0
+              }));
+            }
+          } catch (error) {
+            console.error('Error:', error);
+          }
+        },
+
+        openCreateModal() {
+          this.editingCourse = null;
+          this.form = {
+            title: '',
+            slug: '',
+            description: '',
+            long_description: '',
+            price_tier: 'free',
+            difficulty_level: 'beginner',
+            estimated_hours: 5,
+            order_index: 0,
+            tags_string: '',
+            thumbnail_url: ''
+          };
+          this.error = '';
+          this.imageFile = null;
+          this.imagePreview = '';
+          this.showUrlInput = false;
+          this.showModal = true;
+        },
+
+        handleImageSelect(event) {
+          const file = event.target.files[0];
+          if (file) this.processImage(file);
+        },
+
+        handleImageDrop(event) {
+          const file = event.dataTransfer.files[0];
+          if (file && file.type.startsWith('image/')) {
+            this.processImage(file);
+          }
+        },
+
+        processImage(file) {
+          // Validar tamaño (2MB max)
+          if (file.size > 2 * 1024 * 1024) {
+            this.error = 'La imagen debe ser menor a 2MB';
+            return;
+          }
+
+          this.imageFile = file;
+          this.form.thumbnail_url = '';
+
+          // Crear preview
+          const reader = new FileReader();
+          reader.onload = (e) => {
+            this.imagePreview = e.target.result;
+          };
+          reader.readAsDataURL(file);
+        },
+
+        async uploadImage() {
+          if (!this.imageFile) return this.form.thumbnail_url;
+
+          // Si hay Supabase Storage, subir ahí
+          if (window.supabaseClient) {
+            try {
+              const fileName = `courses/${Date.now()}-${this.imageFile.name.replace(/[^a-zA-Z0-9.]/g, '')}`;
+              const { data, error } = await supabaseClient.storage
+                .from('images')
+                .upload(fileName, this.imageFile);
+
+              if (error) throw error;
+
+              const { data: urlData } = supabaseClient.storage
+                .from('images')
+                .getPublicUrl(fileName);
+
+              return urlData.publicUrl;
+            } catch (error) {
+              console.error('Error subiendo imagen:', error);
+              // Fallback a base64
+              return this.imagePreview;
+            }
+          }
+
+          // Sin Supabase, usar base64 (solo para demo)
+          return this.imagePreview;
+        },
+
+        async saveCourse() {
+          this.saving = true;
+          this.error = '';
+
+          // Subir imagen si hay una seleccionada
+          const thumbnailUrl = await this.uploadImage();
+
+          const courseData = {
+            title: this.form.title,
+            slug: this.form.slug,
+            description: this.form.description,
+            long_description: this.form.long_description || null,
+            price_tier: this.form.price_tier,
+            difficulty_level: this.form.difficulty_level,
+            estimated_hours: parseInt(this.form.estimated_hours) || 5,
+            order_index: parseInt(this.form.order_index) || 0,
+            tags: this.form.tags_string ? this.form.tags_string.split(',').map(t => t.trim()).filter(t => t) : [],
+            thumbnail_url: thumbnailUrl || null,
+            is_published: false
+          };
+
+          // Modo demo: guardar localmente
+          if (!window.supabaseClient) {
+            const newCourse = {
+              ...courseData,
+              id: 'demo-' + Date.now(),
+              lessons_count: 0,
+              created_at: new Date().toISOString()
+            };
+            this.courses.push(newCourse);
+            this.showModal = false;
+            this.saving = false;
+            return;
+          }
+
+          try {
+            if (this.editingCourse) {
+              const { error } = await supabaseClient
+                .from('courses')
+                .update(courseData)
+                .eq('id', this.editingCourse.id);
+
+              if (error) throw error;
+            } else {
+              const { error } = await supabaseClient
+                .from('courses')
+                .insert(courseData);
+
+              if (error) throw error;
+            }
+
+            this.showModal = false;
+            await this.loadCourses();
+          } catch (error) {
+            console.error('Error:', error);
+            this.error = error.message || 'Error al guardar el curso';
+          }
+
+          this.saving = false;
+        },
+
+        async togglePublish(course) {
+          // Modo demo
+          if (!window.supabaseClient) {
+            course.is_published = !course.is_published;
+            return;
+          }
+
+          try {
+            const { error } = await supabaseClient
+              .from('courses')
+              .update({ is_published: !course.is_published })
+              .eq('id', course.id);
+
+            if (!error) {
+              course.is_published = !course.is_published;
+            }
+          } catch (error) {
+            console.error('Error:', error);
+          }
+        },
+
+        confirmDelete(course) {
+          this.deletingCourse = course;
+          this.showDeleteModal = true;
+        },
+
+        async deleteCourse() {
+          if (!this.deletingCourse) return;
+
+          this.saving = true;
+
+          // Modo demo
+          if (!window.supabaseClient) {
+            this.courses = this.courses.filter(c => c.id !== this.deletingCourse.id);
+            this.showDeleteModal = false;
+            this.saving = false;
+            return;
+          }
+
+          try {
+            const { error } = await supabaseClient
+              .from('courses')
+              .delete()
+              .eq('id', this.deletingCourse.id);
+
+            if (!error) {
+              this.showDeleteModal = false;
+              await this.loadCourses();
+            }
+          } catch (error) {
+            console.error('Error:', error);
+          }
+
+          this.saving = false;
+        }
+      };
+    }
+  </script>
+  <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+</body>
+</html>

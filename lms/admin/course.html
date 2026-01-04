@@ -1,0 +1,1054 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>C</text></svg>">
+  <title>Editar Curso | Admin Chumbi</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+
+  <!-- Marked.js for Markdown preview -->
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            accent: '#E85D4C',
+            'accent-hover': '#D14836',
+            cream: '#FAF8F5',
+            paper: '#F5F2ED',
+            ink: '#2D2A26',
+            charcoal: '#0F0E0D',
+            'charcoal-light': '#1A1816',
+            ash: '#E8E4DE',
+            stone: '#8C8579',
+          },
+          fontFamily: {
+            display: ['Instrument Serif', 'serif'],
+            body: ['Outfit', 'sans-serif'],
+          },
+        }
+      }
+    }
+  </script>
+  <style>
+    [x-cloak] { display: none !important; }
+
+    .prose { max-width: none; line-height: 1.8; }
+    .prose h1 { font-family: 'Instrument Serif', serif; font-size: 1.75rem; margin-bottom: 1rem; }
+    .prose h2 { font-family: 'Instrument Serif', serif; font-size: 1.5rem; margin-bottom: 0.75rem; margin-top: 1.5rem; }
+    .prose h3 { font-family: 'Instrument Serif', serif; font-size: 1.25rem; margin-bottom: 0.5rem; margin-top: 1rem; }
+    .prose p { margin-bottom: 1rem; }
+    .prose ul, .prose ol { margin-bottom: 1rem; padding-left: 1.5rem; }
+    .prose li { margin-bottom: 0.25rem; }
+    .prose blockquote { border-left: 3px solid #E85D4C; padding-left: 1rem; font-style: italic; color: #8C8579; }
+    .prose code { background: rgba(0,0,0,0.05); padding: 0.15rem 0.3rem; border-radius: 0.25rem; font-size: 0.9em; }
+    .prose pre { background: #1a1816; padding: 1rem; border-radius: 0.5rem; overflow-x: auto; }
+    .prose pre code { background: none; color: #E8E4DE; }
+    .prose strong { font-weight: 600; }
+
+    .drag-ghost { opacity: 0.5; }
+  </style>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <!-- Sortable.js for drag & drop -->
+  <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"></script>
+</head>
+<body class="bg-cream dark:bg-charcoal text-ink dark:text-ash font-body antialiased min-h-screen"
+      x-data="courseEditor()"
+      x-init="init()">
+
+  <!-- Sidebar -->
+  <aside class="fixed top-0 left-0 h-full w-64 bg-paper dark:bg-charcoal-light border-r border-ink/5 dark:border-ash/10 z-40">
+    <div class="p-6 border-b border-ink/5 dark:border-ash/10">
+      <a href="courses.html" class="flex items-center gap-2 text-stone hover:text-accent transition-colors text-sm mb-4">
+        <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
+        </svg>
+        Volver a cursos
+      </a>
+      <h2 class="font-display text-lg text-ink dark:text-ash line-clamp-2" x-text="course?.title || 'Cargando...'"></h2>
+      <p class="text-xs text-stone mt-1" x-text="lessons.length + ' lecciones'"></p>
+    </div>
+
+    <!-- Lessons List -->
+    <div class="p-4 flex-grow overflow-y-auto" style="max-height: calc(100vh - 200px);">
+      <div class="flex items-center justify-between mb-3">
+        <p class="text-xs text-stone uppercase tracking-wider">Lecciones</p>
+        <button @click="openLessonModal()" class="text-accent hover:text-accent-hover">
+          <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/>
+          </svg>
+        </button>
+      </div>
+
+      <div x-show="lessons.length === 0" class="text-center py-8 text-stone text-sm">
+        <p>No hay lecciones</p>
+        <button @click="openLessonModal()" class="text-accent hover:underline mt-2">Crear primera leccion</button>
+      </div>
+
+      <div id="lessons-list" class="space-y-1">
+        <template x-for="(lesson, index) in lessons" :key="lesson.id">
+          <div
+            :data-id="lesson.id"
+            @click="selectLesson(lesson)"
+            :class="selectedLesson?.id === lesson.id ? 'bg-accent/10 text-accent border-accent/30' : 'hover:bg-ink/5 dark:hover:bg-ash/5 border-transparent'"
+            class="flex items-center gap-2 p-3 rounded-lg cursor-pointer border transition-colors group"
+          >
+            <span class="w-6 h-6 rounded bg-ink/10 dark:bg-ash/10 flex items-center justify-center text-xs flex-shrink-0 cursor-move handle" x-text="index + 1"></span>
+            <span class="flex-grow text-sm truncate" x-text="lesson.title"></span>
+            <span x-show="lesson.is_free_preview" class="w-2 h-2 rounded-full bg-green-500 flex-shrink-0" title="Vista previa gratis"></span>
+          </div>
+        </template>
+      </div>
+    </div>
+
+    <!-- Bottom Actions -->
+    <div class="absolute bottom-0 left-0 right-0 p-4 border-t border-ink/5 dark:border-ash/10 bg-paper dark:bg-charcoal-light">
+      <a :href="'../course/?slug=' + course?.slug" target="_blank" class="flex items-center justify-center gap-2 w-full px-4 py-2 rounded-lg bg-ink/5 dark:bg-ash/10 text-stone hover:text-ink dark:hover:text-ash transition-colors text-sm">
+        <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/>
+        </svg>
+        Ver curso
+      </a>
+    </div>
+  </aside>
+
+  <!-- Main Content -->
+  <main class="ml-64 min-h-screen">
+    <!-- Top Bar -->
+    <header class="sticky top-0 z-30 bg-cream/90 dark:bg-charcoal/90 backdrop-blur-xl border-b border-ink/5 dark:border-ash/5 px-8 py-4">
+      <div class="flex items-center justify-between">
+        <div class="flex items-center gap-4">
+          <h1 class="font-display text-xl text-ink dark:text-ash" x-text="selectedLesson ? selectedLesson.title : 'Configuracion del curso'"></h1>
+          <span x-show="hasUnsavedChanges" class="text-xs text-amber-500">Sin guardar</span>
+        </div>
+        <div class="flex items-center gap-2">
+          <!-- Dark Mode Toggle -->
+          <button
+            @click="toggleDarkMode()"
+            class="w-10 h-10 rounded-full bg-ink/5 dark:bg-ash/10 flex items-center justify-center transition-all hover:bg-accent hover:text-cream"
+          >
+            <svg x-show="!darkMode" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+              <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"/>
+            </svg>
+            <svg x-show="darkMode" x-cloak class="w-5 h-5 text-amber-400" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0z" clip-rule="evenodd"/>
+            </svg>
+          </button>
+
+          <button
+            x-show="selectedLesson"
+            @click="selectedLesson = null; lessonResources = []"
+            class="px-4 py-2 rounded-lg text-stone hover:text-ink dark:hover:text-ash transition-colors text-sm"
+          >
+            Configuracion
+          </button>
+          <button
+            @click="saveAll()"
+            :disabled="saving"
+            class="px-4 py-2 rounded-lg bg-accent hover:bg-accent-hover text-cream transition-colors text-sm disabled:opacity-50"
+          >
+            <span x-show="!saving">Guardar</span>
+            <span x-show="saving">Guardando...</span>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- Loading -->
+    <div x-show="loading" class="flex items-center justify-center py-20">
+      <div class="animate-spin w-8 h-8 border-2 border-accent border-t-transparent rounded-full"></div>
+    </div>
+
+    <!-- Content -->
+    <div x-show="!loading" x-cloak class="p-8">
+
+      <!-- Course Settings (when no lesson selected) -->
+      <div x-show="!selectedLesson">
+        <div class="max-w-3xl">
+          <h2 class="font-display text-2xl text-ink dark:text-ash mb-6">Configuracion del Curso</h2>
+
+          <div class="space-y-6 bg-paper dark:bg-charcoal-light rounded-2xl p-6 border border-ink/5 dark:border-ash/10">
+            <!-- Title -->
+            <div>
+              <label class="block text-sm font-medium text-ink dark:text-ash mb-2">Titulo</label>
+              <input
+                type="text"
+                x-model="courseForm.title"
+                @input="hasUnsavedChanges = true"
+                class="w-full px-4 py-3 rounded-xl bg-cream dark:bg-charcoal border border-ink/10 dark:border-ash/10 focus:border-accent outline-none transition-all"
+              />
+            </div>
+
+            <!-- Slug -->
+            <div>
+              <label class="block text-sm font-medium text-ink dark:text-ash mb-2">Slug</label>
+              <input
+                type="text"
+                x-model="courseForm.slug"
+                @input="hasUnsavedChanges = true; courseForm.slug = $event.target.value.toLowerCase().replace(/[^a-z0-9\-]/g, '')"
+                class="w-full px-4 py-3 rounded-xl bg-cream dark:bg-charcoal border border-ink/10 dark:border-ash/10 focus:border-accent outline-none transition-all font-mono text-sm"
+              />
+            </div>
+
+            <!-- Description -->
+            <div>
+              <label class="block text-sm font-medium text-ink dark:text-ash mb-2">Descripcion</label>
+              <textarea
+                x-model="courseForm.description"
+                @input="hasUnsavedChanges = true"
+                rows="3"
+                class="w-full px-4 py-3 rounded-xl bg-cream dark:bg-charcoal border border-ink/10 dark:border-ash/10 focus:border-accent outline-none transition-all resize-none"
+              ></textarea>
+            </div>
+
+            <!-- Row -->
+            <div class="grid grid-cols-3 gap-4">
+              <div>
+                <label class="block text-sm font-medium text-ink dark:text-ash mb-2">Acceso</label>
+                <select x-model="courseForm.price_tier" @change="hasUnsavedChanges = true" class="w-full px-4 py-3 rounded-xl bg-cream dark:bg-charcoal border border-ink/10 dark:border-ash/10 focus:border-accent outline-none">
+                  <option value="free">Gratis</option>
+                  <option value="premium">Premium</option>
+                  <option value="vip">VIP</option>
+                </select>
+              </div>
+              <div>
+                <label class="block text-sm font-medium text-ink dark:text-ash mb-2">Dificultad</label>
+                <select x-model="courseForm.difficulty_level" @change="hasUnsavedChanges = true" class="w-full px-4 py-3 rounded-xl bg-cream dark:bg-charcoal border border-ink/10 dark:border-ash/10 focus:border-accent outline-none">
+                  <option value="beginner">Principiante</option>
+                  <option value="intermediate">Intermedio</option>
+                  <option value="advanced">Avanzado</option>
+                </select>
+              </div>
+              <div>
+                <label class="block text-sm font-medium text-ink dark:text-ash mb-2">Horas</label>
+                <input type="number" x-model="courseForm.estimated_hours" @input="hasUnsavedChanges = true" min="1" class="w-full px-4 py-3 rounded-xl bg-cream dark:bg-charcoal border border-ink/10 dark:border-ash/10 focus:border-accent outline-none"/>
+              </div>
+            </div>
+
+            <!-- Thumbnail -->
+            <div>
+              <label class="block text-sm font-medium text-ink dark:text-ash mb-2">URL de imagen</label>
+              <input
+                type="url"
+                x-model="courseForm.thumbnail_url"
+                @input="hasUnsavedChanges = true"
+                placeholder="https://..."
+                class="w-full px-4 py-3 rounded-xl bg-cream dark:bg-charcoal border border-ink/10 dark:border-ash/10 focus:border-accent outline-none transition-all"
+              />
+            </div>
+
+            <!-- Tags -->
+            <div>
+              <label class="block text-sm font-medium text-ink dark:text-ash mb-2">Tags</label>
+              <input
+                type="text"
+                x-model="courseForm.tags_string"
+                @input="hasUnsavedChanges = true"
+                placeholder="web, javascript, css"
+                class="w-full px-4 py-3 rounded-xl bg-cream dark:bg-charcoal border border-ink/10 dark:border-ash/10 focus:border-accent outline-none transition-all"
+              />
+            </div>
+
+            <!-- Published Toggle -->
+            <div class="flex items-center justify-between pt-4 border-t border-ink/5 dark:border-ash/10">
+              <div>
+                <p class="font-medium text-ink dark:text-ash">Publicar curso</p>
+                <p class="text-sm text-stone">El curso sera visible para los usuarios</p>
+              </div>
+              <button
+                @click="courseForm.is_published = !courseForm.is_published; hasUnsavedChanges = true"
+                :class="courseForm.is_published ? 'bg-green-500' : 'bg-ink/20 dark:bg-ash/20'"
+                class="relative w-12 h-6 rounded-full transition-colors"
+              >
+                <span
+                  :class="courseForm.is_published ? 'translate-x-6' : 'translate-x-1'"
+                  class="absolute top-1 left-0 w-4 h-4 bg-white rounded-full transition-transform"
+                ></span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Lesson Editor (when lesson selected) -->
+      <div x-show="selectedLesson" class="grid grid-cols-2 gap-8">
+        <!-- Editor -->
+        <div class="space-y-6">
+          <!-- Lesson Settings -->
+          <div class="bg-paper dark:bg-charcoal-light rounded-2xl p-6 border border-ink/5 dark:border-ash/10 space-y-4">
+            <div>
+              <label class="block text-sm font-medium text-ink dark:text-ash mb-2">Titulo de la leccion</label>
+              <input
+                type="text"
+                x-model="lessonForm.title"
+                @input="hasUnsavedChanges = true"
+                class="w-full px-4 py-3 rounded-xl bg-cream dark:bg-charcoal border border-ink/10 dark:border-ash/10 focus:border-accent outline-none transition-all"
+              />
+            </div>
+
+            <div class="grid grid-cols-2 gap-4">
+              <div>
+                <label class="block text-sm font-medium text-ink dark:text-ash mb-2">Slug</label>
+                <input
+                  type="text"
+                  x-model="lessonForm.slug"
+                  @input="hasUnsavedChanges = true; lessonForm.slug = $event.target.value.toLowerCase().replace(/[^a-z0-9\-]/g, '')"
+                  class="w-full px-4 py-3 rounded-xl bg-cream dark:bg-charcoal border border-ink/10 dark:border-ash/10 focus:border-accent outline-none transition-all font-mono text-sm"
+                />
+              </div>
+              <div>
+                <label class="block text-sm font-medium text-ink dark:text-ash mb-2">Duracion (min)</label>
+                <input
+                  type="number"
+                  x-model="lessonForm.duration_minutes"
+                  @input="hasUnsavedChanges = true"
+                  min="1"
+                  class="w-full px-4 py-3 rounded-xl bg-cream dark:bg-charcoal border border-ink/10 dark:border-ash/10 focus:border-accent outline-none transition-all"
+                />
+              </div>
+            </div>
+
+            <div class="grid grid-cols-2 gap-4">
+              <div>
+                <label class="block text-sm font-medium text-ink dark:text-ash mb-2">Tipo de contenido</label>
+                <select x-model="lessonForm.content_type" @change="hasUnsavedChanges = true" class="w-full px-4 py-3 rounded-xl bg-cream dark:bg-charcoal border border-ink/10 dark:border-ash/10 focus:border-accent outline-none">
+                  <option value="text">Solo texto</option>
+                  <option value="video">Video</option>
+                  <option value="mixed">Video + texto</option>
+                </select>
+              </div>
+              <div class="flex items-end">
+                <label class="flex items-center gap-2 cursor-pointer">
+                  <input type="checkbox" x-model="lessonForm.is_free_preview" @change="hasUnsavedChanges = true" class="w-5 h-5 rounded accent-accent"/>
+                  <span class="text-sm">Vista previa gratis</span>
+                </label>
+              </div>
+            </div>
+
+            <!-- Video URL (if video type) -->
+            <div x-show="lessonForm.content_type === 'video' || lessonForm.content_type === 'mixed'">
+              <label class="block text-sm font-medium text-ink dark:text-ash mb-2">URL del video</label>
+              <input
+                type="url"
+                x-model="lessonForm.video_url"
+                @input="hasUnsavedChanges = true"
+                placeholder="https://youtube.com/watch?v=... o https://vimeo.com/..."
+                class="w-full px-4 py-3 rounded-xl bg-cream dark:bg-charcoal border border-ink/10 dark:border-ash/10 focus:border-accent outline-none transition-all"
+              />
+              <p class="text-xs text-stone mt-1">YouTube, Vimeo, o Loom</p>
+            </div>
+          </div>
+
+          <!-- Markdown Editor -->
+          <div class="bg-paper dark:bg-charcoal-light rounded-2xl border border-ink/5 dark:border-ash/10 overflow-hidden">
+            <div class="px-4 py-3 border-b border-ink/5 dark:border-ash/10 flex items-center justify-between">
+              <span class="text-sm font-medium">Contenido (Markdown)</span>
+              <div class="flex gap-2">
+                <button @click="insertMarkdown('**texto**')" class="px-2 py-1 text-xs bg-ink/5 dark:bg-ash/10 rounded hover:bg-ink/10 dark:hover:bg-ash/20" title="Negrita">B</button>
+                <button @click="insertMarkdown('*texto*')" class="px-2 py-1 text-xs bg-ink/5 dark:bg-ash/10 rounded hover:bg-ink/10 dark:hover:bg-ash/20 italic" title="Italica">I</button>
+                <button @click="insertMarkdown('## ')" class="px-2 py-1 text-xs bg-ink/5 dark:bg-ash/10 rounded hover:bg-ink/10 dark:hover:bg-ash/20" title="Encabezado">H2</button>
+                <button @click="insertMarkdown('- ')" class="px-2 py-1 text-xs bg-ink/5 dark:bg-ash/10 rounded hover:bg-ink/10 dark:hover:bg-ash/20" title="Lista">UL</button>
+                <button @click="insertMarkdown('> ')" class="px-2 py-1 text-xs bg-ink/5 dark:bg-ash/10 rounded hover:bg-ink/10 dark:hover:bg-ash/20" title="Cita">Quote</button>
+                <button @click="insertMarkdown('`codigo`')" class="px-2 py-1 text-xs bg-ink/5 dark:bg-ash/10 rounded hover:bg-ink/10 dark:hover:bg-ash/20 font-mono" title="Codigo">{'<>'}</button>
+              </div>
+            </div>
+            <textarea
+              id="markdown-editor"
+              x-model="lessonForm.content_markdown"
+              @input="hasUnsavedChanges = true"
+              rows="20"
+              class="w-full p-4 bg-transparent outline-none resize-none font-mono text-sm leading-relaxed"
+              placeholder="# Titulo de la leccion
+
+Escribe el contenido aqui usando Markdown...
+
+## Subtitulo
+
+- Punto 1
+- Punto 2
+
+> Una cita importante
+
+```javascript
+// Codigo de ejemplo
+console.log('Hola');
+```"
+            ></textarea>
+          </div>
+
+          <!-- Resources/Documents -->
+          <div class="bg-paper dark:bg-charcoal-light rounded-2xl border border-ink/5 dark:border-ash/10 overflow-hidden">
+            <div class="px-4 py-3 border-b border-ink/5 dark:border-ash/10 flex items-center justify-between">
+              <span class="text-sm font-medium">Recursos descargables</span>
+              <span class="text-xs text-stone" x-text="lessonResources.length + ' archivos'"></span>
+            </div>
+
+            <!-- Upload Area -->
+            <div class="p-4">
+              <div
+                class="border-2 border-dashed border-ink/20 dark:border-ash/20 rounded-xl p-4 text-center hover:border-accent/50 transition-colors cursor-pointer"
+                @click="$refs.resourceInput.click()"
+                @dragover.prevent="$el.classList.add('border-accent', 'bg-accent/5')"
+                @dragleave.prevent="$el.classList.remove('border-accent', 'bg-accent/5')"
+                @drop.prevent="handleResourceDrop($event)"
+              >
+                <input
+                  type="file"
+                  x-ref="resourceInput"
+                  multiple
+                  accept=".pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx,.zip,.txt,.md"
+                  class="hidden"
+                  @change="handleResourceSelect($event)"
+                />
+                <svg class="w-8 h-8 mx-auto text-stone mb-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M9 13h6m-3-3v6m5 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                </svg>
+                <p class="text-stone text-sm">Arrastra archivos o haz click</p>
+                <p class="text-stone/60 text-xs mt-1">PDF, Word, Excel, ZIP (max 10MB)</p>
+              </div>
+
+              <!-- Resources List -->
+              <div x-show="lessonResources.length > 0" class="mt-4 space-y-2">
+                <template x-for="(resource, idx) in lessonResources" :key="idx">
+                  <div class="flex items-center gap-3 p-3 bg-cream dark:bg-charcoal rounded-lg">
+                    <!-- Icon based on type -->
+                    <div class="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0"
+                         :class="{
+                           'bg-red-500/10 text-red-500': resource.type === 'pdf',
+                           'bg-blue-500/10 text-blue-500': resource.type === 'doc',
+                           'bg-green-500/10 text-green-500': resource.type === 'xls',
+                           'bg-amber-500/10 text-amber-500': resource.type === 'zip',
+                           'bg-stone/10 text-stone': !['pdf','doc','xls','zip'].includes(resource.type)
+                         }">
+                      <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                      </svg>
+                    </div>
+                    <div class="flex-grow min-w-0">
+                      <p class="text-sm font-medium truncate" x-text="resource.name"></p>
+                      <p class="text-xs text-stone" x-text="resource.size"></p>
+                    </div>
+                    <button @click="removeResource(idx)" class="text-stone hover:text-red-500 transition-colors">
+                      <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
+                      </svg>
+                    </button>
+                  </div>
+                </template>
+              </div>
+            </div>
+          </div>
+
+          <!-- Delete Lesson -->
+          <div class="flex justify-end">
+            <button @click="confirmDeleteLesson()" class="text-red-500 hover:text-red-600 text-sm">
+              Eliminar leccion
+            </button>
+          </div>
+        </div>
+
+        <!-- Preview -->
+        <div class="bg-paper dark:bg-charcoal-light rounded-2xl border border-ink/5 dark:border-ash/10 overflow-hidden">
+          <div class="px-4 py-3 border-b border-ink/5 dark:border-ash/10">
+            <span class="text-sm font-medium">Vista previa</span>
+          </div>
+          <div class="p-6 prose dark:text-ash max-h-[calc(100vh-300px)] overflow-y-auto" x-html="renderMarkdown(lessonForm.content_markdown)"></div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- New Lesson Modal -->
+  <div
+    x-show="showLessonModal"
+    x-cloak
+    class="fixed inset-0 z-50 flex items-center justify-center p-4"
+  >
+    <div class="absolute inset-0 bg-charcoal/50 backdrop-blur-sm" @click="showLessonModal = false"></div>
+    <div class="relative bg-cream dark:bg-charcoal-light rounded-2xl shadow-2xl w-full max-w-md p-6">
+      <h3 class="font-display text-xl text-ink dark:text-ash mb-4">Nueva Leccion</h3>
+      <form @submit.prevent="createLesson()">
+        <div class="space-y-4">
+          <div>
+            <label class="block text-sm font-medium mb-2">Titulo</label>
+            <input
+              type="text"
+              x-model="newLessonTitle"
+              required
+              class="w-full px-4 py-3 rounded-xl bg-paper dark:bg-charcoal border border-ink/10 dark:border-ash/10 focus:border-accent outline-none"
+              placeholder="Ej: Introduccion al tema"
+            />
+          </div>
+        </div>
+        <div class="flex gap-3 mt-6">
+          <button type="button" @click="showLessonModal = false" class="flex-1 px-4 py-3 rounded-xl border border-ink/10 dark:border-ash/10 text-stone hover:text-ink transition-colors">
+            Cancelar
+          </button>
+          <button type="submit" :disabled="saving" class="flex-1 px-4 py-3 rounded-xl bg-accent hover:bg-accent-hover text-cream transition-colors disabled:opacity-50">
+            Crear
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Delete Lesson Modal -->
+  <div
+    x-show="showDeleteLessonModal"
+    x-cloak
+    class="fixed inset-0 z-50 flex items-center justify-center p-4"
+  >
+    <div class="absolute inset-0 bg-charcoal/50 backdrop-blur-sm" @click="showDeleteLessonModal = false"></div>
+    <div class="relative bg-cream dark:bg-charcoal-light rounded-2xl shadow-2xl w-full max-w-md p-6">
+      <h3 class="font-display text-xl text-ink dark:text-ash mb-2">Eliminar leccion</h3>
+      <p class="text-stone mb-6">Estas seguro de eliminar "<span x-text="selectedLesson?.title" class="font-medium"></span>"?</p>
+      <div class="flex gap-3">
+        <button @click="showDeleteLessonModal = false" class="flex-1 px-4 py-3 rounded-xl border border-ink/10 dark:border-ash/10 text-stone hover:text-ink transition-colors">
+          Cancelar
+        </button>
+        <button @click="deleteLesson()" :disabled="saving" class="flex-1 px-4 py-3 rounded-xl bg-red-500 hover:bg-red-600 text-white transition-colors disabled:opacity-50">
+          Eliminar
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="../../assets/js/supabase-client.js"></script>
+  <script>
+    function courseEditor() {
+      return {
+        loading: true,
+        saving: false,
+        hasUnsavedChanges: false,
+        darkMode: localStorage.getItem('darkMode') === 'true',
+        course: null,
+        lessons: [],
+        selectedLesson: null,
+        showLessonModal: false,
+        showDeleteLessonModal: false,
+        newLessonTitle: '',
+
+        courseForm: {
+          title: '',
+          slug: '',
+          description: '',
+          price_tier: 'free',
+          difficulty_level: 'beginner',
+          estimated_hours: 5,
+          thumbnail_url: '',
+          tags_string: '',
+          is_published: false
+        },
+
+        lessonForm: {
+          title: '',
+          slug: '',
+          content_type: 'text',
+          video_url: '',
+          content_markdown: '',
+          duration_minutes: 10,
+          is_free_preview: false
+        },
+
+        lessonResources: [],
+
+        async init() {
+          document.documentElement.classList.toggle('dark', localStorage.getItem('darkMode') === 'true');
+
+          const courseId = new URLSearchParams(window.location.search).get('id');
+          if (!courseId) {
+            window.location.href = 'courses.html';
+            return;
+          }
+
+          // Modo demo si no hay Supabase
+          if (!window.supabaseClient) {
+            this.course = {
+              id: courseId,
+              title: 'Curso de Ejemplo',
+              slug: 'curso-ejemplo',
+              description: 'Descripcion del curso de ejemplo',
+              price_tier: 'free',
+              difficulty_level: 'beginner',
+              estimated_hours: 5,
+              thumbnail_url: '',
+              tags: ['ejemplo'],
+              is_published: false
+            };
+            this.courseForm = {
+              title: this.course.title,
+              slug: this.course.slug,
+              description: this.course.description,
+              price_tier: this.course.price_tier,
+              difficulty_level: this.course.difficulty_level,
+              estimated_hours: this.course.estimated_hours,
+              thumbnail_url: this.course.thumbnail_url || '',
+              tags_string: (this.course.tags || []).join(', '),
+              is_published: this.course.is_published
+            };
+            this.lessons = [];
+            this.loading = false;
+            this.$nextTick(() => this.setupSortable());
+            return;
+          }
+
+          await AuthStore.init();
+          if (!AuthStore.user) {
+            window.location.href = '/auth/login.html';
+            return;
+          }
+
+          await this.loadCourse(courseId);
+          this.loading = false;
+
+          // Setup sortable
+          this.$nextTick(() => {
+            this.setupSortable();
+          });
+
+          // Warn on unsaved changes
+          window.addEventListener('beforeunload', (e) => {
+            if (this.hasUnsavedChanges) {
+              e.preventDefault();
+              e.returnValue = '';
+            }
+          });
+        },
+
+        toggleDarkMode() {
+          this.darkMode = !this.darkMode;
+          localStorage.setItem('darkMode', this.darkMode);
+          document.documentElement.classList.toggle('dark', this.darkMode);
+        },
+
+        async loadCourse(courseId) {
+          try {
+            // Load course
+            const { data: course, error: courseError } = await supabaseClient
+              .from('courses')
+              .select('*')
+              .eq('id', courseId)
+              .single();
+
+            if (courseError || !course) {
+              window.location.href = 'courses.html';
+              return;
+            }
+
+            this.course = course;
+            this.courseForm = {
+              title: course.title,
+              slug: course.slug,
+              description: course.description || '',
+              price_tier: course.price_tier,
+              difficulty_level: course.difficulty_level,
+              estimated_hours: course.estimated_hours || 5,
+              thumbnail_url: course.thumbnail_url || '',
+              tags_string: (course.tags || []).join(', '),
+              is_published: course.is_published
+            };
+
+            // Load lessons
+            const { data: lessons } = await supabaseClient
+              .from('lessons')
+              .select('*')
+              .eq('course_id', courseId)
+              .order('order_index', { ascending: true });
+
+            this.lessons = lessons || [];
+
+          } catch (error) {
+            console.error('Error:', error);
+          }
+        },
+
+        setupSortable() {
+          const el = document.getElementById('lessons-list');
+          if (!el) return;
+
+          new Sortable(el, {
+            animation: 150,
+            handle: '.handle',
+            ghostClass: 'drag-ghost',
+            onEnd: async (evt) => {
+              // Reorder lessons array
+              const movedItem = this.lessons.splice(evt.oldIndex, 1)[0];
+              this.lessons.splice(evt.newIndex, 0, movedItem);
+
+              // Update order_index for all
+              this.lessons.forEach((lesson, index) => {
+                lesson.order_index = index;
+              });
+
+              this.hasUnsavedChanges = true;
+            }
+          });
+        },
+
+        selectLesson(lesson) {
+          this.selectedLesson = lesson;
+          this.lessonForm = {
+            title: lesson.title,
+            slug: lesson.slug,
+            content_type: lesson.content_type || 'text',
+            video_url: lesson.video_url || '',
+            content_markdown: lesson.content_markdown || '',
+            duration_minutes: lesson.duration_minutes || 10,
+            is_free_preview: lesson.is_free_preview || false
+          };
+          // Cargar recursos de la leccion
+          this.lessonResources = lesson.resources || [];
+        },
+
+        // Resource handling functions
+        handleResourceSelect(event) {
+          const files = Array.from(event.target.files);
+          files.forEach(file => this.processResource(file));
+          event.target.value = '';
+        },
+
+        handleResourceDrop(event) {
+          const files = Array.from(event.dataTransfer.files);
+          files.forEach(file => this.processResource(file));
+        },
+
+        processResource(file) {
+          // Validar tamaño (10MB max)
+          if (file.size > 10 * 1024 * 1024) {
+            alert('El archivo debe ser menor a 10MB: ' + file.name);
+            return;
+          }
+
+          // Determinar tipo
+          const ext = file.name.split('.').pop().toLowerCase();
+          let type = 'other';
+          if (ext === 'pdf') type = 'pdf';
+          else if (['doc', 'docx'].includes(ext)) type = 'doc';
+          else if (['xls', 'xlsx'].includes(ext)) type = 'xls';
+          else if (['zip', 'rar', '7z'].includes(ext)) type = 'zip';
+
+          // Formatear tamaño
+          const size = file.size < 1024 * 1024
+            ? (file.size / 1024).toFixed(1) + ' KB'
+            : (file.size / (1024 * 1024)).toFixed(1) + ' MB';
+
+          // Agregar a la lista
+          this.lessonResources.push({
+            name: file.name,
+            type: type,
+            size: size,
+            file: file,
+            url: null // Se llenara al subir
+          });
+
+          this.hasUnsavedChanges = true;
+        },
+
+        removeResource(index) {
+          this.lessonResources.splice(index, 1);
+          this.hasUnsavedChanges = true;
+        },
+
+        async uploadResources() {
+          const uploadedResources = [];
+
+          for (const resource of this.lessonResources) {
+            if (resource.url) {
+              // Ya subido
+              uploadedResources.push(resource);
+              continue;
+            }
+
+            if (!resource.file) continue;
+
+            // Si hay Supabase Storage, subir ahi
+            if (window.supabaseClient) {
+              try {
+                const fileName = `lessons/${this.selectedLesson.id}/${Date.now()}-${resource.file.name.replace(/[^a-zA-Z0-9.]/g, '')}`;
+                const { data, error } = await supabaseClient.storage
+                  .from('resources')
+                  .upload(fileName, resource.file);
+
+                if (!error) {
+                  const { data: urlData } = supabaseClient.storage
+                    .from('resources')
+                    .getPublicUrl(fileName);
+
+                  resource.url = urlData.publicUrl;
+                  delete resource.file;
+                  uploadedResources.push(resource);
+                }
+              } catch (e) {
+                console.error('Error subiendo recurso:', e);
+              }
+            } else {
+              // Modo demo: simular URL
+              resource.url = '#demo-' + resource.name;
+              delete resource.file;
+              uploadedResources.push(resource);
+            }
+          }
+
+          return uploadedResources;
+        },
+
+        openLessonModal() {
+          this.newLessonTitle = '';
+          this.showLessonModal = true;
+        },
+
+        async createLesson() {
+          if (!this.newLessonTitle.trim()) return;
+
+          this.saving = true;
+
+          const slug = this.newLessonTitle
+            .toLowerCase()
+            .normalize('NFD')
+            .replace(/[\u0300-\u036f]/g, '')
+            .replace(/[^a-z0-9]+/g, '-')
+            .replace(/^-|-$/g, '');
+
+          // Modo demo
+          if (!window.supabaseClient) {
+            const newLesson = {
+              id: 'lesson-' + Date.now(),
+              course_id: this.course.id,
+              title: this.newLessonTitle,
+              slug: slug,
+              content_type: 'text',
+              content_markdown: '# ' + this.newLessonTitle + '\n\nEscribe el contenido aqui...',
+              duration_minutes: 10,
+              order_index: this.lessons.length,
+              is_free_preview: false
+            };
+            this.lessons.push(newLesson);
+            this.showLessonModal = false;
+            this.selectLesson(newLesson);
+            this.saving = false;
+            return;
+          }
+
+          try {
+            const { data, error } = await supabaseClient
+              .from('lessons')
+              .insert({
+                course_id: this.course.id,
+                title: this.newLessonTitle,
+                slug: slug,
+                content_type: 'text',
+                content_markdown: '# ' + this.newLessonTitle + '\n\nEscribe el contenido aqui...',
+                duration_minutes: 10,
+                order_index: this.lessons.length,
+                is_free_preview: false
+              })
+              .select()
+              .single();
+
+            if (!error && data) {
+              this.lessons.push(data);
+              this.showLessonModal = false;
+              this.selectLesson(data);
+            }
+          } catch (error) {
+            console.error('Error:', error);
+          }
+
+          this.saving = false;
+        },
+
+        confirmDeleteLesson() {
+          this.showDeleteLessonModal = true;
+        },
+
+        async deleteLesson() {
+          if (!this.selectedLesson) return;
+
+          this.saving = true;
+
+          // Modo demo
+          if (!window.supabaseClient) {
+            this.lessons = this.lessons.filter(l => l.id !== this.selectedLesson.id);
+            this.selectedLesson = null;
+            this.showDeleteLessonModal = false;
+            this.saving = false;
+            return;
+          }
+
+          try {
+            const { error } = await supabaseClient
+              .from('lessons')
+              .delete()
+              .eq('id', this.selectedLesson.id);
+
+            if (!error) {
+              this.lessons = this.lessons.filter(l => l.id !== this.selectedLesson.id);
+              this.selectedLesson = null;
+              this.showDeleteLessonModal = false;
+            }
+          } catch (error) {
+            console.error('Error:', error);
+          }
+
+          this.saving = false;
+        },
+
+        async saveAll() {
+          this.saving = true;
+
+          // Modo demo
+          if (!window.supabaseClient) {
+            // Guardar localmente
+            this.course = {
+              ...this.course,
+              title: this.courseForm.title,
+              slug: this.courseForm.slug,
+              description: this.courseForm.description,
+              price_tier: this.courseForm.price_tier,
+              difficulty_level: this.courseForm.difficulty_level,
+              estimated_hours: parseInt(this.courseForm.estimated_hours) || 5,
+              thumbnail_url: this.courseForm.thumbnail_url || null,
+              tags: this.courseForm.tags_string ? this.courseForm.tags_string.split(',').map(t => t.trim()).filter(t => t) : [],
+              is_published: this.courseForm.is_published
+            };
+
+            // Actualizar leccion seleccionada
+            if (this.selectedLesson) {
+              // Procesar recursos en modo demo
+              const uploadedResources = await this.uploadResources();
+
+              const index = this.lessons.findIndex(l => l.id === this.selectedLesson.id);
+              if (index !== -1) {
+                this.lessons[index] = {
+                  ...this.lessons[index],
+                  title: this.lessonForm.title,
+                  slug: this.lessonForm.slug,
+                  content_type: this.lessonForm.content_type,
+                  video_url: this.lessonForm.video_url || null,
+                  content_markdown: this.lessonForm.content_markdown,
+                  duration_minutes: parseInt(this.lessonForm.duration_minutes) || 10,
+                  is_free_preview: this.lessonForm.is_free_preview,
+                  resources: uploadedResources
+                };
+                this.selectedLesson = this.lessons[index];
+                this.lessonResources = uploadedResources;
+              }
+            }
+
+            this.hasUnsavedChanges = false;
+            this.saving = false;
+            alert('Guardado en modo demo (los datos no persisten al recargar)');
+            return;
+          }
+
+          try {
+            // Save course
+            const courseData = {
+              title: this.courseForm.title,
+              slug: this.courseForm.slug,
+              description: this.courseForm.description,
+              price_tier: this.courseForm.price_tier,
+              difficulty_level: this.courseForm.difficulty_level,
+              estimated_hours: parseInt(this.courseForm.estimated_hours) || 5,
+              thumbnail_url: this.courseForm.thumbnail_url || null,
+              tags: this.courseForm.tags_string ? this.courseForm.tags_string.split(',').map(t => t.trim()).filter(t => t) : [],
+              is_published: this.courseForm.is_published
+            };
+
+            await supabaseClient
+              .from('courses')
+              .update(courseData)
+              .eq('id', this.course.id);
+
+            this.course = { ...this.course, ...courseData };
+
+            // Save current lesson if selected
+            if (this.selectedLesson) {
+              // Upload resources first
+              const uploadedResources = await this.uploadResources();
+
+              const lessonData = {
+                title: this.lessonForm.title,
+                slug: this.lessonForm.slug,
+                content_type: this.lessonForm.content_type,
+                video_url: this.lessonForm.video_url || null,
+                content_markdown: this.lessonForm.content_markdown,
+                duration_minutes: parseInt(this.lessonForm.duration_minutes) || 10,
+                is_free_preview: this.lessonForm.is_free_preview,
+                resources: uploadedResources
+              };
+
+              await supabaseClient
+                .from('lessons')
+                .update(lessonData)
+                .eq('id', this.selectedLesson.id);
+
+              // Update local
+              const index = this.lessons.findIndex(l => l.id === this.selectedLesson.id);
+              if (index !== -1) {
+                this.lessons[index] = { ...this.lessons[index], ...lessonData };
+                this.selectedLesson = this.lessons[index];
+                this.lessonResources = uploadedResources;
+              }
+            }
+
+            // Save lesson order
+            for (let i = 0; i < this.lessons.length; i++) {
+              if (this.lessons[i].order_index !== i) {
+                await supabaseClient
+                  .from('lessons')
+                  .update({ order_index: i })
+                  .eq('id', this.lessons[i].id);
+                this.lessons[i].order_index = i;
+              }
+            }
+
+            this.hasUnsavedChanges = false;
+
+          } catch (error) {
+            console.error('Error guardando:', error);
+            alert('Error al guardar. Intenta de nuevo.');
+          }
+
+          this.saving = false;
+        },
+
+        insertMarkdown(text) {
+          const textarea = document.getElementById('markdown-editor');
+          const start = textarea.selectionStart;
+          const end = textarea.selectionEnd;
+          const content = this.lessonForm.content_markdown;
+
+          this.lessonForm.content_markdown = content.substring(0, start) + text + content.substring(end);
+          this.hasUnsavedChanges = true;
+
+          this.$nextTick(() => {
+            textarea.focus();
+            textarea.setSelectionRange(start + text.length, start + text.length);
+          });
+        },
+
+        renderMarkdown(content) {
+          if (!content) return '<p class="text-stone">El contenido aparecera aqui...</p>';
+          try {
+            return marked.parse(content);
+          } catch {
+            return content;
+          }
+        }
+      };
+    }
+  </script>
+  <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+</body>
+</html>

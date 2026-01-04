@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>C</text></svg>">
+  <title>Admin | Chumbi Dojo LMS</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            accent: '#E85D4C',
+            'accent-hover': '#D14836',
+            cream: '#FAF8F5',
+            paper: '#F5F2ED',
+            ink: '#2D2A26',
+            charcoal: '#0F0E0D',
+            'charcoal-light': '#1A1816',
+            ash: '#E8E4DE',
+            stone: '#8C8579',
+          },
+          fontFamily: {
+            display: ['Instrument Serif', 'serif'],
+            body: ['Outfit', 'sans-serif'],
+          },
+        }
+      }
+    }
+  </script>
+  <style>
+    [x-cloak] { display: none !important; }
+  </style>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body class="bg-cream dark:bg-charcoal text-ink dark:text-ash font-body antialiased min-h-screen"
+      x-data="adminDashboard()"
+      x-init="init()">
+
+  <!-- Sidebar -->
+  <aside class="fixed top-0 left-0 h-full w-64 bg-paper dark:bg-charcoal-light border-r border-ink/5 dark:border-ash/10 z-40">
+    <!-- Logo -->
+    <div class="p-6 border-b border-ink/5 dark:border-ash/10">
+      <a href="../../index.html" class="flex items-center gap-3">
+        <div class="w-10 h-10">
+          <svg viewBox="0 0 40 40" class="w-full h-full">
+            <path d="M20 4 C32 4 36 12 36 20 C36 28 32 36 20 36 C10 36 4 30 4 22" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" class="text-accent"/>
+            <text x="20" y="26" text-anchor="middle" class="text-ink dark:text-ash font-display text-sm" fill="currentColor">C</text>
+          </svg>
+        </div>
+        <div>
+          <span class="font-display text-lg text-ink dark:text-ash block">Chumbi</span>
+          <span class="text-xs text-stone">Admin Panel</span>
+        </div>
+      </a>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="p-4">
+      <p class="text-xs text-stone uppercase tracking-wider mb-3 px-3">Menu</p>
+      <ul class="space-y-1">
+        <li>
+          <a href="index.html" class="flex items-center gap-3 px-3 py-2 rounded-lg bg-accent/10 text-accent">
+            <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/>
+            </svg>
+            Dashboard
+          </a>
+        </li>
+        <li>
+          <a href="courses.html" class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-ink/5 dark:hover:bg-ash/5 text-stone hover:text-ink dark:hover:text-ash transition-colors">
+            <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
+            </svg>
+            Cursos
+          </a>
+        </li>
+        <li>
+          <a href="users.html" class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-ink/5 dark:hover:bg-ash/5 text-stone hover:text-ink dark:hover:text-ash transition-colors">
+            <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"/>
+            </svg>
+            Usuarios
+          </a>
+        </li>
+      </ul>
+
+      <p class="text-xs text-stone uppercase tracking-wider mb-3 px-3 mt-8">Accesos rapidos</p>
+      <ul class="space-y-1">
+        <li>
+          <a href="../index.html" target="_blank" class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-ink/5 dark:hover:bg-ash/5 text-stone hover:text-ink dark:hover:text-ash transition-colors">
+            <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/>
+            </svg>
+            Ver LMS
+          </a>
+        </li>
+        <li>
+          <button @click="toggleDarkMode()" class="w-full flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-ink/5 dark:hover:bg-ash/5 text-stone hover:text-ink dark:hover:text-ash transition-colors">
+            <svg x-show="!darkMode" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/>
+            </svg>
+            <svg x-show="darkMode" x-cloak class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/>
+            </svg>
+            <span x-text="darkMode ? 'Modo claro' : 'Modo oscuro'"></span>
+          </button>
+        </li>
+      </ul>
+    </nav>
+
+    <!-- User -->
+    <div class="absolute bottom-0 left-0 right-0 p-4 border-t border-ink/5 dark:border-ash/10">
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-full bg-accent/20 flex items-center justify-center text-accent font-medium" x-text="profile?.full_name?.charAt(0) || 'A'"></div>
+        <div class="flex-grow min-w-0">
+          <p class="text-sm font-medium truncate" x-text="profile?.full_name || 'Admin'"></p>
+          <p class="text-xs text-stone truncate" x-text="user?.email"></p>
+        </div>
+        <button @click="signOut()" class="text-stone hover:text-red-500 transition-colors" title="Cerrar sesion">
+          <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Main Content -->
+  <main class="ml-64 min-h-screen">
+    <!-- Top Bar -->
+    <header class="sticky top-0 z-30 bg-cream/90 dark:bg-charcoal/90 backdrop-blur-xl border-b border-ink/5 dark:border-ash/5 px-8 py-4">
+      <div class="flex items-center justify-between">
+        <h1 class="font-display text-2xl text-ink dark:text-ash">Dashboard</h1>
+        <a href="courses.html?new=true" class="inline-flex items-center gap-2 bg-accent hover:bg-accent-hover text-cream px-4 py-2 rounded-lg text-sm transition-colors">
+          <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/>
+          </svg>
+          Nuevo Curso
+        </a>
+      </div>
+    </header>
+
+    <!-- Content -->
+    <div class="p-8">
+      <!-- Loading -->
+      <div x-show="loading" class="flex items-center justify-center py-20">
+        <div class="animate-spin w-8 h-8 border-2 border-accent border-t-transparent rounded-full"></div>
+      </div>
+
+      <!-- Access Denied -->
+      <div x-show="!loading && !isAdmin" x-cloak class="max-w-md mx-auto text-center py-20">
+        <div class="w-20 h-20 bg-red-500/10 rounded-full flex items-center justify-center mx-auto mb-6">
+          <svg class="w-10 h-10 text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
+          </svg>
+        </div>
+        <h2 class="font-display text-2xl text-ink dark:text-ash mb-2">Acceso Denegado</h2>
+        <p class="text-stone mb-6">No tienes permisos de administrador para acceder a esta seccion.</p>
+        <a href="../index.html" class="text-accent hover:underline">Volver al LMS</a>
+      </div>
+
+      <!-- Dashboard Content -->
+      <div x-show="!loading && isAdmin" x-cloak>
+        <!-- Stats Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+          <!-- Total Courses -->
+          <div class="bg-paper dark:bg-charcoal-light rounded-2xl p-6 border border-ink/5 dark:border-ash/10">
+            <div class="flex items-center gap-4">
+              <div class="w-12 h-12 bg-blue-500/10 rounded-xl flex items-center justify-center">
+                <svg class="w-6 h-6 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
+                </svg>
+              </div>
+              <div>
+                <p class="text-3xl font-display text-ink dark:text-ash" x-text="stats.totalCourses">0</p>
+                <p class="text-stone text-sm">Cursos</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Published -->
+          <div class="bg-paper dark:bg-charcoal-light rounded-2xl p-6 border border-ink/5 dark:border-ash/10">
+            <div class="flex items-center gap-4">
+              <div class="w-12 h-12 bg-green-500/10 rounded-xl flex items-center justify-center">
+                <svg class="w-6 h-6 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                </svg>
+              </div>
+              <div>
+                <p class="text-3xl font-display text-ink dark:text-ash" x-text="stats.publishedCourses">0</p>
+                <p class="text-stone text-sm">Publicados</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Total Lessons -->
+          <div class="bg-paper dark:bg-charcoal-light rounded-2xl p-6 border border-ink/5 dark:border-ash/10">
+            <div class="flex items-center gap-4">
+              <div class="w-12 h-12 bg-purple-500/10 rounded-xl flex items-center justify-center">
+                <svg class="w-6 h-6 text-purple-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/>
+                </svg>
+              </div>
+              <div>
+                <p class="text-3xl font-display text-ink dark:text-ash" x-text="stats.totalLessons">0</p>
+                <p class="text-stone text-sm">Lecciones</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Total Enrollments -->
+          <div class="bg-paper dark:bg-charcoal-light rounded-2xl p-6 border border-ink/5 dark:border-ash/10">
+            <div class="flex items-center gap-4">
+              <div class="w-12 h-12 bg-accent/10 rounded-xl flex items-center justify-center">
+                <svg class="w-6 h-6 text-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/>
+                </svg>
+              </div>
+              <div>
+                <p class="text-3xl font-display text-ink dark:text-ash" x-text="stats.totalEnrollments">0</p>
+                <p class="text-stone text-sm">Inscripciones</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Recent Courses -->
+        <div class="bg-paper dark:bg-charcoal-light rounded-2xl border border-ink/5 dark:border-ash/10 overflow-hidden">
+          <div class="p-6 border-b border-ink/5 dark:border-ash/10 flex items-center justify-between">
+            <h2 class="font-display text-xl text-ink dark:text-ash">Cursos Recientes</h2>
+            <a href="courses.html" class="text-accent hover:underline text-sm">Ver todos</a>
+          </div>
+
+          <div x-show="recentCourses.length === 0" class="p-12 text-center text-stone">
+            <p>No hay cursos aun. Crea tu primer curso!</p>
+          </div>
+
+          <div x-show="recentCourses.length > 0" class="divide-y divide-ink/5 dark:divide-ash/10">
+            <template x-for="course in recentCourses" :key="course.id">
+              <a :href="'course.html?id=' + course.id" class="flex items-center gap-4 p-4 hover:bg-ink/5 dark:hover:bg-ash/5 transition-colors">
+                <!-- Thumbnail -->
+                <div class="w-16 h-12 bg-gradient-to-br from-accent/20 to-accent/5 rounded-lg flex items-center justify-center flex-shrink-0">
+                  <img x-show="course.thumbnail_url" :src="course.thumbnail_url" class="w-full h-full object-cover rounded-lg"/>
+                  <svg x-show="!course.thumbnail_url" class="w-6 h-6 text-accent/50" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
+                  </svg>
+                </div>
+
+                <!-- Info -->
+                <div class="flex-grow min-w-0">
+                  <h3 class="font-medium text-ink dark:text-ash truncate" x-text="course.title"></h3>
+                  <div class="flex items-center gap-3 text-xs text-stone mt-1">
+                    <span x-text="course.lessons_count + ' lecciones'"></span>
+                    <span :class="course.is_published ? 'text-green-500' : 'text-amber-500'" x-text="course.is_published ? 'Publicado' : 'Borrador'"></span>
+                  </div>
+                </div>
+
+                <!-- Arrow -->
+                <svg class="w-5 h-5 text-stone" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/>
+                </svg>
+              </a>
+            </template>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Scripts -->
+  <script src="../../assets/js/supabase-client.js"></script>
+  <script>
+    function adminDashboard() {
+      return {
+        user: null,
+        profile: null,
+        loading: true,
+        darkMode: localStorage.getItem('darkMode') === 'true',
+        isAdmin: false,
+        stats: {
+          totalCourses: 0,
+          publishedCourses: 0,
+          totalLessons: 0,
+          totalEnrollments: 0
+        },
+        recentCourses: [],
+
+        async init() {
+          document.documentElement.classList.toggle('dark', this.darkMode);
+
+          // Si no hay Supabase configurado, modo demo
+          if (!window.supabaseClient) {
+            this.user = { email: 'demo@chumbi.digital' };
+            this.profile = { full_name: 'Admin Demo', role: 'admin' };
+            this.isAdmin = true;
+            await this.loadRecentCourses();
+            await this.loadStats();
+            this.loading = false;
+            return;
+          }
+
+          await AuthStore.init();
+          this.user = AuthStore.user;
+          this.profile = AuthStore.profile;
+
+          if (!this.user) {
+            window.location.href = '/auth/login.html';
+            return;
+          }
+
+          // Verificar si es admin (por rol o email)
+          this.isAdmin = this.checkAdminAccess();
+
+          if (this.isAdmin) {
+            await this.loadRecentCourses();
+            await this.loadStats();
+          }
+
+          this.loading = false;
+        },
+
+        checkAdminAccess() {
+          // Verificar por rol en profile o por emails permitidos
+          if (this.profile?.role === 'admin') return true;
+
+          // Lista de emails admin (temporal - luego mover a DB)
+          const adminEmails = [
+            this.user?.email // Por ahora, el usuario actual es admin
+          ];
+
+          return adminEmails.includes(this.user?.email);
+        },
+
+        async loadStats() {
+          if (!window.supabaseClient) {
+            // Demo stats
+            this.stats = {
+              totalCourses: this.recentCourses.length,
+              publishedCourses: this.recentCourses.filter(c => c.is_published).length,
+              totalLessons: 0,
+              totalEnrollments: 0
+            };
+            return;
+          }
+
+          try {
+            // Total cursos
+            const { count: totalCourses } = await supabaseClient
+              .from('courses')
+              .select('*', { count: 'exact', head: true });
+
+            // Cursos publicados
+            const { count: publishedCourses } = await supabaseClient
+              .from('courses')
+              .select('*', { count: 'exact', head: true })
+              .eq('is_published', true);
+
+            // Total lecciones
+            const { count: totalLessons } = await supabaseClient
+              .from('lessons')
+              .select('*', { count: 'exact', head: true });
+
+            // Total inscripciones
+            const { count: totalEnrollments } = await supabaseClient
+              .from('user_enrollments')
+              .select('*', { count: 'exact', head: true });
+
+            this.stats = {
+              totalCourses: totalCourses || 0,
+              publishedCourses: publishedCourses || 0,
+              totalLessons: totalLessons || 0,
+              totalEnrollments: totalEnrollments || 0
+            };
+          } catch (error) {
+            console.error('Error cargando stats:', error);
+          }
+        },
+
+        async loadRecentCourses() {
+          if (!window.supabaseClient) {
+            // Demo courses
+            this.recentCourses = [
+              {
+                id: 'demo-1',
+                title: 'Curso de Ejemplo',
+                slug: 'curso-ejemplo',
+                description: 'Este es un curso de demostración',
+                is_published: false,
+                lessons_count: 0,
+                price_tier: 'free'
+              }
+            ];
+            return;
+          }
+
+          try {
+            const { data } = await supabaseClient
+              .from('courses')
+              .select('*, lessons(count)')
+              .order('created_at', { ascending: false })
+              .limit(5);
+
+            this.recentCourses = (data || []).map(course => ({
+              ...course,
+              lessons_count: course.lessons?.[0]?.count || 0
+            }));
+          } catch (error) {
+            console.error('Error cargando cursos:', error);
+          }
+        },
+
+        toggleDarkMode() {
+          this.darkMode = !this.darkMode;
+          localStorage.setItem('darkMode', this.darkMode);
+          document.documentElement.classList.toggle('dark', this.darkMode);
+        },
+
+        async signOut() {
+          await Auth.signOut();
+          window.location.href = '/auth/login.html';
+        }
+      };
+    }
+  </script>
+  <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+</body>
+</html>
