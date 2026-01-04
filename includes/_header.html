@@ -13,35 +13,48 @@
       document.body.classList.toggle('menu-open', val);
     });
   "
-  class="fixed top-0 left-0 right-0 z-50 bg-light/80 dark:bg-dark/80 backdrop-blur-xl border-b border-black/5 dark:border-white/5"
+  class="fixed top-0 left-0 right-0 z-50 bg-cream/90 dark:bg-charcoal/90 backdrop-blur-xl border-b border-ink/5 dark:border-ash/5"
 >
-  <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+  <div class="max-w-6xl mx-auto px-6 md:px-12 py-4 flex items-center justify-between">
     <!-- Logo -->
     <a href="index.html" class="flex items-center gap-3 group relative z-50">
-      <div class="w-12 h-12 rounded-xl bg-accent text-dark font-display font-bold text-lg flex items-center justify-center transition-transform group-hover:scale-105 group-hover:rotate-3">
-        CD
+      <!-- Enso-inspired logo mark -->
+      <div class="w-10 h-10 relative">
+        <svg viewBox="0 0 40 40" class="w-full h-full">
+          <!-- Enso circle -->
+          <path
+            d="M20 4 C32 4 36 12 36 20 C36 28 32 36 20 36 C10 36 4 30 4 22"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2.5"
+            stroke-linecap="round"
+            class="text-accent"
+          />
+          <!-- C letter -->
+          <text x="20" y="26" text-anchor="middle" class="text-ink dark:text-ash font-display text-sm font-normal" fill="currentColor">C</text>
+        </svg>
       </div>
       <div class="hidden sm:block">
-        <span class="font-display font-semibold text-dark dark:text-light">Chumbi Digital</span>
+        <span class="font-display text-lg text-ink dark:text-ash">Chumbi</span>
       </div>
     </a>
 
     <!-- Controls -->
-    <div class="flex items-center gap-3 relative z-50">
+    <div class="flex items-center gap-2 relative z-50">
       <!-- Dark Mode Toggle -->
       <button
         @click="darkMode = !darkMode"
-        class="w-11 h-11 rounded-full bg-black/10 dark:bg-white/15 flex items-center justify-center transition-all duration-300 hover:bg-accent hover:text-dark hover:scale-110 hover:rotate-12 active:scale-95"
-        :class="darkMode ? 'text-yellow-400' : 'text-slate-700'"
+        class="w-10 h-10 rounded-full bg-ink/5 dark:bg-ash/10 flex items-center justify-center transition-all duration-300 hover:bg-accent hover:text-cream"
+        :class="darkMode ? 'text-amber-400' : 'text-ink'"
         :aria-label="darkMode ? 'Activar modo claro' : 'Activar modo oscuro'"
-        :title="darkMode ? 'Cambiar a modo claro' : 'Cambiar a modo oscuro'"
+        :title="darkMode ? 'Modo claro' : 'Modo oscuro'"
       >
         <!-- Moon icon (shown in light mode) -->
-        <svg x-show="!darkMode" x-cloak class="w-5 h-5 transition-transform duration-300" fill="currentColor" viewBox="0 0 20 20">
+        <svg x-show="!darkMode" x-cloak class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
           <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"/>
         </svg>
         <!-- Sun icon (shown in dark mode) -->
-        <svg x-show="darkMode" x-cloak class="w-6 h-6 transition-transform duration-300" fill="currentColor" viewBox="0 0 20 20">
+        <svg x-show="darkMode" x-cloak class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
           <path fill-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" clip-rule="evenodd"/>
         </svg>
       </button>
@@ -49,14 +62,14 @@
       <!-- Hamburger Button -->
       <button
         @click="menuOpen = !menuOpen"
-        class="w-10 h-10 rounded-full bg-black/5 dark:bg-white/10 flex items-center justify-center transition-all hover:bg-accent hover:text-dark"
-        :class="menuOpen ? 'bg-accent text-dark' : ''"
+        class="w-10 h-10 rounded-full bg-ink/5 dark:bg-ash/10 flex items-center justify-center transition-all duration-300 hover:bg-ink hover:text-cream dark:hover:bg-ash dark:hover:text-charcoal"
+        :class="menuOpen ? 'bg-ink dark:bg-ash text-cream dark:text-charcoal' : 'text-ink dark:text-ash'"
         aria-label="Menu"
       >
-        <div class="w-5 h-4 flex flex-col justify-between">
+        <div class="w-4 h-3 flex flex-col justify-between">
           <span
             class="w-full h-0.5 bg-current transition-all duration-300 origin-left"
-            :class="menuOpen ? 'rotate-45 translate-x-[2px] -translate-y-[1px]' : ''"
+            :class="menuOpen ? 'rotate-45 translate-x-[1px] -translate-y-[1px]' : ''"
           ></span>
           <span
             class="w-full h-0.5 bg-current transition-all duration-300"
@@ -64,7 +77,7 @@
           ></span>
           <span
             class="w-full h-0.5 bg-current transition-all duration-300 origin-left"
-            :class="menuOpen ? '-rotate-45 translate-x-[2px] translate-y-[1px]' : ''"
+            :class="menuOpen ? '-rotate-45 translate-x-[1px] translate-y-[1px]' : ''"
           ></span>
         </div>
       </button>
@@ -80,24 +93,36 @@
     x-transition:leave="transition duration-200 ease-in"
     x-transition:leave-start="opacity-100"
     x-transition:leave-end="opacity-0"
-    class="fixed inset-0 top-0 bg-light dark:bg-dark z-40 pt-24 overflow-y-auto"
+    class="fixed inset-0 top-0 bg-cream dark:bg-charcoal z-40 pt-20 overflow-y-auto"
     @keydown.escape.window="menuOpen = false"
   >
-    <nav class="max-w-7xl mx-auto px-6 py-8">
-      <ul class="space-y-4">
+    <!-- Decorative enso -->
+    <div class="absolute top-1/4 right-0 w-96 h-96 opacity-10 pointer-events-none">
+      <svg viewBox="0 0 200 200" class="w-full h-full">
+        <path d="M100 15 C155 15 185 50 185 100 C185 150 155 185 100 185 C50 185 20 155 15 110" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" class="text-accent"/>
+      </svg>
+    </div>
+
+    <nav class="max-w-6xl mx-auto px-6 md:px-12 py-12 relative z-10">
+      <!-- Menu label -->
+      <div class="flex items-center gap-3 mb-12">
+        <span class="w-8 h-px bg-accent"></span>
+        <span class="text-stone text-sm font-medium tracking-wide uppercase">Navegacion</span>
+      </div>
+
+      <ul class="space-y-2">
         <template x-for="(item, index) in [
-          {name: 'Inicio', href: 'index.html', emoji: ''},
-          {name: 'Quien soy', href: 'quien-soy.html', emoji: ''},
-          {name: 'Que hago', href: 'que-hago.html', emoji: ''},
-          {name: 'Que hice', href: 'que-hice.html', emoji: ''},
-          {name: 'Que me gusta', href: 'que-me-gusta.html', emoji: ''},
-          {name: 'Que onda con las cosas', href: 'que-onda-cosas.html', emoji: ''},
-          {name: 'Que onda con lo que siento', href: 'que-onda-sentir.html', emoji: ''},
-          {name: 'Podcast', href: 'podcast.html', emoji: ''},
-          {name: 'Galeria', href: 'gallery/index.html', emoji: ''},
-          {name: 'Screensavers', href: 'screensavers/index.html', emoji: ''},
-          {name: 'GPTs', href: 'gpts/index.html', emoji: ''},
-          {name: 'Blog', href: 'blog/index.html', emoji: ''},
+          {name: 'Inicio', href: 'index.html', desc: 'Pagina principal'},
+          {name: 'Quien soy', href: 'quien-soy.html', desc: 'Historia y contexto'},
+          {name: 'Que hago', href: 'que-hago.html', desc: 'Servicios y proyectos'},
+          {name: 'Que hice', href: 'que-hice.html', desc: 'Portafolio de casos'},
+          {name: 'Que me gusta', href: 'que-me-gusta.html', desc: 'Intereses y pasiones'},
+          {name: 'Que onda con las cosas', href: 'que-onda-cosas.html', desc: 'Tecnologia y objetos'},
+          {name: 'Que onda con lo que siento', href: 'que-onda-sentir.html', desc: 'Emociones y journal'},
+          {name: 'Podcast', href: 'podcast.html', desc: 'Conversaciones'},
+          {name: 'Galeria', href: 'gallery/index.html', desc: 'Journey visual'},
+          {name: 'GPTs', href: 'gpts/index.html', desc: 'Herramientas de IA'},
+          {name: 'Blog', href: 'blog/index.html', desc: 'Articulos'},
         ]" :key="item.name">
           <li
             x-show="menuOpen"
@@ -109,26 +134,29 @@
             <a
               :href="item.href"
               @click="menuOpen = false"
-              class="group flex items-center gap-4 py-2"
+              class="group flex items-baseline gap-4 py-3 border-b border-ink/5 dark:border-ash/10 hover:border-accent/50 transition-colors"
             >
-              <span class="text-2xl" x-text="item.emoji"></span>
               <span
-                class="text-3xl md:text-5xl font-display font-semibold text-dark dark:text-light group-hover:text-accent transition-colors duration-200"
+                class="font-display text-3xl md:text-4xl lg:text-5xl text-ink dark:text-ash group-hover:text-accent transition-colors duration-200"
                 x-text="item.name"
               ></span>
-              <span class="ml-auto opacity-0 group-hover:opacity-100 transition-opacity text-accent text-2xl">&rarr;</span>
+              <span class="text-stone text-sm hidden md:inline" x-text="item.desc"></span>
+              <span class="ml-auto opacity-0 group-hover:opacity-100 transition-opacity text-accent">&rarr;</span>
             </a>
           </li>
         </template>
       </ul>
 
-      <!-- Social links en el menu -->
-      <div class="mt-12 pt-8 border-t border-black/10 dark:border-white/10">
-        <div class="flex items-center gap-6">
-          <a href="#" class="text-muted hover:text-accent transition-colors">Twitter</a>
-          <a href="#" class="text-muted hover:text-accent transition-colors">Instagram</a>
-          <a href="#" class="text-muted hover:text-accent transition-colors">GitHub</a>
-          <a href="#" class="text-muted hover:text-accent transition-colors">LinkedIn</a>
+      <!-- Contact section -->
+      <div class="mt-16 pt-8 border-t border-ink/10 dark:border-ash/10">
+        <p class="text-stone text-sm mb-4">Contacto</p>
+        <a href="mailto:chumbi@imaquinua.com" class="font-display text-xl text-ink dark:text-ash hover:text-accent transition-colors">
+          chumbi@imaquinua.com
+        </a>
+        <div class="flex items-center gap-6 mt-6">
+          <a href="#" class="text-stone hover:text-accent transition-colors text-sm">Twitter</a>
+          <a href="#" class="text-stone hover:text-accent transition-colors text-sm">Instagram</a>
+          <a href="#" class="text-stone hover:text-accent transition-colors text-sm">LinkedIn</a>
         </div>
       </div>
     </nav>

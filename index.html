@@ -4,10 +4,14 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>C</text></svg>">
-  <title>Chumbi Digital | Portafolio</title>
+  <title>Chumbi | Brandformance & Sistemas</title>
+  <meta name="description" content="Construyo sistemas de brandformance: estrategia full-funnel + procesos de ejecucion + medicion. IA aplicada a equipos creativos.">
+
+  <!-- Fonts: Instrument Serif + Outfit -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = {
@@ -15,151 +19,369 @@
       theme: {
         extend: {
           colors: {
-            accent: '#FF6B6B',
-            'accent-hover': '#FF5252',
-            dark: '#0A0A0A',
-            light: '#FAFAFA',
-            muted: '#71717A',
+            // Warm palette - better light mode contrast
+            accent: '#E85D4C',
+            'accent-hover': '#D14836',
+            'accent-soft': '#E85D4C15',
+            // Light mode: warm paper whites
+            cream: '#FAF8F5',
+            paper: '#F5F2ED',
+            ink: '#2D2A26',
+            // Dark mode: charcoal ink
+            charcoal: '#0F0E0D',
+            'charcoal-light': '#1A1816',
+            ash: '#E8E4DE',
+            // Muted tones
+            stone: '#8C8579',
+            'stone-light': '#B5AFA6',
           },
           fontFamily: {
-            display: ['Space Grotesk', 'sans-serif'],
-            body: ['Inter', 'sans-serif'],
+            display: ['Instrument Serif', 'serif'],
+            body: ['Outfit', 'sans-serif'],
           },
           borderRadius: {
-            'bento': '1.5rem',
+            'bento': '1.25rem',
+            'card': '1rem',
           },
+          boxShadow: {
+            'bento': '0 1px 3px rgba(45,42,38,0.04), 0 4px 12px rgba(45,42,38,0.03)',
+            'bento-hover': '0 4px 16px rgba(45,42,38,0.08), 0 8px 32px rgba(45,42,38,0.04)',
+          }
         }
       }
     }
   </script>
   <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet">
+  <style>
+    [x-cloak] { display: none !important; }
+
+    /* Paper texture overlay */
+    .paper-texture {
+      position: relative;
+    }
+    .paper-texture::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+      pointer-events: none;
+      opacity: 0.5;
+    }
+    .dark .paper-texture::before {
+      opacity: 0.3;
+    }
+
+    /* Enso circle */
+    .enso {
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'%3E%3Cpath d='M100 15 C155 15 185 50 185 100 C185 150 155 185 100 185 C50 185 20 155 15 110' fill='none' stroke='%23E85D4C' stroke-width='3' stroke-linecap='round' opacity='0.15'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: center;
+      background-size: contain;
+    }
+
+    /* Vertical text */
+    .vertical-text {
+      writing-mode: vertical-rl;
+      text-orientation: mixed;
+    }
+
+    /* Smooth transitions */
+    * {
+      transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    /* Card hover lift */
+    .card-lift {
+      transition: transform 0.4s, box-shadow 0.4s;
+    }
+    .card-lift:hover {
+      transform: translateY(-4px);
+    }
+
+    /* Selection color */
+    ::selection {
+      background: #E85D4C;
+      color: #FAF8F5;
+    }
+
+    /* Custom scrollbar */
+    ::-webkit-scrollbar {
+      width: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #B5AFA6;
+      border-radius: 3px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #E85D4C;
+    }
+  </style>
   <link rel="stylesheet" href="assets/css/custom.css" />
 </head>
-<body class="bg-light dark:bg-dark text-dark dark:text-light font-body antialiased min-h-screen flex flex-col">
+<body class="bg-cream dark:bg-charcoal text-ink dark:text-ash font-body antialiased min-h-screen flex flex-col paper-texture">
 
   <div data-include="header"></div>
 
-  <main class="flex-grow max-w-7xl mx-auto px-6 pt-28 pb-16 w-full">
+  <main class="flex-grow w-full">
 
-    <!-- Bento Grid -->
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 auto-rows-[minmax(180px,auto)]">
+    <!-- Hero Section -->
+    <section class="min-h-[85vh] flex items-center relative overflow-hidden">
+      <!-- Enso decoration -->
+      <div class="absolute top-1/2 right-0 w-[600px] h-[600px] -translate-y-1/2 translate-x-1/4 enso opacity-50 pointer-events-none"></div>
 
-      <!-- Hero Card (2x2) -->
-      <div class="col-span-1 md:col-span-2 row-span-2 bg-gradient-to-br from-accent/10 via-transparent to-transparent rounded-bento p-8 border border-accent/20 relative overflow-hidden flex flex-col justify-end" data-aos="fade-up">
-        <span class="inline-block px-3 py-1 bg-accent text-dark text-xs font-medium rounded-full w-fit mb-4">Portafolio en movimiento</span>
-        <h1 class="font-display text-3xl md:text-4xl lg:text-5xl font-bold leading-tight">Ideas, proyectos y comunidad que se vuelven accion.</h1>
-        <p class="text-muted mt-4 max-w-lg text-base">Este es el punto de entrada a mi universo creativo. Explora, curiosea y conecta.</p>
-        <div class="absolute -bottom-32 -right-32 w-96 h-96 bg-accent/5 rounded-full blur-3xl pointer-events-none"></div>
+      <!-- Vertical accent line -->
+      <div class="absolute left-8 md:left-16 top-32 bottom-32 w-px bg-gradient-to-b from-transparent via-accent/30 to-transparent hidden lg:block"></div>
+
+      <div class="max-w-6xl mx-auto px-6 md:px-12 py-20 relative z-10">
+        <div class="grid lg:grid-cols-12 gap-8 lg:gap-16 items-center">
+
+          <!-- Left: Main content -->
+          <div class="lg:col-span-7 space-y-8" data-aos="fade-up" data-aos-duration="800">
+            <!-- Tag -->
+            <div class="flex items-center gap-3">
+              <span class="w-8 h-px bg-accent"></span>
+              <span class="text-stone text-sm font-medium tracking-wide uppercase">@chumbi</span>
+            </div>
+
+            <!-- Name & Title -->
+            <div class="space-y-4">
+              <h1 class="font-display text-5xl md:text-6xl lg:text-7xl text-ink dark:text-ash leading-[1.1] tracking-tight">
+                Chumbi
+              </h1>
+              <p class="font-display text-2xl md:text-3xl text-stone italic">
+                Brandformance & Sistemas
+              </p>
+            </div>
+
+            <!-- Value proposition -->
+            <p class="text-lg md:text-xl text-stone leading-relaxed max-w-xl">
+              Construyo sistemas de brandformance: estrategia full-funnel, procesos de ejecucion y medicion.
+              <span class="text-ink dark:text-ash">IA aplicada para acelerar sin perder criterio.</span>
+            </p>
+
+            <!-- CTA -->
+            <div class="flex flex-wrap gap-4 pt-4">
+              <a href="que-hago.html" class="group inline-flex items-center gap-3 bg-ink dark:bg-ash text-cream dark:text-charcoal px-6 py-3 rounded-full font-medium hover:bg-accent hover:text-cream dark:hover:bg-accent dark:hover:text-cream transition-all duration-300">
+                <span>Explorar servicios</span>
+                <svg class="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+                </svg>
+              </a>
+              <a href="que-hice.html" class="inline-flex items-center gap-2 text-stone hover:text-accent px-4 py-3 transition-colors">
+                <span>Ver portafolio</span>
+              </a>
+            </div>
+          </div>
+
+          <!-- Right: Stats/highlights -->
+          <div class="lg:col-span-5 space-y-6" data-aos="fade-up" data-aos-delay="200">
+            <div class="grid grid-cols-2 gap-4">
+              <div class="bg-paper dark:bg-charcoal-light rounded-bento p-6 border border-ink/5 dark:border-ash/10">
+                <span class="font-display text-4xl text-ink dark:text-ash">10+</span>
+                <p class="text-stone text-sm mt-1">Anos en marketing digital</p>
+              </div>
+              <div class="bg-paper dark:bg-charcoal-light rounded-bento p-6 border border-ink/5 dark:border-ash/10">
+                <span class="font-display text-4xl text-accent">Full</span>
+                <p class="text-stone text-sm mt-1">Funnel strategy</p>
+              </div>
+            </div>
+            <div class="bg-accent/10 dark:bg-accent/20 rounded-bento p-6 border border-accent/20">
+              <p class="font-display text-lg italic text-ink dark:text-ash leading-relaxed">
+                "Estrategia que se ejecuta: procesos + creatividad + performance."
+              </p>
+            </div>
+          </div>
+
+        </div>
       </div>
+    </section>
 
-      <!-- Quien soy -->
-      <a href="quien-soy.html" class="group bg-white dark:bg-white/5 rounded-bento p-6 border border-black/5 dark:border-white/10 hover:border-accent/50 transition-all duration-300 hover:-translate-y-1 flex flex-col" data-aos="fade-up" data-aos-delay="50">
-        <span class="text-3xl mb-auto">&#128100;</span>
-        <div class="mt-4">
-          <h3 class="font-display text-xl font-semibold group-hover:text-accent transition-colors">Quien soy</h3>
-          <p class="text-muted mt-1 text-sm">Historia, contexto y energia.</p>
-        </div>
-      </a>
+    <!-- Bento Grid Section -->
+    <section class="py-20 md:py-32">
+      <div class="max-w-6xl mx-auto px-6 md:px-12">
 
-      <!-- Que hago -->
-      <a href="que-hago.html" class="group bg-white dark:bg-white/5 rounded-bento p-6 border border-black/5 dark:border-white/10 hover:border-accent/50 transition-all duration-300 hover:-translate-y-1 flex flex-col" data-aos="fade-up" data-aos-delay="100">
-        <span class="text-3xl mb-auto">&#128736;</span>
-        <div class="mt-4">
-          <h3 class="font-display text-xl font-semibold group-hover:text-accent transition-colors">Que hago</h3>
-          <p class="text-muted mt-1 text-sm">Servicios y proyectos.</p>
+        <!-- Section header -->
+        <div class="flex items-end justify-between mb-12" data-aos="fade-up">
+          <div>
+            <span class="text-stone text-sm font-medium tracking-wide uppercase">Explora</span>
+            <h2 class="font-display text-3xl md:text-4xl text-ink dark:text-ash mt-2">El dojo</h2>
+          </div>
+          <div class="hidden md:block w-24 h-px bg-ink/10 dark:bg-ash/10"></div>
         </div>
-      </a>
 
-      <!-- Que hice (wide) -->
-      <a href="que-hice.html" class="group md:col-span-2 bg-white dark:bg-white/5 rounded-bento p-6 border border-black/5 dark:border-white/10 hover:border-accent/50 transition-all duration-300 hover:-translate-y-1 flex items-center gap-6" data-aos="fade-up" data-aos-delay="150">
-        <span class="text-4xl">&#127912;</span>
-        <div>
-          <h3 class="font-display text-xl font-semibold group-hover:text-accent transition-colors">Que hice</h3>
-          <p class="text-muted mt-1 text-sm">Portafolio de trabajos y casos.</p>
-        </div>
-        <span class="ml-auto text-accent opacity-0 group-hover:opacity-100 transition-opacity text-2xl">&rarr;</span>
-      </a>
+        <!-- Bento Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 auto-rows-[minmax(200px,auto)]">
 
-      <!-- Que me gusta -->
-      <a href="que-me-gusta.html" class="group bg-white dark:bg-white/5 rounded-bento p-6 border border-black/5 dark:border-white/10 hover:border-accent/50 transition-all duration-300 hover:-translate-y-1 flex flex-col" data-aos="fade-up" data-aos-delay="200">
-        <span class="text-3xl mb-auto">&#10084;&#65039;</span>
-        <div class="mt-4">
-          <h3 class="font-display text-xl font-semibold group-hover:text-accent transition-colors">Que me gusta</h3>
-          <p class="text-muted mt-1 text-sm">Intereses y pasiones.</p>
-        </div>
-      </a>
+          <!-- Quien soy (featured) -->
+          <a href="quien-soy.html" class="group md:col-span-2 lg:col-span-2 lg:row-span-2 bg-paper dark:bg-charcoal-light rounded-bento p-8 border border-ink/5 dark:border-ash/10 shadow-bento hover:shadow-bento-hover card-lift flex flex-col relative overflow-hidden" data-aos="fade-up">
+            <div class="absolute top-0 right-0 w-64 h-64 enso opacity-30"></div>
+            <div class="relative z-10 flex flex-col h-full">
+              <span class="inline-flex items-center justify-center w-12 h-12 bg-accent/10 rounded-full text-accent text-xl mb-6">
+                <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z"/>
+                </svg>
+              </span>
+              <h3 class="font-display text-2xl md:text-3xl text-ink dark:text-ash group-hover:text-accent transition-colors">Quien soy</h3>
+              <p class="text-stone mt-3 leading-relaxed max-w-md">
+                Jorge Luis Chumbiauca Allen. Marketing digital y brandformance con foco en sistemas que hacen que la estrategia se ejecute.
+              </p>
+              <div class="mt-auto pt-8 flex items-center gap-3 text-stone group-hover:text-accent transition-colors">
+                <span class="text-sm font-medium">Conocer mas</span>
+                <svg class="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+                </svg>
+              </div>
+            </div>
+          </a>
 
-      <!-- Podcast Card (destacado) -->
-      <a href="podcast.html" class="group bg-accent text-dark rounded-bento p-6 hover:bg-accent-hover transition-all duration-300 hover:-translate-y-1 flex flex-col" data-aos="fade-up" data-aos-delay="250">
-        <span class="text-3xl mb-auto">&#127911;</span>
-        <div class="mt-4">
-          <h3 class="font-display text-xl font-semibold">Podcast</h3>
-          <p class="mt-1 text-sm opacity-80">Escucha los episodios.</p>
-        </div>
-      </a>
+          <!-- Que hago -->
+          <a href="que-hago.html" class="group bg-paper dark:bg-charcoal-light rounded-bento p-6 border border-ink/5 dark:border-ash/10 shadow-bento hover:shadow-bento-hover card-lift flex flex-col" data-aos="fade-up" data-aos-delay="50">
+            <span class="inline-flex items-center justify-center w-10 h-10 bg-ink/5 dark:bg-ash/10 rounded-full text-ink dark:text-ash text-lg mb-auto">
+              <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M11.42 15.17L17.25 21A2.652 2.652 0 0021 17.25l-5.877-5.877M11.42 15.17l2.496-3.03c.317-.384.74-.626 1.208-.766M11.42 15.17l-4.655 5.653a2.548 2.548 0 11-3.586-3.586l6.837-5.63m5.108-.233c.55-.164 1.163-.188 1.743-.14a4.5 4.5 0 004.486-6.336l-3.276 3.277a3.004 3.004 0 01-2.25-2.25l3.276-3.276a4.5 4.5 0 00-6.336 4.486c.091 1.076-.071 2.264-.904 2.95l-.102.085m-1.745 1.437L5.909 7.5H4.5L2.25 3.75l1.5-1.5L7.5 4.5v1.409l4.26 4.26m-1.745 1.437l1.745-1.437m6.615 8.206L15.75 15.75M4.867 19.125h.008v.008h-.008v-.008z"/>
+              </svg>
+            </span>
+            <div class="mt-4">
+              <h3 class="font-display text-xl text-ink dark:text-ash group-hover:text-accent transition-colors">Que hago</h3>
+              <p class="text-stone text-sm mt-2">Servicios de brandformance, estrategia y sistemas.</p>
+            </div>
+          </a>
 
-      <!-- Galeria (tall) -->
-      <a href="gallery/index.html" class="group row-span-2 bg-white dark:bg-white/5 rounded-bento p-6 border border-black/5 dark:border-white/10 hover:border-accent/50 transition-all duration-300 hover:-translate-y-1 flex flex-col" data-aos="fade-up" data-aos-delay="300">
-        <span class="text-3xl">&#128247;</span>
-        <div class="mt-4">
-          <h3 class="font-display text-xl font-semibold group-hover:text-accent transition-colors">Galeria</h3>
-          <p class="text-muted mt-1 text-sm">Journey visual y momentos.</p>
-        </div>
-        <div class="mt-auto pt-6 grid grid-cols-2 gap-2">
-          <div class="aspect-square bg-black/5 dark:bg-white/5 rounded-lg"></div>
-          <div class="aspect-square bg-black/5 dark:bg-white/5 rounded-lg"></div>
-          <div class="aspect-square bg-black/5 dark:bg-white/5 rounded-lg"></div>
-          <div class="aspect-square bg-black/5 dark:bg-white/5 rounded-lg"></div>
-        </div>
-      </a>
+          <!-- Que hice -->
+          <a href="que-hice.html" class="group bg-ink dark:bg-ash text-cream dark:text-charcoal rounded-bento p-6 hover:bg-accent transition-all duration-300 card-lift flex flex-col" data-aos="fade-up" data-aos-delay="100">
+            <span class="inline-flex items-center justify-center w-10 h-10 bg-cream/10 dark:bg-charcoal/10 rounded-full text-lg mb-auto">
+              <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 12.75V12A2.25 2.25 0 014.5 9.75h15A2.25 2.25 0 0121.75 12v.75m-8.69-6.44l-2.12-2.12a1.5 1.5 0 00-1.061-.44H4.5A2.25 2.25 0 002.25 6v12a2.25 2.25 0 002.25 2.25h15A2.25 2.25 0 0021.75 18V9a2.25 2.25 0 00-2.25-2.25h-5.379a1.5 1.5 0 01-1.06-.44z"/>
+              </svg>
+            </span>
+            <div class="mt-4">
+              <h3 class="font-display text-xl">Que hice</h3>
+              <p class="text-sm mt-2 opacity-80">Portafolio de casos y proyectos.</p>
+            </div>
+          </a>
 
-      <!-- Que onda con las cosas -->
-      <a href="que-onda-cosas.html" class="group bg-white dark:bg-white/5 rounded-bento p-6 border border-black/5 dark:border-white/10 hover:border-accent/50 transition-all duration-300 hover:-translate-y-1 flex flex-col" data-aos="fade-up" data-aos-delay="350">
-        <span class="text-3xl mb-auto">&#128161;</span>
-        <div class="mt-4">
-          <h3 class="font-display text-xl font-semibold group-hover:text-accent transition-colors">Que onda con las cosas</h3>
-          <p class="text-muted mt-1 text-sm">Reflexiones y objetos.</p>
-        </div>
-      </a>
+          <!-- Que me gusta -->
+          <a href="que-me-gusta.html" class="group bg-paper dark:bg-charcoal-light rounded-bento p-6 border border-ink/5 dark:border-ash/10 shadow-bento hover:shadow-bento-hover card-lift flex flex-col" data-aos="fade-up" data-aos-delay="150">
+            <span class="inline-flex items-center justify-center w-10 h-10 bg-accent/10 rounded-full text-accent text-lg mb-auto">
+              <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M11.645 20.91l-.007-.003-.022-.012a15.247 15.247 0 01-.383-.218 25.18 25.18 0 01-4.244-3.17C4.688 15.36 2.25 12.174 2.25 8.25 2.25 5.322 4.714 3 7.688 3A5.5 5.5 0 0112 5.052 5.5 5.5 0 0116.313 3c2.973 0 5.437 2.322 5.437 5.25 0 3.925-2.438 7.111-4.739 9.256a25.175 25.175 0 01-4.244 3.17 15.247 15.247 0 01-.383.219l-.022.012-.007.004-.003.001a.752.752 0 01-.704 0l-.003-.001z"/>
+              </svg>
+            </span>
+            <div class="mt-4">
+              <h3 class="font-display text-xl text-ink dark:text-ash group-hover:text-accent transition-colors">Que me gusta</h3>
+              <p class="text-stone text-sm mt-2">Intereses y pasiones.</p>
+            </div>
+          </a>
 
-      <!-- Que onda con lo que siento -->
-      <a href="que-onda-sentir.html" class="group bg-white dark:bg-white/5 rounded-bento p-6 border border-black/5 dark:border-white/10 hover:border-accent/50 transition-all duration-300 hover:-translate-y-1 flex flex-col" data-aos="fade-up" data-aos-delay="400">
-        <span class="text-3xl mb-auto">&#128156;</span>
-        <div class="mt-4">
-          <h3 class="font-display text-xl font-semibold group-hover:text-accent transition-colors">Que onda con lo que siento</h3>
-          <p class="text-muted mt-1 text-sm">Emociones y journal.</p>
-        </div>
-      </a>
+          <!-- Podcast (accent) -->
+          <a href="podcast.html" class="group bg-accent text-cream rounded-bento p-6 hover:bg-accent-hover transition-all duration-300 card-lift flex flex-col" data-aos="fade-up" data-aos-delay="200">
+            <span class="inline-flex items-center justify-center w-10 h-10 bg-cream/20 rounded-full text-lg mb-auto">
+              <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 18.75a6 6 0 006-6v-1.5m-6 7.5a6 6 0 01-6-6v-1.5m6 7.5v3.75m-3.75 0h7.5M12 15.75a3 3 0 01-3-3V4.5a3 3 0 116 0v8.25a3 3 0 01-3 3z"/>
+              </svg>
+            </span>
+            <div class="mt-4">
+              <h3 class="font-display text-xl">Podcast</h3>
+              <p class="text-sm mt-2 opacity-90">Conversaciones y reflexiones.</p>
+            </div>
+          </a>
 
-      <!-- Screensavers -->
-      <a href="screensavers/index.html" class="group bg-white dark:bg-white/5 rounded-bento p-6 border border-black/5 dark:border-white/10 hover:border-accent/50 transition-all duration-300 hover:-translate-y-1 flex flex-col" data-aos="fade-up" data-aos-delay="450">
-        <span class="text-3xl mb-auto">&#128187;</span>
-        <div class="mt-4">
-          <h3 class="font-display text-xl font-semibold group-hover:text-accent transition-colors">Screensavers</h3>
-          <p class="text-muted mt-1 text-sm">Descarga fondos.</p>
-        </div>
-      </a>
+          <!-- Que onda con las cosas -->
+          <a href="que-onda-cosas.html" class="group bg-paper dark:bg-charcoal-light rounded-bento p-6 border border-ink/5 dark:border-ash/10 shadow-bento hover:shadow-bento-hover card-lift flex flex-col" data-aos="fade-up" data-aos-delay="250">
+            <span class="inline-flex items-center justify-center w-10 h-10 bg-ink/5 dark:bg-ash/10 rounded-full text-ink dark:text-ash text-lg mb-auto">
+              <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 002.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 00-2.456 2.456zM16.894 20.567L16.5 21.75l-.394-1.183a2.25 2.25 0 00-1.423-1.423L13.5 18.75l1.183-.394a2.25 2.25 0 001.423-1.423l.394-1.183.394 1.183a2.25 2.25 0 001.423 1.423l1.183.394-1.183.394a2.25 2.25 0 00-1.423 1.423z"/>
+              </svg>
+            </span>
+            <div class="mt-4">
+              <h3 class="font-display text-xl text-ink dark:text-ash group-hover:text-accent transition-colors">Que onda con las cosas</h3>
+              <p class="text-stone text-sm mt-2">Tecnologia y cultura material.</p>
+            </div>
+          </a>
 
-      <!-- GPTs & Artefactos (wide) -->
-      <a href="gpts/index.html" class="group md:col-span-2 bg-white dark:bg-white/5 rounded-bento p-6 border border-black/5 dark:border-white/10 hover:border-accent/50 transition-all duration-300 hover:-translate-y-1 flex items-center gap-6" data-aos="fade-up" data-aos-delay="500">
-        <span class="text-4xl">&#129302;</span>
-        <div>
-          <h3 class="font-display text-xl font-semibold group-hover:text-accent transition-colors">GPTs & Artefactos</h3>
-          <p class="text-muted mt-1 text-sm">Herramientas de IA y experimentos.</p>
-        </div>
-        <span class="ml-auto text-accent opacity-0 group-hover:opacity-100 transition-opacity text-2xl">&rarr;</span>
-      </a>
+          <!-- Galeria (tall) -->
+          <a href="gallery/index.html" class="group lg:row-span-2 bg-paper dark:bg-charcoal-light rounded-bento p-6 border border-ink/5 dark:border-ash/10 shadow-bento hover:shadow-bento-hover card-lift flex flex-col" data-aos="fade-up" data-aos-delay="300">
+            <span class="inline-flex items-center justify-center w-10 h-10 bg-ink/5 dark:bg-ash/10 rounded-full text-ink dark:text-ash text-lg">
+              <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 001.5-1.5V6a1.5 1.5 0 00-1.5-1.5H3.75A1.5 1.5 0 002.25 6v12a1.5 1.5 0 001.5 1.5zm10.5-11.25h.008v.008h-.008V8.25zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z"/>
+              </svg>
+            </span>
+            <div class="mt-4">
+              <h3 class="font-display text-xl text-ink dark:text-ash group-hover:text-accent transition-colors">Galeria</h3>
+              <p class="text-stone text-sm mt-2">Journey visual.</p>
+            </div>
+            <div class="mt-auto pt-6 grid grid-cols-2 gap-2">
+              <div class="aspect-square bg-ink/5 dark:bg-ash/10 rounded-lg"></div>
+              <div class="aspect-square bg-ink/5 dark:bg-ash/10 rounded-lg"></div>
+              <div class="aspect-square bg-accent/20 rounded-lg"></div>
+              <div class="aspect-square bg-ink/5 dark:bg-ash/10 rounded-lg"></div>
+            </div>
+          </a>
 
-      <!-- Blog -->
-      <a href="blog/index.html" class="group bg-white dark:bg-white/5 rounded-bento p-6 border border-black/5 dark:border-white/10 hover:border-accent/50 transition-all duration-300 hover:-translate-y-1 flex flex-col" data-aos="fade-up" data-aos-delay="550">
-        <span class="text-3xl mb-auto">&#128221;</span>
-        <div class="mt-4">
-          <h3 class="font-display text-xl font-semibold group-hover:text-accent transition-colors">Blog</h3>
-          <p class="text-muted mt-1 text-sm">Articulos y reflexiones.</p>
-        </div>
-      </a>
+          <!-- Que onda con lo que siento -->
+          <a href="que-onda-sentir.html" class="group bg-paper dark:bg-charcoal-light rounded-bento p-6 border border-ink/5 dark:border-ash/10 shadow-bento hover:shadow-bento-hover card-lift flex flex-col" data-aos="fade-up" data-aos-delay="350">
+            <span class="inline-flex items-center justify-center w-10 h-10 bg-accent/10 rounded-full text-accent text-lg mb-auto">
+              <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M15.182 15.182a4.5 4.5 0 01-6.364 0M21 12a9 9 0 11-18 0 9 9 0 0118 0zM9.75 9.75c0 .414-.168.75-.375.75S9 10.164 9 9.75 9.168 9 9.375 9s.375.336.375.75zm-.375 0h.008v.015h-.008V9.75zm5.625 0c0 .414-.168.75-.375.75s-.375-.336-.375-.75.168-.75.375-.75.375.336.375.75zm-.375 0h.008v.015h-.008V9.75z"/>
+              </svg>
+            </span>
+            <div class="mt-4">
+              <h3 class="font-display text-xl text-ink dark:text-ash group-hover:text-accent transition-colors">Que onda con lo que siento</h3>
+              <p class="text-stone text-sm mt-2">Emociones y journal.</p>
+            </div>
+          </a>
 
-    </div>
+          <!-- GPTs (wide) -->
+          <a href="gpts/index.html" class="group md:col-span-2 bg-gradient-to-br from-paper to-paper/50 dark:from-charcoal-light dark:to-charcoal rounded-bento p-6 border border-ink/5 dark:border-ash/10 shadow-bento hover:shadow-bento-hover card-lift flex items-center gap-6" data-aos="fade-up" data-aos-delay="400">
+            <span class="inline-flex items-center justify-center w-12 h-12 bg-ink dark:bg-ash text-cream dark:text-charcoal rounded-full text-lg flex-shrink-0">
+              <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M9.75 3.104v5.714a2.25 2.25 0 01-.659 1.591L5 14.5M9.75 3.104c-.251.023-.501.05-.75.082m.75-.082a24.301 24.301 0 014.5 0m0 0v5.714c0 .597.237 1.17.659 1.591L19.8 15.3M14.25 3.104c.251.023.501.05.75.082M19.8 15.3l-1.57.393A9.065 9.065 0 0112 15a9.065 9.065 0 00-6.23.693L5 14.5m14.8.8l1.402 1.402c1.232 1.232.65 3.318-1.067 3.611A48.309 48.309 0 0112 21c-2.773 0-5.491-.235-8.135-.687-1.718-.293-2.3-2.379-1.067-3.61L5 14.5"/>
+              </svg>
+            </span>
+            <div class="flex-grow">
+              <h3 class="font-display text-xl text-ink dark:text-ash group-hover:text-accent transition-colors">GPTs & Artefactos</h3>
+              <p class="text-stone text-sm mt-1">Herramientas de IA y experimentos. Automatizacion con criterio.</p>
+            </div>
+            <svg class="w-5 h-5 text-stone group-hover:text-accent group-hover:translate-x-1 transition-all flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+            </svg>
+          </a>
+
+          <!-- Blog -->
+          <a href="blog/index.html" class="group bg-paper dark:bg-charcoal-light rounded-bento p-6 border border-ink/5 dark:border-ash/10 shadow-bento hover:shadow-bento-hover card-lift flex flex-col" data-aos="fade-up" data-aos-delay="450">
+            <span class="inline-flex items-center justify-center w-10 h-10 bg-ink/5 dark:bg-ash/10 rounded-full text-ink dark:text-ash text-lg mb-auto">
+              <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25"/>
+              </svg>
+            </span>
+            <div class="mt-4">
+              <h3 class="font-display text-xl text-ink dark:text-ash group-hover:text-accent transition-colors">Blog</h3>
+              <p class="text-stone text-sm mt-2">Articulos y reflexiones.</p>
+            </div>
+          </a>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- Quote Section -->
+    <section class="py-20" data-aos="fade-up">
+      <div class="max-w-3xl mx-auto px-6 md:px-12 text-center">
+        <div class="relative">
+          <div class="absolute inset-0 flex items-center justify-center">
+            <div class="w-48 h-48 enso opacity-20"></div>
+          </div>
+          <blockquote class="relative z-10">
+            <p class="font-display text-2xl md:text-3xl text-ink dark:text-ash italic leading-relaxed">
+              "No necesitas que el mundo te entienda hoy, porque manana el mundo seguira tus pasos."
+            </p>
+          </blockquote>
+        </div>
+      </div>
+    </section>
 
   </main>
 
