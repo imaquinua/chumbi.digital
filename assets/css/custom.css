@@ -1,5 +1,10 @@
 /* Custom overrides for chumbi.digital */
 
+/* Alpine.js cloak - hide elements until Alpine initializes */
+[x-cloak] {
+  display: none !important;
+}
+
 :root {
   --accent: #FF6B6B;
   --accent-hover: #FF5252;
