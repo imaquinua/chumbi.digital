@@ -1,77 +1,86 @@
+// Detectar base path para subdirectorios
+const getBasePath = () => {
+  const path = window.location.pathname;
+  const depth = (path.match(/\//g) || []).length - 1;
+  return depth > 0 ? '../'.repeat(depth) : '';
+};
+
+// Sistema de includes dinamicos
 const includeHTML = async () => {
+  const basePath = getBasePath();
   const includes = document.querySelectorAll("[data-include]");
   for (const el of includes) {
-    const file = `includes/_${el.dataset.include}.html`;
+    const file = `${basePath}includes/_${el.dataset.include}.html`;
     try {
       const response = await fetch(file);
       if (!response.ok) {
         throw new Error(`Could not load ${file}`);
       }
-      const text = await response.text();
-      // Create a temporary element to hold the new content
+      let text = await response.text();
+      // Ajustar paths relativos en el contenido cargado
+      if (basePath) {
+        text = text.replace(/href="(?!http|#|mailto)([^"]+)"/g, `href="${basePath}$1"`);
+        text = text.replace(/src="(?!http)([^"]+)"/g, `src="${basePath}$1"`);
+      }
       const temp = document.createElement('div');
       temp.innerHTML = text;
-      // Replace the placeholder with the new content
       el.replaceWith(...temp.childNodes);
     } catch (error) {
       console.error(error);
-      el.textContent = `Error loading ${el.dataset.include}`;
     }
   }
 };
 
-const ready = (fn) => {
-  if (document.readyState !== "loading") {
-    fn();
-  } else {
-    document.addEventListener("DOMContentLoaded", fn);
-  }
-};
-
-ready(async () => {
+// Inicializacion principal
+document.addEventListener('DOMContentLoaded', async () => {
+  // Cargar includes primero
   await includeHTML();
 
-  const revealItems = document.querySelectorAll("[data-reveal]");
-  if ("IntersectionObserver" in window) {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add("is-visible");
-            observer.unobserve(entry.target);
-          }
-        });
-      },
-      { threshold: 0.15 }
-    );
-
-    revealItems.forEach((item) => observer.observe(item));
-  } else {
-    revealItems.forEach((item) => item.classList.add("is-visible"));
+  // Inicializar AOS (Animate On Scroll)
+  if (typeof AOS !== 'undefined') {
+    AOS.init({
+      duration: 600,
+      easing: 'ease-out',
+      once: true,
+      offset: 50
+    });
   }
 
-  const currentPath = window.location.pathname.replace(/\/$/, "/index.html");
-  document.querySelectorAll(".site-nav a").forEach((link) => {
-    const href = link.getAttribute("href");
-    if (!href || href.startsWith("#")) {
-      return;
-    }
-
-    let linkPath = href;
-    try {
-      const linkUrl = new URL(href, window.location.href);
-      linkPath = linkUrl.pathname.replace(/\/$/, "/index.html");
-    } catch (error) {
-      // Keep fallback path if URL parsing fails.
-    }
-
-    if (linkPath === currentPath) {
-      link.setAttribute("aria-current", "page");
-    }
+  // Year dinamico en footer
+  document.querySelectorAll('[data-year]').forEach(el => {
+    el.textContent = new Date().getFullYear();
   });
 
-  const year = document.querySelector("[data-year]");
-  if (year) {
-    year.textContent = new Date().getFullYear();
+  // Inicializar Swiper donde exista
+  const swiperContainers = document.querySelectorAll('.swiper');
+  if (typeof Swiper !== 'undefined' && swiperContainers.length > 0) {
+    swiperContainers.forEach(container => {
+      new Swiper(container, {
+        slidesPerView: 1,
+        spaceBetween: 16,
+        pagination: {
+          el: '.swiper-pagination',
+          clickable: true
+        },
+        navigation: {
+          nextEl: '.swiper-button-next',
+          prevEl: '.swiper-button-prev'
+        },
+        breakpoints: {
+          640: { slidesPerView: 2 },
+          1024: { slidesPerView: 3 }
+        }
+      });
+    });
+  }
+
+  // Detectar dark mode del sistema si no hay preferencia guardada
+  if (!localStorage.getItem('darkMode')) {
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    if (prefersDark) {
+      document.documentElement.classList.add('dark');
+    }
+  } else if (localStorage.getItem('darkMode') === 'true') {
+    document.documentElement.classList.add('dark');
   }
 });

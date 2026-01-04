@@ -1,97 +1,200 @@
-<!doctype html>
-<html lang="es">
-  <head data-include="head">
-  </head>
-  <body>
-    <div data-include="header"></div>
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head data-include="head"></head>
+<body class="bg-light dark:bg-dark text-dark dark:text-light font-body antialiased min-h-screen flex flex-col">
 
-    <main>
-      <section class="hero" data-reveal>
+  <div data-include="header"></div>
+
+  <main class="flex-grow max-w-7xl mx-auto px-6 pt-28 pb-16 w-full">
+
+    <!-- Bento Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 auto-rows-[minmax(180px,auto)]">
+
+      <!-- Hero Card (2x2) -->
+      <div
+        class="col-span-1 md:col-span-2 row-span-2 bg-gradient-to-br from-accent/10 via-transparent to-transparent rounded-bento p-8 border border-accent/20 relative overflow-hidden flex flex-col justify-end bento-glow"
+        data-aos="fade-up"
+      >
+        <span class="inline-block px-3 py-1 bg-accent text-dark text-xs font-medium rounded-full w-fit mb-4">
+          Portafolio en movimiento
+        </span>
+        <h1 class="font-display text-3xl md:text-4xl lg:text-5xl font-bold leading-tight">
+          Ideas, proyectos y comunidad que se vuelven accion.
+        </h1>
+        <p class="text-muted mt-4 max-w-lg text-base">
+          Este es el punto de entrada a mi universo creativo. Explora, curiosea y conecta.
+        </p>
+        <div class="absolute -bottom-32 -right-32 w-96 h-96 bg-accent/5 rounded-full blur-3xl pointer-events-none"></div>
+      </div>
+
+      <!-- Quien soy -->
+      <a
+        href="quien-soy.html"
+        class="group bg-white dark:bg-white/5 rounded-bento p-6 border border-black/5 dark:border-white/10 hover:border-accent/50 transition-all duration-300 hover:-translate-y-1 bento-glow flex flex-col"
+        data-aos="fade-up"
+        data-aos-delay="50"
+      >
+        <span class="text-3xl mb-auto">&#128100;</span>
+        <div class="mt-4">
+          <h3 class="font-display text-xl font-semibold group-hover:text-accent transition-colors">Quien soy</h3>
+          <p class="text-muted mt-1 text-sm">Historia, contexto y energia.</p>
+        </div>
+      </a>
+
+      <!-- Que hago -->
+      <a
+        href="que-hago.html"
+        class="group bg-white dark:bg-white/5 rounded-bento p-6 border border-black/5 dark:border-white/10 hover:border-accent/50 transition-all duration-300 hover:-translate-y-1 bento-glow flex flex-col"
+        data-aos="fade-up"
+        data-aos-delay="100"
+      >
+        <span class="text-3xl mb-auto">&#128736;</span>
+        <div class="mt-4">
+          <h3 class="font-display text-xl font-semibold group-hover:text-accent transition-colors">Que hago</h3>
+          <p class="text-muted mt-1 text-sm">Servicios y proyectos.</p>
+        </div>
+      </a>
+
+      <!-- Que hice (wide) -->
+      <a
+        href="que-hice.html"
+        class="group md:col-span-2 bg-white dark:bg-white/5 rounded-bento p-6 border border-black/5 dark:border-white/10 hover:border-accent/50 transition-all duration-300 hover:-translate-y-1 bento-glow flex items-center gap-6"
+        data-aos="fade-up"
+        data-aos-delay="150"
+      >
+        <span class="text-4xl">&#127912;</span>
         <div>
-          <span class="badge">Portafolio en movimiento</span>
-          <h1>Ideas, proyectos y comunidad que se vuelven accion.</h1>
-          <p>
-            Este es el punto de entrada a mi universo: blog, proyectos, laboratorio
-            de herramientas y un espacio exclusivo para gente que quiere construir
-            conmigo.
-          </p>
-          <div class="hero-actions">
-            <a class="button button-primary" href="blog/index.html">Leer el blog</a>
-            <a class="button button-secondary" href="exclusive/index.html">Ver contenido exclusivo</a>
-          </div>
+          <h3 class="font-display text-xl font-semibold group-hover:text-accent transition-colors">Que hice</h3>
+          <p class="text-muted mt-1 text-sm">Portafolio de trabajos y casos.</p>
         </div>
-        <div class="card">
-          <h3>Ruta rapida</h3>
-          <p>Una guia para saber que hago, que enseno y como colaboramos.</p>
-          <div class="list">
-            <div class="list-item">Explorar el portafolio creativo.</div>
-            <div class="list-item">Acceder al dojo y talleres.</div>
-            <div class="list-item">Probar herramientas en desarrollo.</div>
-          </div>
+        <span class="ml-auto text-accent opacity-0 group-hover:opacity-100 transition-opacity text-2xl">&rarr;</span>
+      </a>
+
+      <!-- Que me gusta -->
+      <a
+        href="que-me-gusta.html"
+        class="group bg-white dark:bg-white/5 rounded-bento p-6 border border-black/5 dark:border-white/10 hover:border-accent/50 transition-all duration-300 hover:-translate-y-1 bento-glow flex flex-col"
+        data-aos="fade-up"
+        data-aos-delay="200"
+      >
+        <span class="text-3xl mb-auto">&#10084;&#65039;</span>
+        <div class="mt-4">
+          <h3 class="font-display text-xl font-semibold group-hover:text-accent transition-colors">Que me gusta</h3>
+          <p class="text-muted mt-1 text-sm">Intereses y pasiones.</p>
         </div>
-      </section>
+      </a>
 
-      <div class="section-title" data-reveal>
-        <h2>Mapa principal</h2>
-        <span>Tu atajo a cada zona del sitio</span>
-      </div>
-      <section class="card-grid" data-reveal>
-        <article class="card">
-          <h3>Quien soy</h3>
-          <p>Historia, contexto y la energia que mueve este proyecto.</p>
-          <a class="button button-secondary" href="quien-soy.html">Entrar</a>
-        </article>
-        <article class="card">
-          <h3>Que hago</h3>
-          <p>Servicios, consultorias y tipo de proyectos en los que me enfoco.</p>
-          <a class="button button-secondary" href="que-hago.html">Entrar</a>
-        </article>
-        <article class="card">
-          <h3>Que hice</h3>
-          <p>Casos, trabajos recientes y resultados.</p>
-          <a class="button button-secondary" href="que-hice.html">Entrar</a>
-        </article>
-        <article class="card">
-          <h3>El dojo</h3>
-          <p>Entrenamiento creativo y comunidad para crear en equipo.</p>
-          <a class="button button-secondary" href="el-dojo.html">Entrar</a>
-        </article>
-        <article class="card">
-          <h3>Donde te enseno</h3>
-          <p>Clases, sesiones y recursos educativos.</p>
-          <a class="button button-secondary" href="donde-te-enseno.html">Entrar</a>
-        </article>
-        <article class="card">
-          <h3>Que onda con todo</h3>
-          <p>Manifiesto, curiosidades y la forma de trabajar.</p>
-          <a class="button button-secondary" href="que-onda-con-todo.html">Entrar</a>
-        </article>
-      </section>
+      <!-- Podcast Card (destacado) -->
+      <a
+        href="podcast.html"
+        class="group bg-accent text-dark rounded-bento p-6 hover:bg-accent-hover transition-all duration-300 hover:-translate-y-1 flex flex-col"
+        data-aos="fade-up"
+        data-aos-delay="250"
+      >
+        <span class="text-3xl mb-auto">&#127911;</span>
+        <div class="mt-4">
+          <h3 class="font-display text-xl font-semibold">Podcast</h3>
+          <p class="mt-1 text-sm opacity-80">Escucha los episodios.</p>
+        </div>
+      </a>
 
-      <div class="section-title" data-reveal>
-        <h2>Extras</h2>
-        <span>Blog, herramientas y acceso privado</span>
-      </div>
-      <section class="card-grid" data-reveal>
-        <article class="card">
-          <h3>Blog</h3>
-          <p>Articulos cortos, avances y experimentos.</p>
-          <a class="button button-secondary" href="blog/index.html">Ir al blog</a>
-        </article>
-        <article class="card">
-          <h3>Herramientas</h3>
-          <p>Pequenos productos que apoyo con mi equipo.</p>
-          <a class="button button-secondary" href="tools/index.html">Ver herramientas</a>
-        </article>
-        <article class="card">
-          <h3>Contenido exclusivo</h3>
-          <p>Entradas privadas para miembros registrados.</p>
-          <a class="button button-secondary" href="exclusive/index.html">Acceder</a>
-        </article>
-      </section>
-    </main>
+      <!-- Galeria (tall) -->
+      <a
+        href="gallery/index.html"
+        class="group row-span-2 bg-white dark:bg-white/5 rounded-bento p-6 border border-black/5 dark:border-white/10 hover:border-accent/50 transition-all duration-300 hover:-translate-y-1 bento-glow flex flex-col"
+        data-aos="fade-up"
+        data-aos-delay="300"
+      >
+        <span class="text-3xl">&#128247;</span>
+        <div class="mt-4">
+          <h3 class="font-display text-xl font-semibold group-hover:text-accent transition-colors">Galeria</h3>
+          <p class="text-muted mt-1 text-sm">Journey visual y momentos.</p>
+        </div>
+        <div class="mt-auto pt-6 grid grid-cols-2 gap-2">
+          <div class="aspect-square bg-black/5 dark:bg-white/5 rounded-lg"></div>
+          <div class="aspect-square bg-black/5 dark:bg-white/5 rounded-lg"></div>
+          <div class="aspect-square bg-black/5 dark:bg-white/5 rounded-lg"></div>
+          <div class="aspect-square bg-black/5 dark:bg-white/5 rounded-lg"></div>
+        </div>
+      </a>
 
-    <div data-include="footer"></div>
-    <div data-include="scripts"></div>
-  </body>
+      <!-- Que onda con las cosas -->
+      <a
+        href="que-onda-cosas.html"
+        class="group bg-white dark:bg-white/5 rounded-bento p-6 border border-black/5 dark:border-white/10 hover:border-accent/50 transition-all duration-300 hover:-translate-y-1 bento-glow flex flex-col"
+        data-aos="fade-up"
+        data-aos-delay="350"
+      >
+        <span class="text-3xl mb-auto">&#128161;</span>
+        <div class="mt-4">
+          <h3 class="font-display text-xl font-semibold group-hover:text-accent transition-colors">Que onda con las cosas</h3>
+          <p class="text-muted mt-1 text-sm">Reflexiones y objetos.</p>
+        </div>
+      </a>
+
+      <!-- Que onda con lo que siento -->
+      <a
+        href="que-onda-sentir.html"
+        class="group bg-white dark:bg-white/5 rounded-bento p-6 border border-black/5 dark:border-white/10 hover:border-accent/50 transition-all duration-300 hover:-translate-y-1 bento-glow flex flex-col"
+        data-aos="fade-up"
+        data-aos-delay="400"
+      >
+        <span class="text-3xl mb-auto">&#128156;</span>
+        <div class="mt-4">
+          <h3 class="font-display text-xl font-semibold group-hover:text-accent transition-colors">Que onda con lo que siento</h3>
+          <p class="text-muted mt-1 text-sm">Emociones y journal.</p>
+        </div>
+      </a>
+
+      <!-- Screensavers -->
+      <a
+        href="screensavers/index.html"
+        class="group bg-white dark:bg-white/5 rounded-bento p-6 border border-black/5 dark:border-white/10 hover:border-accent/50 transition-all duration-300 hover:-translate-y-1 bento-glow flex flex-col"
+        data-aos="fade-up"
+        data-aos-delay="450"
+      >
+        <span class="text-3xl mb-auto">&#128187;</span>
+        <div class="mt-4">
+          <h3 class="font-display text-xl font-semibold group-hover:text-accent transition-colors">Screensavers</h3>
+          <p class="text-muted mt-1 text-sm">Descarga fondos.</p>
+        </div>
+      </a>
+
+      <!-- GPTs & Artefactos (wide) -->
+      <a
+        href="gpts/index.html"
+        class="group md:col-span-2 bg-white dark:bg-white/5 rounded-bento p-6 border border-black/5 dark:border-white/10 hover:border-accent/50 transition-all duration-300 hover:-translate-y-1 bento-glow flex items-center gap-6"
+        data-aos="fade-up"
+        data-aos-delay="500"
+      >
+        <span class="text-4xl">&#129302;</span>
+        <div>
+          <h3 class="font-display text-xl font-semibold group-hover:text-accent transition-colors">GPTs & Artefactos</h3>
+          <p class="text-muted mt-1 text-sm">Herramientas de IA y experimentos.</p>
+        </div>
+        <span class="ml-auto text-accent opacity-0 group-hover:opacity-100 transition-opacity text-2xl">&rarr;</span>
+      </a>
+
+      <!-- Blog -->
+      <a
+        href="blog/index.html"
+        class="group bg-white dark:bg-white/5 rounded-bento p-6 border border-black/5 dark:border-white/10 hover:border-accent/50 transition-all duration-300 hover:-translate-y-1 bento-glow flex flex-col"
+        data-aos="fade-up"
+        data-aos-delay="550"
+      >
+        <span class="text-3xl mb-auto">&#128221;</span>
+        <div class="mt-4">
+          <h3 class="font-display text-xl font-semibold group-hover:text-accent transition-colors">Blog</h3>
+          <p class="text-muted mt-1 text-sm">Articulos y reflexiones.</p>
+        </div>
+      </a>
+
+    </div>
+
+  </main>
+
+  <div data-include="footer"></div>
+  <div data-include="scripts"></div>
+
+</body>
 </html>

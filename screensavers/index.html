@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>C</text></svg>">
+  <title>Screensavers | Chumbi Digital</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet"/>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            accent: '#FF6B6B',
+            'accent-hover': '#FF5252',
+            dark: '#0A0A0A',
+            light: '#FAFAFA',
+            muted: '#71717A',
+          },
+          fontFamily: {
+            display: ['Space Grotesk', 'sans-serif'],
+            body: ['Inter', 'sans-serif'],
+          },
+          borderRadius: {
+            'bento': '1.5rem',
+          },
+        }
+      }
+    }
+  </script>
+  <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/css/custom.css" />
+</head>
+<body class="bg-light dark:bg-dark text-dark dark:text-light font-body antialiased min-h-screen flex flex-col">
+
+  <div data-include="header"></div>
+
+  <main class="flex-grow max-w-5xl mx-auto px-6 pt-28 pb-16 w-full">
+
+    <!-- Page Header -->
+    <div class="mb-12" data-aos="fade-up">
+      <span class="text-5xl mb-4 block">&#128187;</span>
+      <h1 class="font-display text-4xl md:text-5xl font-bold">Screensavers</h1>
+      <p class="text-muted mt-4 text-lg max-w-2xl">
+        Descarga fondos de pantalla y protectores exclusivos.
+      </p>
+    </div>
+
+    <!-- Downloads Grid -->
+    <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3" data-aos="fade-up" data-aos-delay="100">
+      <article class="group bg-white dark:bg-white/5 rounded-bento overflow-hidden border border-black/5 dark:border-white/10 hover:border-accent/30 transition-all">
+        <div class="aspect-video bg-gradient-to-br from-accent/30 to-dark/80 flex items-center justify-center">
+          <span class="text-6xl text-light/80">CD</span>
+        </div>
+        <div class="p-6">
+          <h3 class="font-display text-lg font-semibold">Minimal Dark</h3>
+          <p class="text-muted text-sm mt-1">Fondo oscuro minimalista</p>
+          <div class="mt-4 flex gap-2">
+            <a href="#" class="text-xs bg-accent text-dark px-3 py-1 rounded-full font-medium hover:bg-accent-hover transition-colors">Desktop</a>
+            <a href="#" class="text-xs bg-black/5 dark:bg-white/10 px-3 py-1 rounded-full font-medium hover:bg-accent hover:text-dark transition-colors">Mobile</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="group bg-white dark:bg-white/5 rounded-bento overflow-hidden border border-black/5 dark:border-white/10 hover:border-accent/30 transition-all">
+        <div class="aspect-video bg-gradient-to-br from-light to-accent/20 flex items-center justify-center">
+          <span class="text-6xl text-dark/80">CD</span>
+        </div>
+        <div class="p-6">
+          <h3 class="font-display text-lg font-semibold">Minimal Light</h3>
+          <p class="text-muted text-sm mt-1">Fondo claro minimalista</p>
+          <div class="mt-4 flex gap-2">
+            <a href="#" class="text-xs bg-accent text-dark px-3 py-1 rounded-full font-medium hover:bg-accent-hover transition-colors">Desktop</a>
+            <a href="#" class="text-xs bg-black/5 dark:bg-white/10 px-3 py-1 rounded-full font-medium hover:bg-accent hover:text-dark transition-colors">Mobile</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="group bg-white dark:bg-white/5 rounded-bento overflow-hidden border border-black/5 dark:border-white/10 hover:border-accent/30 transition-all">
+        <div class="aspect-video bg-gradient-to-br from-accent to-accent-hover flex items-center justify-center">
+          <span class="text-6xl text-dark/80">CD</span>
+        </div>
+        <div class="p-6">
+          <h3 class="font-display text-lg font-semibold">Coral Vibes</h3>
+          <p class="text-muted text-sm mt-1">El color coral protagonista</p>
+          <div class="mt-4 flex gap-2">
+            <a href="#" class="text-xs bg-accent text-dark px-3 py-1 rounded-full font-medium hover:bg-accent-hover transition-colors">Desktop</a>
+            <a href="#" class="text-xs bg-black/5 dark:bg-white/10 px-3 py-1 rounded-full font-medium hover:bg-accent hover:text-dark transition-colors">Mobile</a>
+          </div>
+        </div>
+      </article>
+    </div>
+
+    <!-- Info -->
+    <div class="mt-12 bg-gradient-to-br from-accent/10 to-transparent rounded-bento p-8 border border-accent/20 text-center" data-aos="fade-up" data-aos-delay="150">
+      <h3 class="font-display text-xl font-semibold mb-2">Mas fondos proximamente</h3>
+      <p class="text-muted">Estoy preparando una coleccion mas grande.</p>
+    </div>
+
+    <!-- Back link -->
+    <div class="mt-12" data-aos="fade-up" data-aos-delay="200">
+      <a href="../index.html" class="inline-flex items-center gap-2 text-accent hover:underline">
+        <span>&larr;</span>
+        <span>Volver al inicio</span>
+      </a>
+    </div>
+
+  </main>
+
+  <div data-include="footer"></div>
+
+  <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+  <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+  <script src="../assets/js/main.js"></script>
+
+</body>
+</html>

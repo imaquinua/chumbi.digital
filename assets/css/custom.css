@@ -1,0 +1,56 @@
+/* Custom overrides for chumbi.digital */
+
+:root {
+  --accent: #FF6B6B;
+  --accent-hover: #FF5252;
+  --transition-base: 200ms ease;
+}
+
+/* Smooth transition for theme changes */
+html {
+  transition: background-color var(--transition-base), color var(--transition-base);
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--accent);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--accent-hover);
+}
+
+/* Text selection */
+::selection {
+  background: var(--accent);
+  color: #0A0A0A;
+}
+
+/* Smooth scroll */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Hide scrollbar during menu open */
+body.menu-open {
+  overflow: hidden;
+}
+
+/* AOS custom animations */
+[data-aos="fade-up"] {
+  transform: translateY(20px);
+}
+
+/* Bento card hover glow effect */
+.bento-glow:hover {
+  box-shadow: 0 0 40px rgba(255, 107, 107, 0.15);
+}
