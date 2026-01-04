@@ -1,100 +1,71 @@
 <!DOCTYPE html>
 <html lang="es" class="scroll-smooth">
-<head data-include="head"></head>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>C</text></svg>">
+  <title>Que hago | Chumbi Digital</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet"/>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: { accent: '#FF6B6B', 'accent-hover': '#FF5252', dark: '#0A0A0A', light: '#FAFAFA', muted: '#71717A' },
+          fontFamily: { display: ['Space Grotesk', 'sans-serif'], body: ['Inter', 'sans-serif'] },
+          borderRadius: { 'bento': '1.5rem' }
+        }
+      }
+    }
+  </script>
+  <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/custom.css" />
+</head>
 <body class="bg-light dark:bg-dark text-dark dark:text-light font-body antialiased min-h-screen flex flex-col">
-
   <div data-include="header"></div>
-
   <main class="flex-grow max-w-4xl mx-auto px-6 pt-28 pb-16 w-full">
-
-    <!-- Page Header -->
     <div class="mb-12" data-aos="fade-up">
       <span class="text-5xl mb-4 block">&#128736;</span>
       <h1 class="font-display text-4xl md:text-5xl font-bold">Que hago</h1>
-      <p class="text-muted mt-4 text-lg max-w-2xl">
-        Diseno experiencias digitales, creo contenido educativo y construyo
-        herramientas que ayudan a comunidades creativas.
-      </p>
+      <p class="text-muted mt-4 text-lg max-w-2xl">Diseno experiencias digitales, creo contenido educativo y construyo herramientas que ayudan a comunidades creativas.</p>
     </div>
-
-    <!-- Services Grid -->
     <div class="grid gap-6 md:grid-cols-2" data-aos="fade-up" data-aos-delay="100">
-
       <div class="bg-white dark:bg-white/5 rounded-bento p-8 border border-black/5 dark:border-white/10 hover:border-accent/30 transition-all">
         <span class="text-3xl mb-4 block">&#127912;</span>
         <h3 class="font-display text-xl font-semibold mb-2">Consultoria creativa</h3>
-        <p class="text-muted text-sm">
-          Diagnostico, roadmap y accion para tu proyecto digital.
-        </p>
+        <p class="text-muted text-sm">Diagnostico, roadmap y accion para tu proyecto digital.</p>
       </div>
-
       <div class="bg-white dark:bg-white/5 rounded-bento p-8 border border-black/5 dark:border-white/10 hover:border-accent/30 transition-all">
         <span class="text-3xl mb-4 block">&#129302;</span>
         <h3 class="font-display text-xl font-semibold mb-2">Laboratorio de producto</h3>
-        <p class="text-muted text-sm">
-          Ideas a prototipo con enfoque en comunidad y cultura.
-        </p>
+        <p class="text-muted text-sm">Ideas a prototipo con enfoque en comunidad y cultura.</p>
       </div>
-
       <div class="bg-white dark:bg-white/5 rounded-bento p-8 border border-black/5 dark:border-white/10 hover:border-accent/30 transition-all">
         <span class="text-3xl mb-4 block">&#128218;</span>
         <h3 class="font-display text-xl font-semibold mb-2">Educacion y talleres</h3>
-        <p class="text-muted text-sm">
-          Clases, mentorias y formatos intensivos.
-        </p>
+        <p class="text-muted text-sm">Clases, mentorias y formatos intensivos.</p>
       </div>
-
       <div class="bg-white dark:bg-white/5 rounded-bento p-8 border border-black/5 dark:border-white/10 hover:border-accent/30 transition-all">
         <span class="text-3xl mb-4 block">&#127979;</span>
         <h3 class="font-display text-xl font-semibold mb-2">Direccion creativa</h3>
-        <p class="text-muted text-sm">
-          Estrategia de contenido y prototipos digitales.
-        </p>
+        <p class="text-muted text-sm">Estrategia de contenido y prototipos digitales.</p>
       </div>
-
     </div>
-
-    <!-- Colaboraciones -->
-    <div class="mt-12 bg-white dark:bg-white/5 rounded-bento p-8 border border-black/5 dark:border-white/10" data-aos="fade-up" data-aos-delay="150">
-      <h3 class="font-display text-xl font-semibold mb-4">Colaboraciones abiertas</h3>
-      <p class="text-muted mb-4">Proyectos con equipos, marcas y comunidades.</p>
-      <ul class="space-y-2 text-muted">
-        <li class="flex items-center gap-2">
-          <span class="text-accent">&#9679;</span>
-          Estrategia de contenido.
-        </li>
-        <li class="flex items-center gap-2">
-          <span class="text-accent">&#9679;</span>
-          Direccion creativa.
-        </li>
-        <li class="flex items-center gap-2">
-          <span class="text-accent">&#9679;</span>
-          Prototipos digitales.
-        </li>
-      </ul>
-    </div>
-
-    <!-- CTA -->
     <div class="mt-8 bg-accent text-dark rounded-bento p-8 text-center" data-aos="fade-up" data-aos-delay="200">
       <h3 class="font-display text-2xl font-semibold mb-2">Trabajemos juntos</h3>
       <p class="opacity-80 mb-4">Tienes un proyecto en mente? Hablemos.</p>
-      <a href="mailto:hola@chumbi.digital" class="inline-block bg-dark text-light px-6 py-3 rounded-full font-medium hover:bg-dark/80 transition-colors">
-        Contactar
-      </a>
+      <a href="mailto:hola@chumbi.digital" class="inline-block bg-dark text-light px-6 py-3 rounded-full font-medium hover:bg-dark/80 transition-colors">Contactar</a>
     </div>
-
-    <!-- Back link -->
     <div class="mt-12" data-aos="fade-up" data-aos-delay="250">
-      <a href="index.html" class="inline-flex items-center gap-2 text-accent hover:underline">
-        <span>&larr;</span>
-        <span>Volver al inicio</span>
-      </a>
+      <a href="index.html" class="inline-flex items-center gap-2 text-accent hover:underline"><span>&larr;</span><span>Volver al inicio</span></a>
     </div>
-
   </main>
-
   <div data-include="footer"></div>
-  <div data-include="scripts"></div>
-
+  <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+  <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+  <script src="assets/js/main.js"></script>
 </body>
 </html>
