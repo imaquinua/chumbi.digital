@@ -1,6 +1,6 @@
+node_modules
 .vercel
-
-# macOS
+.env*
+data/newsletter/*.txt
 .DS_Store
 ._*
-._.*

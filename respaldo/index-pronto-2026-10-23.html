@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>chumbi · la puerta abre pronto</title>
+<meta name="description" content="Estoy armando la casa donde voy a enseñar, medir y conversar. Deja tu correo y entras antes que nadie.">
+<meta name="theme-color" content="#FAFAF8">
+<link rel="canonical" href="https://chumbi.digital/">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="chumbi">
+<meta property="og:title" content="chumbi · la puerta abre pronto">
+<meta property="og:description" content="Estoy armando la casa donde voy a enseñar, medir y conversar. Deja tu correo y entras antes que nadie.">
+<meta property="og:url" content="https://chumbi.digital/">
+<meta property="og:image" content="https://chumbi.digital/og.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@100..900&display=swap" rel="stylesheet">
+<style>
+:root{--tinta:#141414;--papel:#FAFAF8;--gris:#6B6B6B;--linea:#D8D6D0;--verde:#0A7A3E;--error:#9A1B1B}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;min-height:100vh;min-height:100dvh;background:var(--papel);color:var(--tinta);font-family:'Archivo',system-ui,sans-serif;font-weight:300;letter-spacing:-.02em;line-height:1.5;display:flex;flex-direction:column}
+main{flex:1;width:100%;max-width:960px;margin:0 auto;padding:clamp(24px,5vw,56px) 24px;display:flex;flex-direction:column;justify-content:center;gap:clamp(32px,6vw,64px)}
+.marca{font-size:clamp(56px,14vw,128px);line-height:.85;margin:0;font-weight:900;letter-spacing:-.02em;display:flex}
+.marca span{display:inline-block}
+.marca .m{color:var(--verde)}
+.kicker{margin:0;color:var(--gris);font-size:.95rem;font-weight:300}
+h2{margin:0;font-size:clamp(34px,7vw,64px);line-height:1.02;font-weight:200}
+h2 b{font-weight:900}
+.lead{margin:12px 0 0;max-width:34ch;font-size:1.15rem;color:var(--gris)}
+.reloj{display:flex;gap:clamp(16px,4vw,40px);flex-wrap:wrap;margin:0;padding:0;list-style:none}
+.reloj li{display:flex;flex-direction:column;min-width:72px}
+.reloj .n{font-size:clamp(48px,11vw,104px);line-height:1;font-weight:900;font-variant-numeric:tabular-nums}
+.reloj .u{font-size:.9rem;font-weight:200;color:var(--gris);text-transform:lowercase}
+#final{display:none;font-size:clamp(40px,9vw,88px);line-height:1;font-weight:900;margin:0}
+.reloj.fin{display:none}.reloj.fin+#final{display:block}
+form{max-width:520px;border-top:1px solid var(--linea);padding-top:24px}
+label{display:block;font-size:1.05rem;margin-bottom:14px}
+label b{font-weight:900}
+.fila{display:flex;gap:8px;flex-wrap:wrap}
+input[type=email]{flex:1 1 240px;min-width:0;font:inherit;font-weight:300;letter-spacing:-.02em;padding:14px 16px;border:1.5px solid var(--tinta);border-radius:0;background:#fff;color:var(--tinta)}
+button{font:inherit;font-weight:900;letter-spacing:-.02em;padding:14px 22px;border:1.5px solid var(--tinta);border-radius:0;background:var(--tinta);color:var(--papel);cursor:pointer}
+button:hover{background:#3A3A3A}
+button[disabled]{opacity:.55;cursor:progress}
+:focus-visible{outline:3px solid var(--verde);outline-offset:3px}
+.estado{min-height:1.6em;margin:12px 0 0;font-size:.98rem}
+.estado.ok{color:var(--verde);font-weight:900}
+.estado.err{color:var(--error);font-weight:900}
+.trampa{position:absolute!important;left:-9999px;width:1px;height:1px;overflow:hidden}
+footer{padding:20px 24px;color:var(--gris);font-size:.85rem;text-align:center}
+@media (prefers-reduced-motion:no-preference){main>*{animation:sube .6s ease both}main>*:nth-child(2){animation-delay:.08s}main>*:nth-child(3){animation-delay:.16s}main>*:nth-child(4){animation-delay:.24s}@keyframes sube{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}}
+</style>
+</head>
+<body>
+<main>
+  <header>
+    <h1 class="marca" aria-label="chumbi">
+      <!-- Wordmark 1a: cada letra pesa lo que su indicador. Pesos de muestra (por confirmar); la m, siempre 900. -->
+      <span aria-hidden="true" style="font-weight:300">c</span><span aria-hidden="true" style="font-weight:500">h</span><span aria-hidden="true" style="font-weight:400">u</span><span aria-hidden="true" class="m">m</span><span aria-hidden="true" style="font-weight:200">b</span><span aria-hidden="true" style="font-weight:600">i</span>
+    </h1>
+  </header>
+
+  <section aria-labelledby="t">
+    <p class="kicker">chumbi.digital · 2026</p>
+    <h2 id="t">Estoy armando <b>mi casa.</b></h2>
+    <p class="lead">Un portal nuevo para enseñar, medir lo que importa y seguir la conversación. La puerta se abre en:</p>
+  </section>
+
+  <section aria-label="Cuenta regresiva">
+    <ul class="reloj" id="reloj" role="timer" aria-live="off">
+      <li><span class="n" id="h">24</span><span class="u">horas</span></li>
+      <li><span class="n" id="mi">00</span><span class="u">minutos</span></li>
+      <li><span class="n" id="s">00</span><span class="u">segundos</span></li>
+    </ul>
+    <p id="final">Ya casi. Toca la puerta.</p>
+  </section>
+
+  <form id="f" novalidate>
+    <label for="correo">Los primeros en entrar reciben el aviso antes que nadie. <b>Deja tu correo y te toco la puerta.</b></label>
+    <div class="fila">
+      <input type="email" id="correo" name="correo" autocomplete="email" inputmode="email" placeholder="tu@correo.com" required aria-describedby="msg" maxlength="254">
+      <button type="submit" id="b">Quiero entrar</button>
+    </div>
+    <div class="trampa" aria-hidden="true"><label>No llenar <input type="text" name="web" id="web" tabindex="-1" autocomplete="off"></label></div>
+    <p class="estado" id="msg" role="status" aria-live="polite"></p>
+  </form>
+</main>
+<footer>Un solo correo, el día que abra.</footer>
+
+<script>
+// Hora objetivo de apertura (ISO con zona America/Lima, UTC-5 todo el año). Cámbiala aquí.
+const OBJETIVO = '2026-10-13T09:00:00-05:00';
+
+(function(){
+  const t = new Date(OBJETIVO).getTime();
+  const $ = id => document.getElementById(id);
+  const p = n => String(n).padStart(2,'0');
+  function tick(){
+    const d = t - Date.now();
+    if (!(d > 0)) { $('reloj').classList.add('fin'); return false; }
+    const s = Math.floor(d/1000);
+    $('h').textContent = p(Math.floor(s/3600));
+    $('mi').textContent = p(Math.floor(s%3600/60));
+    $('s').textContent = p(s%60);
+    return true;
+  }
+  if (tick()) { const i = setInterval(()=>{ if(!tick()) clearInterval(i); },1000); }
+
+  const f = $('f'), msg = $('msg'), b = $('b'), c = $('correo');
+  const RE = /^[^\s@<>()",;:]+@[^\s@<>()",;:]+\.[A-Za-z]{2,}$/;
+  const say = (txt, cls) => { msg.textContent = txt; msg.className = 'estado ' + (cls||''); };
+  f.addEventListener('submit', async e => {
+    e.preventDefault();
+    const v = c.value.trim();
+    if (!RE.test(v)) { say('Ese correo no parece válido. Revísalo.', 'err'); c.setAttribute('aria-invalid','true'); c.focus(); return; }
+    c.removeAttribute('aria-invalid'); b.disabled = true; say('Guardando…');
+    try {
+      const r = await fetch('/api/suscribir', {method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({correo:v, web:$('web').value})});
+      const j = await r.json().catch(()=>({}));
+      if (r.ok && j.ok) { say(j.mensaje, 'ok'); f.reset(); }
+      else say(j.mensaje || 'No pude guardarlo. Intenta de nuevo.', 'err');
+    } catch { say('Sin conexión. Intenta de nuevo.', 'err'); }
+    b.disabled = false;
+  });
+})();
+</script>
+</body>
+</html>

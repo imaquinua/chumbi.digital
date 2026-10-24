@@ -1,0 +1,99 @@
+/* chumbi.digital · conceptos de home · ruta Editorial de autor
+   Tokens del coming soon (tinta, papel, gris) + serif editorial. Claro y oscuro. */
+@font-face{font-family:'Archivo';src:url(/prueba/fonts/archivo-normal.woff2) format('woff2');font-weight:100 900;font-style:normal;font-display:swap}
+@font-face{font-family:'EB Garamond';src:url(/prueba/fonts/garamond-normal.woff2) format('woff2');font-weight:400 800;font-style:normal;font-display:swap}
+@font-face{font-family:'EB Garamond';src:url(/prueba/fonts/garamond-italic.woff2) format('woff2');font-weight:400 800;font-style:italic;font-display:swap}
+
+:root{
+  --tinta:#141414;--papel:#FAFAF8;--gris:#6B6B6B;--linea:#D8D6D0;--acento:#A9482A;
+  --tile:#FAFAF8;
+  --sans:'Archivo',system-ui,sans-serif;--serif:'EB Garamond',Georgia,'Times New Roman',serif;
+  --max:1200px;--gut:clamp(20px,4vw,48px);
+  color-scheme:light dark;
+}
+@media (prefers-color-scheme:dark){
+  :root{--tinta:#EDEDE8;--papel:#131312;--gris:#A3A3A0;--linea:#2E2E2B;--acento:#E08A68}
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+body{margin:0;background:var(--papel);color:var(--tinta);font-family:var(--sans);font-weight:300;letter-spacing:-.02em;line-height:1.55;font-size:1.0625rem}
+img{display:block;max-width:100%;height:auto}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--acento);outline-offset:3px}
+.wrap{width:100%;max-width:var(--max);margin:0 auto;padding-inline:var(--gut)}
+.vh{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+
+/* navegación: una sola línea, 64px */
+.nav{height:64px;display:flex;align-items:center;border-bottom:1px solid var(--linea)}
+.nav .wrap{display:flex;align-items:center;justify-content:space-between;gap:16px}
+.marca{display:flex;font-size:30px;line-height:1;font-weight:900;text-decoration:none;letter-spacing:-.02em}
+.marca .m{color:var(--acento)}
+.nav ul{display:flex;gap:clamp(16px,3vw,36px);margin:0;padding:0;list-style:none;font-size:.95rem}
+.nav a:not(.marca){text-decoration:none;padding:6px 0;border-bottom:1px solid transparent}
+.nav a:not(.marca):hover{border-color:var(--acento)}
+@media (max-width:560px){.nav li:first-child{display:none}.marca{font-size:26px}}
+
+/* tipografía editorial */
+.titular{font-family:var(--serif);font-weight:400;font-size:clamp(2.5rem,6.2vw,5.25rem);line-height:1.08;letter-spacing:-.02em;margin:0;text-wrap:balance}
+.titular em,h2 em{font-style:italic;padding-bottom:.08em}
+h2{font-family:var(--serif);font-weight:400;font-size:clamp(1.9rem,3.6vw,3rem);line-height:1.12;letter-spacing:-.015em;margin:0 0 20px;text-wrap:balance}
+h3{font-family:var(--sans);font-weight:700;font-size:1.05rem;margin:0 0 6px;letter-spacing:-.01em}
+p{margin:0}
+.firma{color:var(--gris);font-size:.95rem;font-weight:400}
+.lead{font-size:clamp(1.1rem,1.6vw,1.3rem);max-width:34ch;color:var(--gris);font-weight:300}
+.cuerpo{max-width:62ch;color:var(--gris)}
+
+/* botones y enlaces: una forma, esquinas rectas */
+.acciones{display:flex;flex-wrap:wrap;align-items:center;gap:12px 28px}
+.btn{display:inline-block;white-space:nowrap;font-weight:700;text-decoration:none;padding:14px 26px;border:1.5px solid var(--tinta);background:var(--tinta);color:var(--papel);transition:transform .2s cubic-bezier(.16,1,.3,1)}
+.btn:hover{transform:translateY(-1px)}
+.btn:active{transform:translateY(1px)}
+.enlace{font-weight:700;text-decoration:none;border-bottom:1.5px solid var(--acento);padding-bottom:2px;white-space:nowrap}
+.enlace:hover{border-color:var(--tinta)}
+
+/* secciones */
+section{padding-block:clamp(72px,11vw,150px)}
+.hero{padding-block:clamp(48px,8vw,96px) clamp(72px,10vw,130px)}
+.hero .wrap>*+*{margin-top:clamp(20px,3vw,32px)}
+.corta{padding-block:clamp(56px,8vw,100px)}
+.linea{border-top:1px solid var(--linea)}
+
+/* espacios para imágenes propias */
+.foto{display:grid;place-items:center;text-align:center;padding:24px;border:1.5px dashed var(--linea);color:var(--gris);font-size:.9rem;background:transparent}
+.foto.retrato{aspect-ratio:4/5}
+.foto.ancha{aspect-ratio:16/9}
+
+/* franja de logos: logo y nada más, a color sobre baldosa clara en ambos temas */
+.logos{display:grid;gap:12px;list-style:none;margin:0;padding:0}
+.logos li{min-width:0;overflow:hidden;display:grid;place-items:center;background:var(--tile);border:1px solid var(--linea);height:96px;padding:20px 24px}
+.logos img{max-height:38px;max-width:min(150px,100%);width:auto;object-fit:contain}
+.logos .simbolo img{max-height:58px;max-width:min(90px,100%)}
+@media (max-width:480px){.logos li{padding:16px 14px;height:84px}}
+.logos .oscuro{background:#141414;border-color:#141414}
+.logos .oscuro img{max-height:44px}
+.antes{color:var(--gris);font-size:.95rem;margin-top:24px}
+
+/* capacidades */
+.defs{display:grid;gap:32px 48px;margin:0}
+.defs div{max-width:46ch}
+.defs dt{font-weight:700;font-size:1.05rem;margin-bottom:6px}
+.defs dd{margin:0;color:var(--gris)}
+
+/* cifra */
+.cifra{font-family:var(--serif);font-size:clamp(3rem,7vw,5.5rem);line-height:1;letter-spacing:-.02em}
+.cifra-t{color:var(--gris);max-width:30ch;margin-top:8px}
+
+/* contacto */
+.correo{font-family:var(--serif);font-size:clamp(1.7rem,4.4vw,3.4rem);line-height:1.1;text-decoration:none;border-bottom:2px solid var(--acento);overflow-wrap:anywhere}
+.correo:hover{border-color:var(--tinta)}
+footer{padding-block:32px;color:var(--gris);font-size:.88rem;border-top:1px solid var(--linea)}
+
+/* entrada suave: solo si el usuario no pidió menos movimiento */
+@media (prefers-reduced-motion:no-preference){
+  .hero .wrap>*{animation:sube .7s cubic-bezier(.16,1,.3,1) both}
+  .hero .wrap>*:nth-child(2){animation-delay:.07s}.hero .wrap>*:nth-child(3){animation-delay:.14s}.hero .wrap>*:nth-child(4){animation-delay:.21s}
+  @keyframes sube{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+}
+
+@media (prefers-color-scheme:dark){.logos .oscuro{border-color:#4a4a46}}

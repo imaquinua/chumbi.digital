@@ -1,0 +1,400 @@
+<!doctype html>
+<html lang="es-PE">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Método CLARO · Chumbi</title>
+<meta name="description" content="Un prompt no es una orden mágica: es un brief. El Método CLARO de Chumbi ordena cada pedido a la IA en cinco piezas: Contexto, Labor, Anatomía, Referencias y Objetivo.">
+<link rel="canonical" href="https://chumbi.digital/modelos/metodo-claro/">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="chumbi">
+<meta property="og:locale" content="es_PE">
+<meta property="og:title" content="Método CLARO · Chumbi">
+<meta property="og:description" content="Cinco piezas, una palabra. Escribe prompts que sí sirven: Contexto, Labor, Anatomía, Referencias y Objetivo.">
+<meta property="og:url" content="https://chumbi.digital/modelos/metodo-claro/">
+<meta property="og:image" content="https://chumbi.digital/og.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/modelos/modelos.css">
+<style>
+.mono,.prompt{font-family:ui-monospace,Menlo,monospace;letter-spacing:0;font-size:.92rem;line-height:1.6}
+.prompt{white-space:pre-wrap;overflow-wrap:anywhere;margin:0}
+h1 .peso{font-weight:900;font-stretch:112%}
+
+/* El gesto: cinco letras */
+.letras{list-style:none;margin:clamp(32px,5vw,56px) 0 0;padding:0;display:grid;grid-template-columns:repeat(5,1fr);border-top:1.5px solid var(--tinta)}
+.letras li{border-bottom:1px solid var(--linea);padding:20px 20px 24px 0}
+.letras li+li{border-left:1px solid var(--linea);padding-left:20px}
+.letras a{text-decoration:none;display:block}
+.letras .l{display:block;font-size:clamp(72px,11vw,168px);line-height:.82;font-weight:100;letter-spacing:-.05em;transition:font-weight .4s cubic-bezier(.2,.7,.2,1)}
+.letras a:hover .l,.letras a:focus-visible .l{font-weight:900}
+.letras .p{display:block;margin-top:14px;font-weight:900;font-size:1.05rem}
+.letras .d{display:block;margin-top:6px;color:var(--gris);font-size:.95rem}
+@media (max-width:820px){
+  .letras{grid-template-columns:1fr}
+  .letras li,.letras li+li{border-left:0;padding:16px 0;display:block}
+  .letras a{display:grid;grid-template-columns:72px 1fr;column-gap:16px;align-items:start}
+  .letras .l{font-size:72px;grid-row:span 2}
+  .letras .p{margin-top:4px}
+}
+.carril{display:grid;grid-template-columns:120px 1fr;gap:16px;align-items:baseline;padding:16px 0;border-bottom:1px solid var(--linea)}
+.carril .rotulo{margin:0}
+.carril .ruido{color:var(--gris);text-decoration:line-through;text-decoration-thickness:1px}
+.carril .claridad{font-weight:900}
+@media (max-width:560px){.carril{grid-template-columns:1fr;gap:6px}}
+
+/* Cada pieza */
+.pieza{display:grid;grid-template-columns:minmax(120px,2fr) 10fr;gap:clamp(16px,4vw,56px);padding-block:clamp(32px,5vw,56px);border-top:1.5px solid var(--tinta)}
+.pieza:first-of-type{margin-top:clamp(32px,5vw,56px)}
+.pieza .gran{font-size:clamp(96px,14vw,200px);line-height:.78;font-weight:900;letter-spacing:-.06em;font-stretch:112%;margin:0}
+.pieza h3{font-size:clamp(28px,3.4vw,44px);font-weight:200;letter-spacing:-.04em;line-height:1;margin:0}
+.pieza .ejes{margin:10px 0 0;font-size:.85rem;font-weight:900;text-transform:uppercase;letter-spacing:.02em;color:var(--gris)}
+.pieza .cuerpo{margin:16px 0 0;max-width:60ch}
+.contraste{display:grid;grid-template-columns:1fr 1fr;margin-top:24px;border-top:1px solid var(--linea)}
+.contraste>div{padding:16px 20px 16px 0}
+.contraste>div+div{padding-left:20px;border-left:1.5px solid var(--verde)}
+.contraste .rotulo{margin-bottom:8px}
+.contraste .no .prompt{color:var(--gris);text-decoration:line-through;text-decoration-thickness:1px}
+.contraste .si .rotulo{color:var(--verde)}
+@media (max-width:820px){
+  .pieza{grid-template-columns:1fr}
+  .pieza .gran{font-size:96px}
+  .contraste{grid-template-columns:1fr}
+  .contraste>div+div{padding-left:16px;border-top:1px solid var(--linea)}
+}
+.regla{margin:clamp(32px,5vw,48px) 0 0;padding-top:20px;border-top:1px solid var(--linea);font-size:clamp(1.15rem,1.9vw,1.5rem);line-height:1.3;max-width:36ch}
+.regla b{font-weight:900}
+
+/* Errores */
+.errores{list-style:none;counter-reset:e;margin:clamp(32px,5vw,56px) 0 0;padding:0;border-top:1.5px solid var(--tinta)}
+.errores li{counter-increment:e;display:grid;grid-template-columns:64px 1fr;gap:16px;padding:18px 0;border-bottom:1px solid var(--linea)}
+.errores li::before{content:counter(e);font-size:44px;line-height:.9;font-weight:100;letter-spacing:-.04em}
+.errores p{margin:0;max-width:60ch}
+.truco{margin-top:clamp(32px,5vw,48px);display:grid;grid-template-columns:5fr 7fr;gap:clamp(20px,4vw,56px);align-items:start}
+.truco h3{font-size:1.5rem}
+.truco p{margin:0}
+.caja-prompt{border-left:1.5px solid var(--verde);padding:4px 0 4px 20px}
+@media (max-width:820px){.truco{grid-template-columns:1fr}}
+
+/* Constructor */
+.constructor{display:grid;grid-template-columns:6fr 6fr;gap:clamp(24px,5vw,64px);margin-top:clamp(32px,5vw,56px);align-items:start}
+.campo{padding:16px 0;border-top:1px solid var(--linea)}
+.campo:first-child{border-top:1.5px solid var(--tinta)}
+.campo label{display:flex;gap:10px;align-items:baseline}
+.campo label .k{font-size:1.6rem;line-height:1;font-weight:900;width:1.1em}
+.campo .ayuda{display:block;font-weight:200;color:var(--gris);font-size:.9rem;margin:0 0 8px}
+.campo textarea{min-height:76px}
+.salida{position:sticky;top:16px;border-top:1.5px solid var(--tinta);padding-top:16px}
+.medidor{display:flex;gap:4px;font-size:clamp(44px,6vw,72px);line-height:.9;letter-spacing:-.04em;margin:0 0 6px}
+.medidor span{font-weight:100;color:var(--gris);transition:font-weight .3s,color .3s}
+.medidor span.lleno{font-weight:900;color:var(--tinta)}
+.salida .estado{margin:0 0 16px;color:var(--gris);font-size:.95rem}
+.salida .prompt{min-height:180px;padding:16px;border:1px solid var(--tinta);background:#fff}
+.salida .prompt.vacio{color:var(--gris)}
+.salida .acciones{margin-top:16px}
+.ejemplo{margin-top:clamp(40px,6vw,64px);padding-top:20px;border-top:1px solid var(--linea)}
+.ejemplo .prompt mark{background:none;color:var(--verde);font-weight:900}
+@media (max-width:900px){.constructor{grid-template-columns:1fr}.salida{position:static}}
+
+.cierre{font-size:clamp(28px,4.4vw,56px);line-height:1;letter-spacing:-.04em;font-weight:200;max-width:20ch;margin:0}
+.cierre b{font-weight:900}
+.kit .boton{margin-top:24px}
+.kit .acciones{margin-top:0}
+.kit .enlace{border-color:var(--escenario-texto)}
+.kit h2{max-width:14ch}
+.kit .nota{color:var(--escenario-gris)}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+
+@media print{
+  .letras .l{font-size:64px}
+  .pieza .gran{font-size:80px}
+  .salida{position:static}
+  .constructor .acciones,.ejemplo .acciones{display:none!important}
+  textarea{border:1px solid #999;min-height:90px}
+  a{text-decoration:none}
+}
+</style>
+</head>
+<body>
+
+<header class="barra"><div class="wrap"><a class="marca" href="/" aria-label="Chumbi, inicio">chu<span class="m">m</span>bi</a><nav aria-label="Principal"><ul><li><a href="/modelos/" aria-current="page">Modelos</a></li><li><a href="/tienda/">Tienda</a></li><li><a class="cta-nav" href="/#conversemos">Conversemos</a></li></ul></nav></div></header>
+
+<main>
+<section class="portada">
+  <div class="wrap">
+    <p class="kicker"><b>Modelo de Chumbi</b> · prompting</p>
+    <h1>Habla <span class="peso">claro</span><br>con la máquina.</h1>
+    <p class="lead">Un prompt no es una orden mágica: es un brief. La IA es un practicante brillante, con memoria infinita y cero contexto de tu negocio. Dale el brief que le darías a alguien a quien respetas. Cinco piezas, una palabra: <b>CLARO</b>.</p>
+  </div>
+</section>
+
+<section class="bloque" aria-labelledby="t-metodo">
+  <div class="wrap">
+    <span class="rotulo">El método en una línea</span>
+    <h2 id="t-metodo">Del ruido a la <b>claridad</b>, en cinco piezas.</h2>
+    <div class="carril" style="margin-top:clamp(32px,5vw,56px);border-top:1.5px solid var(--tinta)">
+      <span class="rotulo">El ruido</span>
+      <p class="prompt ruido">«haz un post sobre nuestra marca con IA»</p>
+    </div>
+    <ol class="letras" style="margin-top:0;border-top:0">
+      <li><a href="#c"><span class="l" aria-hidden="true">C</span><span class="p">Contexto</span><span class="d">Quién eres, a quién le hablas y qué necesita saber la IA para no inventar.</span></a></li>
+      <li><a href="#l"><span class="l" aria-hidden="true">L</span><span class="p">Labor</span><span class="d">La tarea en un verbo concreto: redacta, compara, resume, critica. Una labor por prompt.</span></a></li>
+      <li><a href="#a"><span class="l" aria-hidden="true">A</span><span class="p">Anatomía</span><span class="d">Cómo debe verse la respuesta: formato, largo, estructura, tono.</span></a></li>
+      <li><a href="#r"><span class="l" aria-hidden="true">R</span><span class="p">Referencias</span><span class="d">Ejemplos y fuentes reales. La IA imita mucho mejor de lo que adivina.</span></a></li>
+      <li><a href="#o"><span class="l" aria-hidden="true">O</span><span class="p">Objetivo</span><span class="d">Para qué se usará y cómo sabrás que quedó bien. El criterio de éxito, por escrito.</span></a></li>
+    </ol>
+    <div class="carril">
+      <span class="rotulo" style="color:var(--verde)">La claridad</span>
+      <p class="claridad" style="margin:0">Una respuesta que puedes usar sin vergüenza. Y sin reescribirla entera.</p>
+    </div>
+    <p class="regla">La IA no te vende criterio en una licencia. <b>El criterio es tuyo; este método lo ordena.</b></p>
+  </div>
+</section>
+
+<section class="bloque" aria-labelledby="t-piezas">
+  <div class="wrap">
+    <span class="rotulo">Las cinco piezas</span>
+    <h2 id="t-piezas">Qué decir, y qué <b>dejar de decir</b>.</h2>
+
+    <article class="pieza" id="c">
+      <p class="gran" aria-hidden="true">C</p>
+      <div>
+        <h3>Contexto</h3>
+        <p class="ejes">Quién · para quién · qué sabe</p>
+        <p class="cuerpo">El contexto no es tu biografía: es lo que cambia la respuesta. Negocio, audiencia, restricciones, lo que ya intentaste. Sin contexto, la IA rellena los huecos con el promedio de internet. Y tu empresa no es el promedio de internet.</p>
+        <div class="contraste">
+          <div class="no"><span class="rotulo">No digas</span><p class="prompt">«escribe un post para mi empresa»</p></div>
+          <div class="si"><span class="rotulo">Di</span><p class="prompt">«Somos una clínica dental en Lima. Hablamos a mamás de 30 a 45. Tono cálido, cero tecnicismos, nunca prometemos precios.»</p></div>
+        </div>
+      </div>
+    </article>
+
+    <article class="pieza" id="l">
+      <p class="gran" aria-hidden="true">L</p>
+      <div>
+        <h3>Labor</h3>
+        <p class="ejes">Un verbo · una tarea</p>
+        <p class="cuerpo">La labor es un verbo que se puede corregir: redacta, compara, resume, critica, traduce, lista, reescribe. «Ayúdame» no es una labor. Si la tarea tiene tres partes, haz tres prompts. O numéralas y pide una por una.</p>
+        <div class="contraste">
+          <div class="no"><span class="rotulo">No digas</span><p class="prompt">«ayúdame con el reporte de ventas»</p></div>
+          <div class="si"><span class="rotulo">Di</span><p class="prompt">«Resume este reporte en 5 hallazgos, uno por línea, ordenados del más urgente al menos urgente.»</p></div>
+        </div>
+      </div>
+    </article>
+
+    <article class="pieza" id="a">
+      <p class="gran" aria-hidden="true">A</p>
+      <div>
+        <h3>Anatomía</h3>
+        <p class="ejes">Formato · largo · tono</p>
+        <p class="cuerpo">Describe la respuesta antes de recibirla: ¿tabla, lista, correo con asunto, guion? ¿100 palabras o 1000? Si no defines la anatomía, la IA elige por ti. Y elige párrafos largos que nadie va a leer.</p>
+        <div class="contraste">
+          <div class="no"><span class="rotulo">No digas</span><p class="prompt">«que quede bien presentado»</p></div>
+          <div class="si"><span class="rotulo">Di</span><p class="prompt">«Devuélvelo como tabla de 3 columnas: hallazgo, evidencia, acción sugerida. Máximo 8 filas.»</p></div>
+        </div>
+      </div>
+    </article>
+
+    <article class="pieza" id="r">
+      <p class="gran" aria-hidden="true">R</p>
+      <div>
+        <h3>Referencias</h3>
+        <p class="ejes">Ejemplos · fuentes · evidencia</p>
+        <p class="cuerpo">Pega ejemplos de lo que te gusta y las fuentes de las que debe salir el dato. La IA imita estructura y tono mucho mejor de lo que los adivina. Y con la fuente delante, deja de inventar cifras.</p>
+        <div class="contraste">
+          <div class="no"><span class="rotulo">No digas</span><p class="prompt">«hazlo con nuestro estilo de siempre»</p></div>
+          <div class="si"><span class="rotulo">Di</span><p class="prompt">«Aquí van 2 correos nuestros que funcionaron. Imita su estructura y tono. Usa solo cifras del reporte adjunto.»</p></div>
+        </div>
+      </div>
+    </article>
+
+    <article class="pieza" id="o">
+      <p class="gran" aria-hidden="true">O</p>
+      <div>
+        <h3>Objetivo</h3>
+        <p class="ejes">Para qué · criterio de éxito</p>
+        <p class="cuerpo">Dile para qué se usará la respuesta y quién la va a juzgar. El objetivo convierte una respuesta correcta en una respuesta útil: no es lo mismo un resumen para archivar que uno para decidir mañana a las 9.</p>
+        <div class="contraste">
+          <div class="no"><span class="rotulo">No digas</span><p class="prompt">«hazlo lo mejor posible»</p></div>
+          <div class="si"><span class="rotulo">Di</span><p class="prompt">«Lo leerá el gerente en 2 minutos antes del comité. Si con esto no puede decidir, no sirve.»</p></div>
+        </div>
+      </div>
+    </article>
+
+    <p class="regla"><b>Regla:</b> si tu prompt no le serviría a un practicante nuevo, tampoco le sirve a la IA.</p>
+  </div>
+</section>
+
+<section class="bloque" aria-labelledby="t-errores">
+  <div class="wrap">
+    <span class="rotulo">Lo que veo en toda empresa</span>
+    <h2 id="t-errores">Los <b>5 errores</b>.</h2>
+    <ol class="errores">
+      <li><p><b>Pedir sin contexto</b> y culpar a la herramienta por responder genérico.</p></li>
+      <li><p><b>Aceptar la primera respuesta.</b> Es un borrador: corrígela como corregirías a un practicante.</p></li>
+      <li><p><b>Cero ejemplos.</b> Describir el estilo en vez de mostrarlo.</p></li>
+      <li><p><b>El prompt kilométrico:</b> diez tareas en un párrafo. Una labor por prompt.</p></li>
+      <li><p><b>No verificar cifras ni fuentes.</b> La IA redacta con seguridad hasta cuando inventa. El criterio final es tuyo.</p></li>
+    </ol>
+    <div class="truco">
+      <div>
+        <h3>El truco del practicante</h3>
+        <p>Antes de que responda, pídele que te haga 3 preguntas sobre lo que le falta saber. Respondes y recién ahí pides la labor.</p>
+      </div>
+      <div class="caja-prompt">
+        <span class="rotulo" style="margin-bottom:8px">Pégalo al final de tu prompt</span>
+        <p class="prompt" id="truco">Antes de responder, hazme 3 preguntas sobre lo que te falta saber. Espera mis respuestas y recién ahí haz la tarea.</p>
+        <div class="acciones" style="margin-top:16px"><button class="boton sec" type="button" data-copiar="truco">Copiar</button><span class="nota" role="status" aria-live="polite" data-aviso="truco"></span></div>
+      </div>
+    </div>
+    <p class="regla">La primera respuesta nunca es la entrega. <b>Es la primera reunión.</b></p>
+  </div>
+</section>
+
+<section class="bloque" aria-labelledby="t-plantilla">
+  <div class="wrap">
+    <span class="rotulo">Tu plantilla</span>
+    <h2 id="t-plantilla">Arma tu próximo prompt <b>aquí</b>.</h2>
+    <p class="intro">Llena las cinco piezas. A la derecha se arma el prompt. Cópialo y pégalo en Claude, ChatGPT o la IA que uses. Nada de lo que escribes sale de tu navegador.</p>
+
+    <div class="constructor">
+      <form id="form-claro" autocomplete="off" onsubmit="return false">
+        <div class="campo">
+          <label for="f-c"><span class="k" aria-hidden="true">C</span>Contexto</label>
+          <span class="ayuda" id="h-c">Quién eres, a quién le hablas, qué debe saber.</span>
+          <textarea id="f-c" data-k="C" aria-describedby="h-c"></textarea>
+        </div>
+        <div class="campo">
+          <label for="f-l"><span class="k" aria-hidden="true">L</span>Labor</label>
+          <span class="ayuda" id="h-l">Un verbo, una tarea.</span>
+          <textarea id="f-l" data-k="L" aria-describedby="h-l"></textarea>
+        </div>
+        <div class="campo">
+          <label for="f-a"><span class="k" aria-hidden="true">A</span>Anatomía</label>
+          <span class="ayuda" id="h-a">Formato, largo, tono.</span>
+          <textarea id="f-a" data-k="A" aria-describedby="h-a"></textarea>
+        </div>
+        <div class="campo">
+          <label for="f-r"><span class="k" aria-hidden="true">R</span>Referencias</label>
+          <span class="ayuda" id="h-r">Qué ejemplo y qué fuente vas a pegar.</span>
+          <textarea id="f-r" data-k="R" aria-describedby="h-r"></textarea>
+        </div>
+        <div class="campo">
+          <label for="f-o"><span class="k" aria-hidden="true">O</span>Objetivo</label>
+          <span class="ayuda" id="h-o">Para qué se usará, quién lo juzga.</span>
+          <textarea id="f-o" data-k="O" aria-describedby="h-o"></textarea>
+        </div>
+      </form>
+
+      <div class="salida">
+        <p class="medidor" aria-hidden="true"><span data-m="C">C</span><span data-m="L">L</span><span data-m="A">A</span><span data-m="R">R</span><span data-m="O">O</span></p>
+        <p class="estado" id="estado" aria-live="polite">0 de 5 piezas.</p>
+        <h3 class="sr">Tu prompt armado</h3>
+        <p class="prompt vacio" id="resultado">Tu prompt aparece aquí mientras escribes.</p>
+        <div class="acciones">
+          <button class="boton" type="button" data-copiar="resultado">Copiar prompt</button>
+          <button class="boton sec" type="button" id="cargar">Ver un ejemplo</button>
+          <button class="boton sec" type="button" id="limpiar">Limpiar</button>
+          <span class="nota" role="status" aria-live="polite" data-aviso="resultado"></span>
+        </div>
+      </div>
+    </div>
+
+    <div class="ejemplo">
+      <h3>Así se ve armado</h3>
+      <p class="prompt" id="ejemplo">«Somos una distribuidora de alimentos en Lima; le escribo a bodegueros que nos compran hace años <mark>(C)</mark>. Redacta un correo <mark>(L)</mark> de máximo 120 palabras, asunto incluido, tono directo y cercano <mark>(A)</mark>. Imita la estructura del correo que pego abajo; usa solo los precios de la lista adjunta <mark>(R)</mark>. Objetivo: que respondan pidiendo el catálogo esta semana <mark>(O)</mark>.»</p>
+    </div>
+  </div>
+</section>
+
+<section class="bloque" aria-label="Cierre">
+  <div class="wrap">
+    <p class="cierre">La IA no se compra. <b>Se aprende.</b></p>
+  </div>
+</section>
+
+<section class="bloque oscuro" aria-labelledby="t-kit">
+  <div class="wrap kit">
+    <div>
+      <span class="rotulo">El kit</span>
+      <h2 id="t-kit">Método CLARO<span class="sr"> · </span><br><b>manual y plantillas</b></h2>
+      <ul>
+        <li>Manual en PDF.</li>
+        <li>10 plantillas de prompts por tarea de marketing.</li>
+        <li>Hoja de chequeo imprimible.</li>
+      </ul>
+    </div>
+    <div>
+      <p class="precio"><small>S/</small> 49</p>
+      <a class="boton" href="/tienda/?comprar=modelo-metodo-claro">Comprar el kit <span aria-hidden="true">→</span></a>
+      <p class="nota"><a class="enlace" href="/modelos/">Ver todos los modelos</a></p>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer><div class="wrap"><span>chumbi.digital · 2026</span><span>Modelo de Jorge Luis Chumbiauca</span></div></footer>
+
+<script>
+(function(){
+  var campos=[].slice.call(document.querySelectorAll('#form-claro textarea'));
+  var res=document.getElementById('resultado');
+  var estado=document.getElementById('estado');
+  var VACIO='Tu prompt aparece aquí mientras escribes.';
+  var EJEMPLO={
+    C:'Somos una distribuidora de alimentos en Lima; le escribo a bodegueros que nos compran hace años.',
+    L:'Redacta un correo',
+    A:'de máximo 120 palabras, asunto incluido, tono directo y cercano.',
+    R:'Imita la estructura del correo que pego abajo; usa solo los precios de la lista adjunta.',
+    O:'Objetivo: que respondan pidiendo el catálogo esta semana.'
+  };
+  function armar(){
+    var partes=[],n=0;
+    campos.forEach(function(t){
+      var v=t.value.trim(),k=t.getAttribute('data-k');
+      var m=document.querySelector('[data-m="'+k+'"]');
+      if(v){partes.push(v);n++}
+      if(m)m.classList.toggle('lleno',!!v);
+    });
+    var txt=partes.join('\n\n');
+    res.textContent=txt||VACIO;
+    res.classList.toggle('vacio',!txt);
+    estado.textContent=n+' de 5 piezas.'+(n===5?' Listo para copiar.':'');
+  }
+  campos.forEach(function(t){t.addEventListener('input',armar)});
+  document.getElementById('cargar').addEventListener('click',function(){
+    campos.forEach(function(t){t.value=EJEMPLO[t.getAttribute('data-k')]||''});armar();
+  });
+  document.getElementById('limpiar').addEventListener('click',function(){
+    campos.forEach(function(t){t.value=''});armar();campos[0].focus();
+  });
+
+  function respaldo(texto){
+    var ta=document.createElement('textarea');
+    ta.value=texto;ta.setAttribute('readonly','');ta.style.position='fixed';ta.style.opacity='0';
+    document.body.appendChild(ta);ta.select();
+    var ok=false;try{ok=document.execCommand('copy')}catch(e){}
+    document.body.removeChild(ta);return ok;
+  }
+  function avisar(id,msg){
+    var a=document.querySelector('[data-aviso="'+id+'"]');if(!a)return;
+    a.textContent=msg;clearTimeout(a._t);a._t=setTimeout(function(){a.textContent=''},2600);
+  }
+  document.querySelectorAll('[data-copiar]').forEach(function(b){
+    b.addEventListener('click',function(){
+      var id=b.getAttribute('data-copiar');
+      var el=document.getElementById(id);
+      if(id==='resultado'&&el.classList.contains('vacio')){avisar(id,'Primero llena al menos una pieza.');return}
+      var texto=el.textContent;
+      var hecho=function(){avisar(id,'Copiado.')};
+      var falla=function(){avisar(id,respaldo(texto)?'Copiado.':'No pude copiar. Selecciónalo a mano.')};
+      if(navigator.clipboard&&window.isSecureContext){navigator.clipboard.writeText(texto).then(hecho,falla)}else{falla()}
+    });
+  });
+})();
+</script>
+</body>
+</html>

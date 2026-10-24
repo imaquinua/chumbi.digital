@@ -1,0 +1,251 @@
+<!doctype html>
+<html lang="es-PE">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Canvas E³ · Chumbi</title>
+<meta name="description" content="Canvas de taller para inventariar tus piezas en See, Think, Do y Care, detectar qué etapa está vacía y apostar por tres movimientos. Se llena en pantalla o se imprime en A3.">
+<link rel="canonical" href="https://chumbi.digital/modelos/canvas-e3/">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="chumbi">
+<meta property="og:locale" content="es_PE">
+<meta property="og:title" content="Canvas E³ · Chumbi">
+<meta property="og:description" content="¿Dónde vive tu marca en la escalera? Inventaría, marca los huecos y apuesta por tres movimientos.">
+<meta property="og:url" content="https://chumbi.digital/modelos/canvas-e3/">
+<meta property="og:image" content="https://chumbi.digital/og.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/modelos/modelos.css">
+<style>
+.pasos{list-style:none;padding:0;counter-reset:paso}
+.pasos li{counter-increment:paso}
+.pasos li::before{content:counter(paso);display:block;font-weight:900;font-size:2.4rem;line-height:1;color:var(--verde);margin-bottom:8px}
+.pasos p{margin:0}
+.datos{display:grid;grid-template-columns:2fr 2fr 1fr;gap:16px 24px;margin-top:clamp(32px,5vw,48px)}
+input[type=date]{width:100%;font:inherit;padding:11px 14px;border:1px solid var(--tinta);background:#fff;color:var(--tinta);border-radius:0;min-height:50px}
+.matriz{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));margin-top:clamp(32px,5vw,48px);border-top:1.5px solid var(--tinta)}
+.etapa{display:grid;grid-row:span 5;grid-template-rows:subgrid;row-gap:12px;padding:20px 20px 24px;border-left:1px solid var(--linea);min-width:0}
+.etapa:first-child{border-left:0;padding-left:0}
+.etapa:last-child{padding-right:0}
+.etapa h3{font-size:clamp(2rem,3.4vw,2.8rem);font-stretch:112%;letter-spacing:-.04em;margin:0;line-height:1}
+.etapa .necesidad{display:block;margin-top:8px;font-size:.78rem;font-weight:900;letter-spacing:.04em;text-transform:uppercase;color:var(--gris)}
+.etapa.think h3,.etapa.think .necesidad{color:var(--verde)}
+.etapa .preg{margin:0;font-size:1.05rem;line-height:1.35}
+.etapa .met{margin:0;font-size:.9rem;color:var(--gris)}
+.etapa .met b{color:var(--tinta)}
+.campo label{font-size:.85rem;text-transform:uppercase;letter-spacing:.03em}
+.campo textarea{min-height:180px}
+.campo.falta textarea{min-height:120px;border-style:dashed}
+.apuesta{display:grid;grid-template-columns:repeat(3,minmax(0,1fr)) minmax(0,1.1fr);gap:24px;margin-top:clamp(32px,5vw,48px);padding-top:24px;border-top:1.5px solid var(--tinta)}
+.apuesta h3{grid-column:1/-1;margin:0}
+.mov textarea{min-height:110px}
+.mov .dueno{margin-top:10px}
+.madre{border-left:1.5px solid var(--tinta);padding-left:24px;align-self:stretch;display:flex;flex-direction:column;justify-content:center}
+.madre .rotulo{margin-bottom:8px}
+.madre q{font-size:clamp(1.3rem,2vw,1.7rem);line-height:1.2;font-weight:900;letter-spacing:-.03em;quotes:"«" "»"}
+.estado{min-height:1.4em}
+.atribucion{max-width:62ch}
+.cruce .rejilla h3 a{text-decoration:none}
+.cruce .rejilla h3 a:hover{color:var(--verde)}
+@media (max-width:980px){.apuesta{grid-template-columns:1fr 1fr}.madre{grid-column:1/-1;border-left:0;padding-left:0;border-top:1px solid var(--linea);padding-top:20px}}
+@media (max-width:820px){
+  .datos{grid-template-columns:1fr}
+  .matriz{grid-template-columns:1fr}
+  .etapa{grid-row:auto;grid-template-rows:none;padding:24px 0;border-left:0;border-bottom:1px solid var(--linea)}
+  .apuesta{grid-template-columns:1fr}
+}
+@media print{
+  @page{size:A3 landscape;margin:10mm}
+  section.bloque:not(.oscuro){background:#fff!important;break-inside:auto!important}
+  body{font-size:10.5pt}
+  .portada{padding:0 0 4mm;border:0}
+  .portada .kicker,.portada .lead,.portada .atribucion,.cruce,.no-imprimir{display:none!important}
+  h1{font-size:24pt;line-height:1}
+  section.bloque{padding:0;border:0}
+  .wrap{max-width:none;padding:0}
+  .pasos{margin-top:4mm!important;--cols:3!important;grid-template-columns:repeat(3,1fr)!important}
+  .pasos li{padding:2mm 4mm 2mm 0!important;border-left:0!important;display:flex;gap:3mm;align-items:baseline}
+  .pasos li::before{font-size:14pt;margin:0}
+  .canvas-cab{display:none}
+  .apuesta{break-inside:avoid}
+  input,textarea{padding:6px 8px}
+  label{margin-bottom:2px}
+  .datos{grid-template-columns:2fr 2fr 1fr!important;margin-top:4mm}
+  .matriz{grid-template-columns:repeat(4,1fr)!important;margin-top:4mm}
+  .etapa{grid-row:span 5!important;grid-template-rows:subgrid!important;row-gap:2mm;padding:3mm 4mm!important;border-left:1px solid var(--linea)!important;border-bottom:0!important}
+  .etapa:first-child{border-left:0!important;padding-left:0!important}
+  .etapa h3{font-size:20pt}
+  .campo textarea{min-height:60mm}
+  .campo.falta textarea{min-height:28mm}
+  .apuesta{grid-template-columns:repeat(3,1fr) 1.1fr!important;margin-top:4mm;padding-top:3mm;gap:4mm}
+  .madre{grid-column:auto!important;border-left:1.5px solid var(--tinta)!important;border-top:0!important;padding:0 0 0 4mm!important}
+  .mov textarea{min-height:18mm}
+  textarea,input{resize:none;background:#fff!important}
+  textarea::placeholder,input::placeholder{color:var(--gris)}
+  .rejilla{margin-top:4mm}
+}
+</style>
+</head>
+<body>
+<header class="barra"><div class="wrap"><a class="marca" href="/" aria-label="Chumbi, inicio">chu<span class="m">m</span>bi</a><nav aria-label="Principal"><ul><li><a href="/modelos/" aria-current="page">Modelos</a></li><li><a href="/tienda/">Tienda</a></li><li><a class="cta-nav" href="/#conversemos">Conversemos</a></li></ul></nav></div></header>
+
+<main>
+  <section class="portada">
+    <div class="wrap">
+      <p class="kicker"><b>Modelo de Chumbi · E³</b> · Canvas de taller</p>
+      <h1>¿Dónde vive tu marca en <b>la escalera?</b></h1>
+      <p class="lead">Un canvas para saber dónde estás parado. Pones en la pared lo que ya tienes en See, Think, Do y Care, ves qué etapa está vacía y sales con tres movimientos.</p>
+      <p class="nota atribucion">See-Think-Do-Care es un modelo de Avinash Kaushik. La necesidad de cada etapa viene de la pirámide de Maslow. El cruce de los dos, la escalera E³, es mío.</p>
+    </div>
+  </section>
+
+  <section class="bloque" aria-labelledby="t-canvas">
+    <div class="wrap">
+      <div class="canvas-cab">
+        <span class="rotulo">El canvas</span>
+        <h2 id="t-canvas">Tres pasos. <b>Una tarde.</b></h2>
+        <p class="intro">Lo puedes llenar aquí mismo o imprimirlo en A3 y trabajarlo con post-its. Lo que escribas se guarda solo en este navegador.</p>
+      </div>
+
+      <ol class="rejilla pasos" aria-label="Cómo se usa">
+        <li><p><b>Inventaría.</b> Un post-it por cada pieza que ya existe.</p></li>
+        <li><p><b>Marca los huecos.</b> ¿Qué etapa está vacía?</p></li>
+        <li><p><b>Apuesta.</b> Tres movimientos para el sprint.</p></li>
+      </ol>
+
+      <form id="canvas" autocomplete="off" onsubmit="return false">
+        <div class="datos">
+          <div><label for="c-marca">Marca</label><input type="text" id="c-marca" name="marca"></div>
+          <div><label for="c-equipo">Equipo</label><input type="text" id="c-equipo" name="equipo"></div>
+          <div><label for="c-fecha">Fecha</label><input type="date" id="c-fecha" name="fecha"></div>
+        </div>
+
+        <div class="matriz">
+          <div class="etapa" role="group" aria-labelledby="e-see">
+            <div><h3 id="e-see">See</h3><span class="necesidad">Necesidades básicas</span></div>
+            <p class="preg">¿Qué problema reconoce? Aún no busca nada.</p>
+            <p class="met">Métrica · <b>alcance cualificado</b></p>
+            <div class="campo"><label for="see-existe">Lo que ya existe</label><textarea id="see-existe" name="see-existe" placeholder="Ads, contenido, piezas de alcance"></textarea></div>
+            <div class="campo falta"><label for="see-falta">Lo que falta</label><textarea id="see-falta" name="see-falta"></textarea></div>
+          </div>
+          <div class="etapa think" role="group" aria-labelledby="e-think">
+            <div><h3 id="e-think">Think</h3><span class="necesidad">Seguridad + social</span></div>
+            <p class="preg">¿Por qué debería confiar? ¿Es esta mi gente?</p>
+            <p class="met">Métrica · <b>engagement cualificado</b></p>
+            <div class="campo"><label for="think-existe">Lo que ya existe</label><textarea id="think-existe" name="think-existe" placeholder="Prueba social, comunidad, evidencia"></textarea></div>
+            <div class="campo falta"><label for="think-falta">Lo que falta</label><textarea id="think-falta" name="think-falta"></textarea></div>
+          </div>
+          <div class="etapa" role="group" aria-labelledby="e-do">
+            <div><h3 id="e-do">Do</h3><span class="necesidad">Autoestima</span></div>
+            <p class="preg">¿Qué decisión toma? «Me lo merezco».</p>
+            <p class="met">Métrica · <b>conversión</b></p>
+            <div class="campo"><label for="do-existe">Lo que ya existe</label><textarea id="do-existe" name="do-existe" placeholder="Ofertas, CTA, checkout"></textarea></div>
+            <div class="campo falta"><label for="do-falta">Lo que falta</label><textarea id="do-falta" name="do-falta"></textarea></div>
+          </div>
+          <div class="etapa" role="group" aria-labelledby="e-care">
+            <div><h3 id="e-care">Care</h3><span class="necesidad">Autorrealización</span></div>
+            <p class="preg">¿En quién se convierte? Relación a largo plazo.</p>
+            <p class="met">Métrica · <b>retención · NPS</b></p>
+            <div class="campo"><label for="care-existe">Lo que ya existe</label><textarea id="care-existe" name="care-existe" placeholder="Postventa, email, comunidad VIP"></textarea></div>
+            <div class="campo falta"><label for="care-falta">Lo que falta</label><textarea id="care-falta" name="care-falta"></textarea></div>
+          </div>
+        </div>
+
+        <div class="apuesta" role="group" aria-labelledby="t-apuesta">
+          <h3 id="t-apuesta">La apuesta del equipo</h3>
+          <div class="mov">
+            <label for="m1">Movimiento 1</label><textarea id="m1" name="m1"></textarea>
+            <div class="dueno"><label for="m1-dueno">Dueño</label><input type="text" id="m1-dueno" name="m1-dueno"></div>
+          </div>
+          <div class="mov">
+            <label for="m2">Movimiento 2</label><textarea id="m2" name="m2"></textarea>
+            <div class="dueno"><label for="m2-dueno">Dueño</label><input type="text" id="m2-dueno" name="m2-dueno"></div>
+          </div>
+          <div class="mov">
+            <label for="m3">Movimiento 3</label><textarea id="m3" name="m3"></textarea>
+            <div class="dueno"><label for="m3-dueno">Dueño</label><input type="text" id="m3-dueno" name="m3-dueno"></div>
+          </div>
+          <div class="madre">
+            <span class="rotulo">La pregunta madre</span>
+            <q>Si te elijo a ti, ¿en quién me convierto?</q>
+          </div>
+        </div>
+
+        <div class="acciones">
+          <button type="button" class="boton" id="imprimir">Imprimir en A3 <span aria-hidden="true">→</span></button>
+          <button type="button" class="boton sec" id="borrar">Borrar todo</button>
+        </div>
+        <p class="nota estado no-imprimir" id="estado" role="status" aria-live="polite"></p>
+      </form>
+    </div>
+  </section>
+
+  <section class="bloque oscuro" aria-labelledby="t-kit">
+    <div class="wrap">
+      <span class="rotulo">Kit E³</span>
+      <div class="kit">
+        <div>
+          <h2 id="t-kit">Kit E³ · <b>Canvas, diagrama y rombo</b></h2>
+          <ul>
+            <li>Canvas imprimible A3</li>
+            <li>Plantilla editable</li>
+            <li>Guía de taller paso a paso</li>
+            <li>Ejemplo resuelto</li>
+          </ul>
+        </div>
+        <div>
+          <p class="precio num">S/ 149</p>
+          <div class="acciones"><a class="boton" href="/tienda/?comprar=modelo-kit-e3">Comprar el kit <span aria-hidden="true">→</span></a></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="bloque cruce" aria-labelledby="t-cruce">
+    <div class="wrap">
+      <span class="rotulo">Las otras piezas E³</span>
+      <h2 id="t-cruce">Sigue <b>subiendo.</b></h2>
+      <div class="rejilla c2">
+        <div><h3><a href="/modelos/diagrama-e3/">Diagrama E³</a></h3><p>La escalera de engagement, peldaño por peldaño: necesidad, métrica y lo que hay que evitar.</p></div>
+        <div><h3><a href="/modelos/rombo-e3/">Rombo E³</a></h3><p>La pirámide de Maslow y el embudo de Kaushik, espejados. Dos modelos, una relación.</p></div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer><div class="wrap"><span>chumbi.digital · 2026</span><span>Modelo de Jorge Luis Chumbiauca</span></div></footer>
+
+<script>
+(function(){
+  var CLAVE='chumbi:canvas-e3';
+  var form=document.getElementById('canvas');
+  var estado=document.getElementById('estado');
+  var campos=form.querySelectorAll('input,textarea');
+  var t;
+  function avisar(msg){estado.textContent=msg;clearTimeout(t);t=setTimeout(function(){estado.textContent='';},2500);}
+  function leer(){try{return JSON.parse(localStorage.getItem(CLAVE)||'{}')||{};}catch(e){return {};}}
+  function guardar(){
+    var datos={};
+    campos.forEach(function(c){if(c.value)datos[c.name]=c.value;});
+    try{localStorage.setItem(CLAVE,JSON.stringify(datos));avisar('Guardado en este navegador.');}
+    catch(e){avisar('No pude guardar en este navegador. Imprime antes de cerrar.');}
+  }
+  var previos=leer();
+  campos.forEach(function(c){
+    if(previos[c.name])c.value=previos[c.name];
+    c.addEventListener('input',guardar);
+  });
+  document.getElementById('imprimir').addEventListener('click',function(){window.print();});
+  document.getElementById('borrar').addEventListener('click',function(){
+    if(!confirm('¿Borro todo lo que escribiste en el canvas?'))return;
+    campos.forEach(function(c){c.value='';});
+    try{localStorage.removeItem(CLAVE);}catch(e){}
+    avisar('Canvas en blanco.');
+  });
+})();
+</script>
+</body>
+</html>

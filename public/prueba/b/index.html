@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>chumbi · concepto B</title>
+<meta name="description" content="Concepto de la home de chumbi.digital. Vista privada de prueba.">
+<meta name="theme-color" content="#FAFAF8" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#131312" media="(prefers-color-scheme: dark)">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="preload" href="/prueba/fonts/garamond-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/prueba/base.css">
+<style>
+.hero-b .wrap{display:grid;grid-template-columns:repeat(12,1fr);column-gap:24px;align-items:center}
+.hero-b .txt{grid-column:1/8}
+.hero-b .txt>*+*{margin-top:clamp(20px,3vw,32px)}
+.hero-b .foto{grid-column:9/13}
+.hero-b .titular{font-size:clamp(2.4rem,5.4vw,4.6rem)}
+.marcas-b{display:grid;grid-template-columns:repeat(12,1fr);column-gap:24px;row-gap:40px;align-items:start}
+.marcas-b .izq{grid-column:1/5;position:sticky;top:32px}
+.marcas-b .der{grid-column:6/13}
+.logos-b{grid-template-columns:repeat(2,1fr)}
+.logos-b li:last-child{grid-column:1/-1}
+.filas{margin:0;padding:0;list-style:none}
+.filas li{display:grid;grid-template-columns:repeat(12,1fr);column-gap:24px;padding-block:28px;border-top:1px solid var(--linea)}
+.filas li:last-child{border-bottom:1px solid var(--linea)}
+.filas h3{grid-column:1/5;font-family:var(--serif);font-weight:400;font-size:1.7rem;line-height:1.15;margin:0}
+.filas p{grid-column:6/13;color:var(--gris);max-width:52ch}
+.centro{max-width:780px;margin-inline:auto;text-align:left}
+@media (max-width:900px){.marcas-b .izq{position:static}}
+@media (max-width:767px){
+  .hero-b .wrap{display:block}.hero-b .foto{margin-top:40px;max-width:300px}
+  .marcas-b .izq,.marcas-b .der{grid-column:1/-1}
+  .filas li{display:block}.filas h3{margin-bottom:8px}
+}
+</style>
+</head>
+<body>
+<header class="nav"><div class="wrap">
+  <a class="marca" href="#inicio" aria-label="chumbi, inicio"><span aria-hidden="true" style="font-weight:300">c</span><span aria-hidden="true" style="font-weight:500">h</span><span aria-hidden="true" style="font-weight:400">u</span><span aria-hidden="true" class="m">m</span><span aria-hidden="true" style="font-weight:200">b</span><span aria-hidden="true" style="font-weight:600">i</span></a>
+  <nav aria-label="Principal"><ul>
+    <li><a href="#inicio">Inicio</a></li><li><a href="#sobre">Sobre</a></li><li><a href="#academia">Academia</a></li><li><a href="#contacto">Contacto</a></li>
+  </ul></nav>
+</div></header>
+<main id="inicio">
+
+<section class="hero hero-b"><div class="wrap">
+  <div class="txt">
+    <p class="firma">Jorge Luis Chumbiauca</p>
+    <h1 class="titular">Estrategia digital que se <em>enseña</em> y se mide.</h1>
+    <p class="lead">Más de veinte años haciendo marketing y medios; hoy lidero Imaquinua.</p>
+    <div class="acciones"><a class="btn" href="#contacto">Escríbeme</a><a class="enlace" href="#academia">Academia</a></div>
+  </div>
+  <div class="foto retrato" role="img" aria-label="Espacio para el retrato de Chumbi">Retrato de Chumbi<br>1200 x 1500, pendiente</div>
+</div></section>
+
+<section class="linea" id="sobre" aria-labelledby="t-ma"><div class="wrap marcas-b">
+  <div class="izq">
+    <h2 id="t-ma">Marcas con las que he trabajado</h2>
+    <p class="cifra">+$100 MM</p><p class="cifra-t">de inversión en medios digitales, gestionada con medición de resultados.</p>
+  </div>
+  <div class="der"><ul class="logos logos-b" aria-label="Marcas con las que he trabajado"><li class=""><img src="/prueba/logos/imaquinua.png" alt="Imaquinua"></li><li class=""><img src="/prueba/logos/norbert-wiener.svg" alt="Universidad Norbert Wiener"></li><li class="oscuro"><img src="/prueba/logos/usil.svg" alt="USIL"></li><li class="simbolo"><img src="/prueba/logos/telefonica.svg" alt="Telefónica"></li><li class=""><img src="/prueba/logos/gloria.png" alt="Gloria"></li><li class=""><img src="/prueba/logos/campus-romero.png" alt="Campus Romero"></li><li class="simbolo"><img src="/prueba/logos/publicis-groupe.svg" alt="Publicis Groupe"></li></ul><p class="antes">Antes de 2018: Grupo Mayo, Adecco y GroupM.</p></div>
+</div></section>
+
+<section class="linea" aria-label="Qué hago"><div class="wrap">
+  <ul class="filas">
+    <li><h3>Desarrollo de cursos</h3><p>Diseño programas completos de formación para universidades y empresas, de la estructura a la evaluación.</p></li>
+    <li><h3>Proyectos de educación</h3><p>En Campus Romero, del Grupo Romero, trabajé en un proyecto con el Banco Mundial de reskilling y upskilling para la generación plateada.</p></li>
+    <li><h3>E-commerce</h3><p>Estrategia de venta online y medición de cada canal.</p></li>
+    <li><h3>Marca y medios</h3><p>Planificación de marca y medios en telecomunicaciones, consumo masivo y educación.</p></li>
+  </ul>
+</div></section>
+
+<section class="linea" id="academia" aria-labelledby="t-ac"><div class="wrap"><div class="centro"><h2 id="t-ac">Academia</h2>
+<p class="cuerpo">Aquí enseño estrategia digital, medición y marca. Fui profesor de Estrategia Digital en la UPC durante seis años.</p>
+<p style="margin-top:28px"><a class="enlace" href="#academia">Entrar a la Academia</a></p></div></div></section>
+<section class="linea" id="contacto" aria-labelledby="t-co"><div class="wrap"><div class="centro"><h2 id="t-co">¿Tienes un proyecto o una clase en mente?</h2>
+<p style="margin-top:24px"><a class="correo" href="mailto:chumbi@imaquinua.com">chumbi@imaquinua.com</a></p></div></div></section>
+</main>
+<footer><div class="wrap">chumbi.digital 2026. Vista de prueba, no indexada.</div></footer>
+</body>
+</html>

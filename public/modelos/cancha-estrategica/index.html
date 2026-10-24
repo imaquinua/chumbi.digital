@@ -1,0 +1,406 @@
+<!doctype html>
+<html lang="es-PE">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Cancha Estratégica · Chumbi</title>
+<meta name="description" content="Un modelo de Chumbi para ver cómo se juega de verdad tu marketing: pon cada canal, herramienta y persona en su posición, detecta el hueco y define la jugada de la semana.">
+<link rel="canonical" href="https://chumbi.digital/modelos/cancha-estrategica/">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="chumbi">
+<meta property="og:locale" content="es_PE">
+<meta property="og:title" content="Cancha Estratégica · Chumbi">
+<meta property="og:description" content="Pon cada canal, herramienta y persona en su posición. Lo que no tiene posición no juega.">
+<meta property="og:url" content="https://chumbi.digital/modelos/cancha-estrategica/">
+<meta property="og:image" content="https://chumbi.digital/og.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/modelos/modelos.css">
+<style>
+.metafora{margin:clamp(32px,5vw,56px) 0 0;max-width:52ch;padding-top:16px;border-top:1.5px solid var(--tinta);font-size:clamp(1.05rem,1.5vw,1.25rem);line-height:1.4}
+.metafora b{display:block;font-size:.8rem;text-transform:uppercase;letter-spacing:.02em;color:var(--gris);margin-bottom:6px}
+.mesa{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(24px,5vw,64px);margin-top:clamp(32px,5vw,56px);align-items:start}
+.plano{position:sticky;top:16px;border:1.5px solid var(--tinta);background:#fff}
+.plano svg{width:100%;height:auto;max-height:calc(100vh - 32px)}
+.cancha text{font-family:'Archivo',system-ui,sans-serif;letter-spacing:.02em}
+.cancha .t{font-size:15px;font-weight:900}
+.cancha .s{font-size:12px;font-weight:400;fill:var(--gris)}
+.cancha .r{font-size:13px;font-weight:500;font-stretch:80%;fill:var(--tinta)}
+.cancha .n{font-size:15px;font-weight:900;fill:var(--verde)}
+.cancha .d{font-size:19px;font-weight:900}
+.cancha .halo{stroke:#fff;stroke-width:7px;paint-order:stroke;stroke-linejoin:round}
+.cancha .pos circle{fill:#fff;stroke:var(--tinta);stroke-width:1.5;stroke-dasharray:4 4}
+.cancha .pos .d{fill:var(--gris);font-weight:200}
+.cancha .pos.lleno circle{stroke:var(--verde);stroke-width:3;stroke-dasharray:none}
+.cancha .pos.lleno .d{fill:var(--verde);font-weight:900}
+.cancha .tercio{fill:transparent;transition:fill .2s}
+.cancha .tercio.hueco{fill:var(--verde-suave)}
+.cancha .marca-hueco{display:none;font-size:13px;font-weight:900;fill:var(--verde)}
+.cancha .marca-hueco.ver{display:inline}
+.formulario fieldset{border:0;margin:0 0 clamp(28px,4vw,40px);padding:0}
+.formulario legend{padding:0;width:100%}
+.formulario legend h3{margin:0;padding-top:12px;border-top:1.5px solid var(--tinta)}
+.formulario legend span{display:block;color:var(--gris);font-size:.9rem;margin:2px 0 14px}
+.campo{margin-bottom:14px}
+.campo label{display:flex;gap:10px;align-items:baseline}
+.campo label .dorsal{font-variant-numeric:tabular-nums;color:var(--verde);min-width:1.6em}
+.opciones{display:grid;gap:8px}
+.opciones label{display:flex;gap:10px;align-items:center;font-weight:200;margin:0;cursor:pointer;padding:10px 12px;border:1px solid var(--linea)}
+.opciones label:has(input:checked){border-color:var(--verde);background:var(--verde-suave);font-weight:900}
+.opciones input{accent-color:var(--verde);width:18px;height:18px;margin:0}
+.dos{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.guardado{min-height:1.5em}
+.pasos{list-style:none;margin:clamp(32px,5vw,56px) 0 0;padding:0;border-top:1.5px solid var(--tinta);counter-reset:p}
+.pasos li{counter-increment:p;display:grid;grid-template-columns:3.2em 1fr;gap:12px;padding:18px 0;border-bottom:1px solid var(--linea);font-size:clamp(1.05rem,1.5vw,1.25rem);line-height:1.4}
+.pasos li::before{content:counter(p,decimal-leading-zero);font-weight:900;color:var(--verde);font-variant-numeric:tabular-nums}
+.pregunta p.q{margin:0 0 14px;color:var(--tinta);font-size:clamp(1.1rem,1.6vw,1.35rem);line-height:1.35}
+.pregunta textarea{min-height:80px}
+.pregunta label{font-size:.85rem;color:var(--gris)}
+.marcador{font-size:clamp(28px,4.4vw,56px);line-height:1.1;letter-spacing:-.04em;max-width:22ch;margin:0}
+.marcador b{display:block}
+@media (max-width:900px){.mesa{grid-template-columns:1fr}.plano{position:static}.plano svg{max-height:none}}
+@media (max-width:480px){.dos{grid-template-columns:1fr}}
+@media print{
+  @page{size:A4;margin:12mm}
+  body{font-size:11pt}
+  .portada{padding-block:0 12px}
+  h1{font-size:40pt}
+  h2{font-size:22pt}
+  section.bloque{padding-block:16px;break-inside:auto}
+  .mesa{grid-template-columns:1fr 1fr;gap:20px}
+  .plano{position:static;break-inside:avoid}
+  .plano svg{max-height:none}
+  .cancha .tercio.hueco{fill:#E3F0E8;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .guardado{display:none}
+  input,textarea{border-color:#999}
+  textarea{min-height:56px}
+  .rejilla>*,fieldset,.pasos li{break-inside:avoid}
+}
+</style>
+</head>
+<body>
+<header class="barra"><div class="wrap"><a class="marca" href="/" aria-label="Chumbi, inicio">chu<span class="m">m</span>bi</a><nav aria-label="Principal"><ul><li><a href="/modelos/" aria-current="page">Modelos</a></li><li><a href="/tienda/">Tienda</a></li><li><a class="cta-nav" href="/#conversemos">Conversemos</a></li></ul></nav></div></header>
+
+<main>
+  <section class="portada">
+    <div class="wrap">
+      <p class="kicker"><b>Modelo de Chumbi</b> · diagnóstico</p>
+      <h1>La cancha: tu marketing <b>como se juega de verdad.</b></h1>
+      <p class="lead">Un negocio no persigue goles: construye jugadas. Pon cada herramienta, canal y persona en su posición. Vas a descubrir que el balón que llega al arco no es una campaña. Es una decisión.</p>
+      <p class="metafora"><b>La metáfora</b>El rival no es tu competencia. Es el ruido. Y el balón es la decisión que hay que llevar hasta el arco.</p>
+    </div>
+  </section>
+
+  <section class="bloque" aria-labelledby="t-once">
+    <div class="wrap">
+      <span class="rotulo">La herramienta</span>
+      <h2 id="t-once">Arma tu <b>once.</b></h2>
+      <p class="intro">Escribe en cada posición tu herramienta, canal o persona real. Lo que no tiene posición, no juega. Todo se guarda en este navegador.</p>
+
+      <div class="mesa">
+        <div class="plano">
+          <svg class="cancha" viewBox="0 0 560 1210" role="img" aria-labelledby="cancha-titulo cancha-desc">
+            <title id="cancha-titulo">Tu cancha</title>
+            <desc id="cancha-desc">Cancha de fútbol vertical dividida en tres tercios: ejecución arriba, estructura al medio y evidencia abajo, con once posiciones. El arco rival es la decisión que entra; tu arco es el P&amp;L.</desc>
+            <rect width="560" height="1210" fill="#fff"/>
+            <rect class="tercio" data-tercio="ejecucion" x="24" y="24" width="512" height="380"/>
+            <rect class="tercio" data-tercio="estructura" x="24" y="404" width="512" height="380"/>
+            <rect class="tercio" data-tercio="evidencia" x="24" y="784" width="512" height="402"/>
+            <g fill="none" stroke="#141414" stroke-width="2">
+              <rect x="24" y="24" width="512" height="1162" stroke-width="2.5"/>
+              <line x1="24" y1="605" x2="536" y2="605"/>
+              <circle cx="280" cy="605" r="64"/>
+              <rect x="150" y="24" width="260" height="104"/>
+              <rect x="212" y="24" width="136" height="42"/>
+              <path d="M 216 128 A 64 64 0 0 0 344 128"/>
+              <rect x="150" y="1082" width="260" height="104"/>
+              <rect x="212" y="1144" width="136" height="42"/>
+              <path d="M 216 1082 A 64 64 0 0 1 344 1082"/>
+              <path d="M 24 44 A 20 20 0 0 0 44 24"/>
+              <path d="M 516 24 A 20 20 0 0 0 536 44"/>
+              <path d="M 44 1186 A 20 20 0 0 0 24 1166"/>
+              <path d="M 536 1166 A 20 20 0 0 0 516 1186"/>
+            </g>
+            <rect x="236" y="14" width="88" height="10" fill="#0A7A3E"/>
+            <rect x="236" y="1186" width="88" height="10" fill="#141414"/>
+            <circle cx="280" cy="605" r="4" fill="#141414"/>
+            <g stroke="#6B6B6B" stroke-width="1.5" stroke-dasharray="6 6">
+              <line x1="24" y1="404" x2="536" y2="404"/>
+              <line x1="24" y1="784" x2="536" y2="784"/>
+            </g>
+            <text class="t halo" x="40" y="160">TERCIO DE EJECUCIÓN</text>
+            <text class="s halo" x="40" y="178">El ataque · donde se convierte</text>
+            <text class="marca-hueco halo" data-hueco="ejecucion" x="520" y="392" text-anchor="end">← EL HUECO</text>
+            <text class="t" x="40" y="434">TERCIO DE ESTRUCTURA</text>
+            <text class="s" x="40" y="452">El mediocampo · donde se ordena</text>
+            <text class="marca-hueco halo" data-hueco="estructura" x="520" y="772" text-anchor="end">← EL HUECO</text>
+            <text class="t" x="40" y="814">TERCIO DE EVIDENCIA</text>
+            <text class="s" x="40" y="832">La defensa · donde se sostiene</text>
+            <text class="marca-hueco halo" data-hueco="evidencia" x="520" y="814" text-anchor="end">EL HUECO</text>
+            <text class="r halo" x="280" y="88" text-anchor="middle">EL GOL = LA DECISIÓN QUE ENTRA</text>
+            <text class="r halo" x="280" y="1116" text-anchor="middle">TU ARCO = EL P&amp;L</text>
+            <text class="s halo" x="280" y="1134" text-anchor="middle">Lo que no se puede regalar</text>
+            <circle cx="280" cy="170" r="11" fill="#0A7A3E"/>
+            <text class="s halo" x="336" y="175">El balón</text>
+            <g id="posiciones"></g>
+          </svg>
+        </div>
+
+        <form class="formulario" id="formulario" autocomplete="off" onsubmit="return false">
+          <div class="campo">
+            <label for="f-equipo">Tu equipo (negocio o marca)</label>
+            <input type="text" id="f-equipo" data-k="equipo" maxlength="60">
+          </div>
+          <div id="grupos"></div>
+
+          <fieldset>
+            <legend><h3>La banca</h3><span>Solo juegan once. La herramienta que no tiene posición va a la banca, y se deja de pagar.</span></legend>
+            <div class="campo">
+              <label for="f-banca">Lo que se va a la banca</label>
+              <textarea id="f-banca" data-k="banca" placeholder="Una por línea"></textarea>
+            </div>
+          </fieldset>
+
+          <fieldset>
+            <legend><h3>El hueco</h3><span>¿Por qué tercio se te escapan los goles en contra?</span></legend>
+            <div class="opciones" role="radiogroup">
+              <label><input type="radio" name="hueco" value="ejecucion" data-k="hueco"> Ejecución: el ataque</label>
+              <label><input type="radio" name="hueco" value="estructura" data-k="hueco"> Estructura: el mediocampo</label>
+              <label><input type="radio" name="hueco" value="evidencia" data-k="hueco"> Evidencia: la defensa</label>
+            </div>
+          </fieldset>
+
+          <fieldset>
+            <legend><h3>La jugada de la semana</h3><span>Un pase concreto, con dueño y fecha.</span></legend>
+            <div class="campo">
+              <label for="f-jugada">El pase</label>
+              <textarea id="f-jugada" data-k="jugada"></textarea>
+            </div>
+            <div class="dos">
+              <div class="campo"><label for="f-dueno">Dueño</label><input type="text" id="f-dueno" data-k="dueno" maxlength="60"></div>
+              <div class="campo"><label for="f-fecha">Fecha</label><input type="text" id="f-fecha" data-k="fecha" maxlength="30" placeholder="dd/mm/aaaa"></div>
+            </div>
+          </fieldset>
+
+          <div class="acciones">
+            <button type="button" class="boton" id="b-imprimir">Imprimir mi cancha</button>
+            <button type="button" class="boton sec" id="b-limpiar">Empezar de cero</button>
+          </div>
+          <p class="nota guardado" id="estado" role="status" aria-live="polite"></p>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <section class="bloque" aria-labelledby="t-juego">
+    <div class="wrap">
+      <span class="rotulo">Cómo se juega · 90 minutos</span>
+      <h2 id="t-juego">Cinco pasos, <b>un partido.</b></h2>
+      <ol class="pasos">
+        <li><span><b>Convoca al equipo.</b> Los que deciden, no los que reportan.</span></li>
+        <li><span><b>Arma tu once.</b> Escribe en cada posición tu herramienta, canal o persona real. Lo que no tiene posición, no juega.</span></li>
+        <li><span><b>Responde las preguntas de cada tercio.</b> En voz alta, con evidencia.</span></li>
+        <li><span><b>Detecta el hueco.</b> ¿Por qué tercio se te escapan los goles en contra?</span></li>
+        <li><span><b>Define la jugada de la semana.</b> Un pase concreto, con dueño y fecha.</span></li>
+      </ol>
+    </div>
+  </section>
+
+  <section class="bloque" aria-labelledby="t-preguntas">
+    <div class="wrap">
+      <span class="rotulo">Las preguntas del partido</span>
+      <h2 id="t-preguntas">Respóndelas <b>en voz alta.</b></h2>
+      <div class="rejilla c2">
+        <div class="pregunta">
+          <h3>Al ataque · ejecución</h3>
+          <p class="q">¿Pateas al arco o solo tocas el balón para sentir que juegas?</p>
+          <label for="q1">Lo que respondió el equipo</label>
+          <textarea id="q1" data-k="q1"></textarea>
+        </div>
+        <div class="pregunta">
+          <h3>Al mediocampo · estructura</h3>
+          <p class="q">¿Quién arma el juego cuando llega el balón? ¿O cada uno inventa su jugada?</p>
+          <label for="q2">Lo que respondió el equipo</label>
+          <textarea id="q2" data-k="q2"></textarea>
+        </div>
+        <div class="pregunta">
+          <h3>A la defensa · evidencia</h3>
+          <p class="q">¿Qué defenderías con datos si el directorio fuera el árbitro?</p>
+          <label for="q3">Lo que respondió el equipo</label>
+          <textarea id="q3" data-k="q3"></textarea>
+        </div>
+        <div class="pregunta">
+          <h3>Al portero · el P&amp;L</h3>
+          <p class="q">Si hoy te metieran un gol de caja, ¿lo verías en el momento o en el cierre del mes?</p>
+          <label for="q4">Lo que respondió el equipo</label>
+          <textarea id="q4" data-k="q4"></textarea>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="bloque" aria-labelledby="t-reglas">
+    <div class="wrap">
+      <span class="rotulo">Reglas del partido</span>
+      <h2 id="t-reglas">Cuatro reglas <b>que no se negocian.</b></h2>
+      <div class="rejilla c4">
+        <div><h3>Solo juegan once</h3><p>La herramienta que no tiene posición va a la banca. Y se deja de pagar.</p></div>
+        <div><h3>Prohibido el pelotazo</h3><p>No hay gol sin pase por el mediocampo. Ninguna campaña convierte sin estructura.</p></div>
+        <div><h3>El rival es el ruido</h3><p>Métricas de vanidad, herramientas compradas por pánico, reuniones sin decisión.</p></div>
+        <div><h3>90 minutos, 90 días</h3><p>Noventa minutos de taller son noventa días de temporada. Se vuelve a jugar cada trimestre.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="bloque" aria-labelledby="t-marcador">
+    <div class="wrap">
+      <span class="rotulo" id="t-marcador">El marcador</span>
+      <p class="marcador">El resultado del partido no es un número de alcance ni un premio de agencia. <b>Es una decisión que cruza la línea.</b></p>
+      <p class="nota">El crecimiento no se persigue. Se construye.</p>
+    </div>
+  </section>
+
+  <section class="bloque oscuro" aria-labelledby="t-kit">
+    <div class="wrap kit">
+      <div>
+        <span class="rotulo">Kit de trabajo</span>
+        <h2 id="t-kit">Cancha Estratégica · <b>kit de trabajo</b></h2>
+        <ul>
+          <li>Plano de la cancha imprimible en A3, para la pared del taller.</li>
+          <li>Plantilla editable para armar tu once y la banca.</li>
+          <li>Guía para facilitar la sesión de 90 minutos: preguntas por tercio, hueco y jugada.</li>
+          <li>Ejemplo resuelto de un negocio real.</li>
+        </ul>
+      </div>
+      <div>
+        <p class="precio num">S/ 69 <small>pago único</small></p>
+        <div class="acciones">
+          <a class="boton" href="/tienda/?comprar=modelo-cancha-estrategica">Comprar el kit <span aria-hidden="true">→</span></a>
+          <a class="enlace" href="/modelos/">Ver todos los modelos</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer><div class="wrap"><span>chumbi.digital · 2026</span><span>Modelo de Jorge Luis Chumbiauca</span></div></footer>
+
+<script>
+(function(){
+  var NS='http://www.w3.org/2000/svg', CLAVE='chumbi-cancha-v1';
+  // Posiciones de la fuente. lado: 'arriba' o 'abajo' indica dónde va el rótulo.
+  var POS=[
+    {n:9, x:140,y:250,rol:'Canal que cierra',lado:'abajo',t:'ejecucion'},
+    {n:10,x:280,y:310,rol:'La oferta / propuesta',lado:'abajo',t:'ejecucion'},
+    {n:11,x:420,y:250,rol:'Canal que capta',lado:'abajo',t:'ejecucion'},
+    {n:8, x:150,y:560,rol:'Procesos / CRM',lado:'arriba',t:'estructura'},
+    {n:7, x:410,y:560,rol:'Contenido / señal',lado:'arriba',t:'estructura'},
+    {n:5, x:280,y:704,rol:'Indicadores · el que ordena',lado:'abajo',t:'estructura'},
+    {n:2, x:105,y:900,rol:'Retención',lado:'abajo',t:'evidencia'},
+    {n:3, x:208,y:950,rol:'Datos limpios',lado:'arriba',t:'evidencia'},
+    {n:4, x:352,y:950,rol:'Postventa',lado:'arriba',t:'evidencia'},
+    {n:6, x:455,y:900,rol:'Reputación',lado:'abajo',t:'evidencia'},
+    {n:1, x:280,y:1058,rol:'Portero: el flujo de caja',lado:'arriba',t:'portero'}
+  ];
+  var GRUPOS=[
+    {t:'ejecucion',h:'Tercio de ejecución',s:'El ataque: donde se convierte.'},
+    {t:'estructura',h:'Tercio de estructura',s:'El mediocampo: donde se ordena.'},
+    {t:'evidencia',h:'Tercio de evidencia',s:'La defensa: donde se sostiene.'},
+    {t:'portero',h:'El portero',s:'El flujo de caja. Lo último antes de tu arco.'}
+  ];
+
+  function el(tag,attrs,txt){var e=document.createElementNS(NS,tag);for(var k in attrs)e.setAttribute(k,attrs[k]);if(txt!=null)e.textContent=txt;return e;}
+  function corta(s,m){s=(s||'').trim();return s.length>m?s.slice(0,m-1)+'…':s;}
+
+  // Dibuja posiciones en el plano
+  var capa=document.getElementById('posiciones'), nodos={};
+  POS.forEach(function(p){
+    var g=el('g',{'class':'pos'});
+    g.appendChild(el('circle',{cx:p.x,cy:p.y,r:26}));
+    g.appendChild(el('text',{'class':'d',x:p.x,y:p.y+7,'text-anchor':'middle'},p.n));
+    var ry=p.lado==='abajo'?p.y+48:p.y-54, ny=p.lado==='abajo'?p.y+66:p.y-36;
+    g.appendChild(el('text',{'class':'r halo',x:p.x,y:ry,'text-anchor':'middle'},p.rol.toUpperCase()));
+    var nom=el('text',{'class':'n halo',x:p.x,y:ny,'text-anchor':'middle'},'');
+    g.appendChild(nom);
+    capa.appendChild(g);
+    nodos[p.n]={g:g,nom:nom};
+  });
+
+  // Campos del formulario por tercio
+  var cont=document.getElementById('grupos');
+  GRUPOS.forEach(function(gr){
+    var fs=document.createElement('fieldset');
+    var lg=document.createElement('legend');
+    lg.innerHTML='<h3>'+gr.h+'</h3><span>'+gr.s+'</span>';
+    fs.appendChild(lg);
+    POS.filter(function(p){return p.t===gr.t;}).sort(function(a,b){return b.n-a.n;}).forEach(function(p){
+      var d=document.createElement('div');d.className='campo';
+      var id='f-p'+p.n;
+      d.innerHTML='<label for="'+id+'"><span class="dorsal">'+p.n+'</span>'+p.rol+'</label>'+
+        '<input type="text" id="'+id+'" data-k="p'+p.n+'" maxlength="40" placeholder="Herramienta, canal o persona">';
+      fs.appendChild(d);
+    });
+    cont.appendChild(fs);
+  });
+
+  var form=document.getElementById('formulario');
+  var campos=document.querySelectorAll('[data-k]'), estado=document.getElementById('estado');
+
+  function leer(){
+    var d={};
+    campos.forEach(function(c){
+      var k=c.getAttribute('data-k');
+      if(c.type==='radio'){if(c.checked)d[k]=c.value;}
+      else d[k]=c.value;
+    });
+    return d;
+  }
+  function pintar(d){
+    POS.forEach(function(p){
+      var v=d['p'+p.n]||'';
+      nodos[p.n].nom.textContent=corta(v,16);
+      nodos[p.n].g.classList.toggle('lleno',!!v.trim());
+    });
+    document.querySelectorAll('.tercio').forEach(function(r){r.classList.toggle('hueco',r.getAttribute('data-tercio')===d.hueco);});
+    document.querySelectorAll('.marca-hueco').forEach(function(t){t.classList.toggle('ver',t.getAttribute('data-hueco')===d.hueco);});
+    var tit=document.getElementById('cancha-titulo');
+    tit.textContent=d.equipo&&d.equipo.trim()?'La cancha de '+d.equipo.trim():'Tu cancha';
+  }
+  var t;
+  function guardar(){
+    var d=leer();pintar(d);
+    clearTimeout(t);
+    t=setTimeout(function(){
+      try{localStorage.setItem(CLAVE,JSON.stringify(d));estado.textContent='Guardado en este navegador.';}
+      catch(e){estado.textContent='No pude guardar en este navegador. Imprime antes de cerrar.';}
+    },300);
+  }
+  function cargar(){
+    var d={};
+    try{d=JSON.parse(localStorage.getItem(CLAVE)||'{}')||{};}catch(e){d={};}
+    campos.forEach(function(c){
+      var k=c.getAttribute('data-k');
+      if(c.type==='radio')c.checked=(d[k]===c.value);
+      else if(d[k]!=null)c.value=d[k];
+    });
+    pintar(leer());
+  }
+  form.addEventListener('input',guardar);
+  form.addEventListener('change',guardar);
+  document.querySelectorAll('.pregunta textarea').forEach(function(c){c.addEventListener('input',guardar);});
+  document.getElementById('b-imprimir').addEventListener('click',function(){window.print();});
+  document.getElementById('b-limpiar').addEventListener('click',function(){
+    if(!confirm('¿Borro tu cancha y empiezas de cero?'))return;
+    campos.forEach(function(c){if(c.type==='radio')c.checked=false;else c.value='';});
+    try{localStorage.removeItem(CLAVE);}catch(e){}
+    pintar(leer());estado.textContent='Cancha en blanco.';
+    document.getElementById('f-equipo').focus();
+  });
+  cargar();
+})();
+</script>
+</body>
+</html>

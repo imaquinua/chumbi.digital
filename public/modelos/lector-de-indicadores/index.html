@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Lector de Indicadores · Chumbi</title>
+<meta name="description" content="Convierte un export de métricas en una lectura de cinco líneas que un directorio puede usar: qué cambió, por qué importa y qué haría yo.">
+<link rel="canonical" href="https://chumbi.digital/modelos/lector-de-indicadores/">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Lector de Indicadores · Chumbi">
+<meta property="og:description" content="Un tablero en cinco líneas: qué cambió, por qué importa y qué haría yo.">
+<meta property="og:url" content="https://chumbi.digital/modelos/lector-de-indicadores/">
+<meta property="og:image" content="https://chumbi.digital/og.png">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/modelos/modelos.css">
+<style>
+.cinco{font-size:clamp(96px,14vw,200px);line-height:.8;letter-spacing:-.06em;font-weight:900;margin:0}
+.cinco span{font-weight:100}
+.dos{display:grid;grid-template-columns:5fr 7fr;gap:clamp(32px,6vw,96px);align-items:start}
+@media (max-width:820px){.dos{grid-template-columns:1fr}}
+.reglas{list-style:none;margin:0;padding:0;border-top:1.5px solid var(--tinta);counter-reset:r}
+.reglas li{counter-increment:r;display:grid;grid-template-columns:3.2rem 1fr;gap:16px;padding:20px 0;border-bottom:1px solid var(--linea)}
+.reglas li::before{content:counter(r,decimal-leading-zero);font-weight:900;color:var(--verde);font-variant-numeric:tabular-nums}
+.reglas p{margin:0}
+.reglas .gris{color:var(--gris)}
+.formato{margin:clamp(24px,4vw,40px) 0 0;padding:clamp(20px,3vw,32px);background:#fff;border:1px solid var(--tinta);font:15px/1.6 ui-monospace,Menlo,monospace;letter-spacing:0;white-space:pre-wrap;overflow-wrap:anywhere}
+.formato b{color:var(--verde)}
+.linea-ej{display:grid;grid-template-columns:repeat(3,1fr);margin-top:clamp(32px,5vw,48px);border-top:1.5px solid var(--tinta)}
+.linea-ej div{padding:20px 20px 20px 0}
+.linea-ej div+div{padding-left:20px;border-left:1px solid var(--linea)}
+.linea-ej .t{display:block;font-size:clamp(1.6rem,3vw,2.4rem);font-weight:900;letter-spacing:-.04em;line-height:1}
+.linea-ej .t span{color:var(--verde)}
+.linea-ej p{margin:8px 0 0;color:var(--gris)}
+@media (max-width:720px){.linea-ej{grid-template-columns:1fr}.linea-ej div+div{border-left:0;padding-left:0;border-top:1px solid var(--linea)}}
+.kit-cruces{margin-top:28px;display:flex;flex-wrap:wrap;gap:12px 24px}
+section.oscuro .enlace{border-color:var(--escenario-texto)}
+</style>
+</head>
+<body>
+
+<header class="barra">
+  <div class="wrap">
+    <a class="marca" href="/" aria-label="Chumbi, inicio">chu<span class="m">m</span>bi</a>
+    <nav aria-label="Principal">
+      <ul>
+        <li><a href="/modelos/" aria-current="page">Modelos</a></li>
+        <li><a href="/tienda/">Tienda</a></li>
+        <li><a class="cta-nav" href="/#conversemos">Conversemos</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <section class="portada">
+    <div class="wrap">
+      <p class="kicker"><b>Modelo de Chumbi</b> · medición</p>
+      <h1>Un tablero<br><b>en cinco líneas.</b></h1>
+      <p class="lead">Recibes datos crudos: un CSV, una tabla pegada, la captura de un dashboard. Devuelves una lectura que un directorio puede usar el lunes.</p>
+    </div>
+  </section>
+
+  <section class="bloque">
+    <div class="wrap dos">
+      <p class="cinco num" aria-hidden="true">5<span>/</span></p>
+      <div>
+        <span class="rotulo">La regla de oro</span>
+        <h2>Si no cabe en cinco líneas, <b>no está molido.</b></h2>
+        <p class="intro">Cada línea responde lo mismo, en el mismo orden. Así el comité lee rápido y discute la decisión, no el gráfico.</p>
+      </div>
+    </div>
+    <div class="wrap">
+      <div class="linea-ej" role="list">
+        <div role="listitem"><span class="t">Qué cambió <span>→</span></span><p>El dato, con su variación. Sin adjetivos.</p></div>
+        <div role="listitem"><span class="t">Por qué importa <span>→</span></span><p>El efecto en el negocio, no en la plataforma.</p></div>
+        <div role="listitem"><span class="t">Qué haría yo</span><p>Una acción concreta, no una observación.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="bloque">
+    <div class="wrap">
+      <span class="rotulo">Las reglas</span>
+      <h2>Separar señal <b>de ruido.</b></h2>
+      <ol class="reglas" style="margin-top:clamp(32px,5vw,48px)">
+        <li><p><b>Máximo cinco líneas.</b> <span class="gris">Lo que no entra, no era tan importante.</span></p></li>
+        <li><p><b>Cada línea: qué cambió → por qué importa → qué haría yo.</b> <span class="gris">Siempre en ese orden.</span></p></li>
+        <li><p><b>Ignora variaciones menores a ±5 %.</b> <span class="gris">Salvo que rompan una tendencia: ahí sí es señal.</span></p></li>
+        <li><p><b>Primero CAC, LTV, payback y retención.</b> <span class="gris">Las métricas de plataforma (ROAS, CTR, impresiones) van después, si van.</span></p></li>
+        <li><p><b>Cierra con una sola decisión sugerida.</b> <span class="gris">Accionable esta semana, con dueño y plazo.</span></p></li>
+      </ol>
+    </div>
+  </section>
+
+  <section class="bloque">
+    <div class="wrap">
+      <span class="rotulo">Formato de salida</span>
+      <h2>Siempre <b>la misma forma.</b></h2>
+      <p class="intro">Que la lectura tenga siempre la misma forma permite comparar una semana con otra.</p>
+<pre class="formato">LECTURA · &lt;semana&gt;
+1. &lt;qué cambió → por qué importa → qué haría yo&gt;
+2. &lt;línea&gt;
+3. &lt;línea&gt;
+4. &lt;línea&gt;
+5. &lt;línea&gt;
+<b>DECISIÓN SUGERIDA:</b> &lt;una decisión con dueño y plazo&gt;</pre>
+    </div>
+  </section>
+
+  <section class="bloque oscuro">
+    <div class="wrap kit">
+      <div>
+        <span class="rotulo">Kit de trabajo</span>
+        <h2>Lector de Indicadores · <b>kit de lectura.</b></h2>
+        <ul>
+          <li>Guía para preparar el export de tus métricas</li>
+          <li>Plantilla de lectura semanal para el comité</li>
+          <li>Ejemplo resuelto, de los datos crudos a la decisión</li>
+        </ul>
+        <div class="acciones"><a class="boton" href="/tienda/?comprar=modelo-lector-indicadores">Comprar el kit <span aria-hidden="true">→</span></a></div>
+        <div class="kit-cruces"><a class="enlace" href="/modelos/">Ver todos los modelos</a></div>
+      </div>
+      <p class="precio num">S/ 69 <small>pago único</small></p>
+    </div>
+  </section>
+</main>
+
+<footer><div class="wrap"><span>chumbi.digital · 2026</span><span>Modelo de Jorge Luis Chumbiauca</span></div></footer>
+</body>
+</html>

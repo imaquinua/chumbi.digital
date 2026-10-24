@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>chumbi · concepto C</title>
+<meta name="description" content="Concepto de la home de chumbi.digital. Vista privada de prueba.">
+<meta name="theme-color" content="#FAFAF8" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#131312" media="(prefers-color-scheme: dark)">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="preload" href="/prueba/fonts/garamond-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/prueba/base.css">
+<style>
+.hero-c{padding-block:clamp(40px,6vw,72px) clamp(40px,6vw,72px)}
+.hero-c .titular{max-width:20ch;font-size:clamp(2.4rem,5.6vw,4.8rem)}
+.logos-c{grid-template-columns:repeat(12,1fr)}
+.logos-c li{grid-column:span 4;height:132px}
+.logos-c li:nth-child(-n+4){grid-column:span 3}
+.logos-c li:nth-child(n+5){grid-column:span 4}
+.logos-c img{max-height:48px;max-width:min(190px,100%)}
+.logos-c .oscuro img{max-height:56px}
+.roles{display:grid;grid-template-columns:1fr 1fr;column-gap:48px;margin:48px 0 0;padding:0;list-style:none}
+.roles li{padding-block:16px;border-top:1px solid var(--linea)}
+.roles b{display:block;font-weight:700}
+.roles span{color:var(--gris);font-size:.95rem}
+.dos{display:grid;grid-template-columns:repeat(12,1fr);column-gap:24px;row-gap:40px}
+.dos .c1{grid-column:1/6}.dos .c2{grid-column:7/13}
+.dos .defs{grid-template-columns:1fr}
+.sobre-c{display:grid;grid-template-columns:repeat(12,1fr);column-gap:24px;row-gap:32px;align-items:start}
+.sobre-c .foto{grid-column:1/4}.sobre-c .t{grid-column:5/13}
+@media (max-width:900px){.logos-c li,.logos-c li:nth-child(n){grid-column:span 6}.logos-c li:last-child{grid-column:1/-1}.dos .c1,.dos .c2,.sobre-c .foto,.sobre-c .t{grid-column:1/-1}}
+@media (max-width:767px){.roles{grid-template-columns:1fr}.sobre-c .foto{max-width:240px}}
+</style>
+</head>
+<body>
+<header class="nav"><div class="wrap">
+  <a class="marca" href="#inicio" aria-label="chumbi, inicio"><span aria-hidden="true" style="font-weight:300">c</span><span aria-hidden="true" style="font-weight:500">h</span><span aria-hidden="true" style="font-weight:400">u</span><span aria-hidden="true" class="m">m</span><span aria-hidden="true" style="font-weight:200">b</span><span aria-hidden="true" style="font-weight:600">i</span></a>
+  <nav aria-label="Principal"><ul>
+    <li><a href="#inicio">Inicio</a></li><li><a href="#sobre">Sobre</a></li><li><a href="#academia">Academia</a></li><li><a href="#contacto">Contacto</a></li>
+  </ul></nav>
+</div></header>
+<main id="inicio">
+
+<section class="hero hero-c"><div class="wrap">
+  <p class="firma">Jorge Luis Chumbiauca</p>
+    <h1 class="titular">Estrategia digital que se <em>enseña</em> y se mide.</h1>
+    <p class="lead">Más de veinte años haciendo marketing y medios; hoy lidero Imaquinua.</p>
+    <div class="acciones"><a class="btn" href="#contacto">Escríbeme</a><a class="enlace" href="#academia">Academia</a></div>
+</div></section>
+
+<section class="corta linea" id="sobre" aria-labelledby="t-ma"><div class="wrap">
+  <h2 id="t-ma">Marcas con las que he trabajado</h2>
+  <ul class="logos logos-c" aria-label="Marcas con las que he trabajado"><li class=""><img src="/prueba/logos/imaquinua.png" alt="Imaquinua"></li><li class=""><img src="/prueba/logos/norbert-wiener.svg" alt="Universidad Norbert Wiener"></li><li class="oscuro"><img src="/prueba/logos/usil.svg" alt="USIL"></li><li class="simbolo"><img src="/prueba/logos/telefonica.svg" alt="Telefónica"></li><li class=""><img src="/prueba/logos/gloria.png" alt="Gloria"></li><li class=""><img src="/prueba/logos/campus-romero.png" alt="Campus Romero"></li><li class="simbolo"><img src="/prueba/logos/publicis-groupe.svg" alt="Publicis Groupe"></li></ul>
+  <p class="antes">Antes de 2018: Grupo Mayo, Adecco y GroupM.</p>
+  <ul class="roles" aria-label="Cargos recientes">
+    <li><b>Imaquinua</b><span>Fundador y Director, 2024 - hoy</span></li>
+    <li><b>USIL</b><span>Gerente de Marca y Performance, 2024 - 2025</span></li>
+    <li><b>Gloria</b><span>Gerente de Marketing Digital y Medios, 2023 - 2024</span></li>
+    <li><b>Telefónica</b><span>Head de Marca y Medios, 2022 - 2023</span></li>
+    <li><b>Campus Romero, Grupo Romero</b><span>Gerente de Marketing y UX, 2020 - 2021</span></li>
+    <li><b>UPC</b><span>Profesor de Estrategia Digital, 2018 - 2024</span></li>
+  </ul>
+</div></section>
+
+<section class="linea" aria-labelledby="t-qh"><div class="wrap dos">
+  <div class="c1"><h2 id="t-qh">Lo que hago</h2><p class="cifra">+$100 MM</p><p class="cifra-t">de inversión en medios digitales, gestionada con medición de resultados.</p></div>
+  <div class="c2"><dl class="defs">
+  <div><dt>Desarrollo de cursos</dt><dd>Diseño programas completos de formación para universidades y empresas, de la estructura a la evaluación.</dd></div>
+  <div><dt>Proyectos de educación</dt><dd>En Campus Romero, del Grupo Romero, trabajé en un proyecto con el Banco Mundial de reskilling y upskilling para la generación plateada.</dd></div>
+  <div><dt>E-commerce</dt><dd>Estrategia de venta online y medición de cada canal.</dd></div>
+  <div><dt>Marca y medios</dt><dd>Planificación de marca y medios en telecomunicaciones, consumo masivo y educación.</dd></div>
+</dl></div>
+</div></section>
+
+<section class="linea" id="academia" aria-labelledby="t-ac"><div class="wrap sobre-c">
+  <div class="foto retrato" role="img" aria-label="Espacio para el retrato de Chumbi">Retrato de Chumbi<br>1200 x 1500, pendiente</div>
+  <div class="t"><h2 id="t-ac">Academia</h2>
+<p class="cuerpo">Aquí enseño estrategia digital, medición y marca. Fui profesor de Estrategia Digital en la UPC durante seis años.</p>
+<p style="margin-top:28px"><a class="enlace" href="#academia">Entrar a la Academia</a></p></div>
+</div></section>
+<section class="linea" id="contacto" aria-labelledby="t-co"><div class="wrap"><h2 id="t-co">¿Tienes un proyecto o una clase en mente?</h2>
+<p style="margin-top:24px"><a class="correo" href="mailto:chumbi@imaquinua.com">chumbi@imaquinua.com</a></p></div></section>
+</main>
+<footer><div class="wrap">chumbi.digital 2026. Vista de prueba, no indexada.</div></footer>
+</body>
+</html>

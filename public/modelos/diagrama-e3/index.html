@@ -1,0 +1,202 @@
+<!doctype html>
+<html lang="es-PE">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Diagrama E³ · Chumbi</title>
+<meta name="description" content="La escalera de engagement estratégico: las cuatro etapas del viaje del usuario, la necesidad humana que trabaja cada una y la métrica con la que se mide cada peldaño.">
+<link rel="canonical" href="https://chumbi.digital/modelos/diagrama-e3/">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="chumbi">
+<meta property="og:locale" content="es_PE">
+<meta property="og:title" content="Diagrama E³ · Chumbi">
+<meta property="og:description" content="Cada etapa del viaje trabaja una necesidad humana distinta, y cada peldaño se mide con su propia métrica.">
+<meta property="og:url" content="https://chumbi.digital/modelos/diagrama-e3/">
+<meta property="og:image" content="https://chumbi.digital/og.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/modelos/modelos.css">
+<style>
+.eje{margin:0;font-size:.95rem;font-weight:900;letter-spacing:-.01em;color:var(--gris)}
+.eje-y{margin-top:clamp(32px,5vw,48px)}
+.escalera{list-style:none;margin:16px 0 0;padding:0;display:grid;gap:0;border-top:1.5px solid var(--tinta)}
+.peldano{display:flex;flex-direction:column;padding:24px 0;border-bottom:1px solid var(--linea);min-width:0}
+.peldano .cab{display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:6px 12px}
+.peldano .n{font-weight:900;font-size:1.05rem;letter-spacing:-.01em}
+.peldano .necesidad{font-size:.75rem;font-weight:900;letter-spacing:.04em;text-transform:uppercase;border:1px solid currentColor;padding:3px 8px}
+.peldano h3{margin:14px 0 0;font-size:clamp(1.5rem,2.2vw,1.9rem);font-weight:200;letter-spacing:-.035em;line-height:1.15}
+.peldano>p{margin:10px 0 0;color:var(--gris)}
+.peldano dl{margin:20px 0 0;padding-top:14px;border-top:1px solid var(--linea);display:grid;grid-template-columns:auto 1fr;gap:6px 14px;font-size:.95rem}
+.peldano dt{font-size:.75rem;font-weight:900;letter-spacing:.04em;text-transform:uppercase;color:var(--gris);padding-top:3px}
+.peldano dd{margin:0}
+.peldano.think{border-top:4px solid var(--verde)}
+.peldano.think .n,.peldano.think .necesidad{color:var(--verde)}
+.corazon{display:block;margin-top:6px;font-size:.75rem;font-weight:900;letter-spacing:.04em;text-transform:uppercase;color:var(--verde)}
+.peldano.care{background:var(--escenario);color:var(--escenario-texto);padding:24px}
+.peldano.care>p,.peldano.care dt{color:var(--escenario-gris)}
+.peldano.care dl{border-color:var(--escenario-linea)}
+.madre{margin:20px 0 0;border:1px dashed var(--escenario-gris);padding:14px 16px}
+.madre .eje{color:var(--escenario-gris)}
+.madre q{display:block;margin-top:6px;font-size:1.25rem;font-weight:900;line-height:1.2;letter-spacing:-.03em;quotes:"«" "»"}
+.vpc{padding:22px 0;border-bottom:1px solid var(--linea)}
+.vpc h3{font-size:1rem;margin:0 0 12px}
+.vpc .cols{display:grid;grid-template-columns:1fr 1fr;gap:16px 24px}
+.vpc p{margin:0;font-size:.95rem}
+.vpc p span{color:var(--gris)}
+.vpc .fuerzas{grid-column:1/-1;border-top:1px solid var(--linea);padding-top:12px}
+.alimenta{display:inline-block;margin-top:14px;font-size:.75rem;font-weight:900;letter-spacing:.04em;text-transform:uppercase;color:var(--verde)}
+.eje-x{margin-top:16px;display:flex;align-items:center;gap:12px}
+.eje-x::after{content:"";flex:1;border-top:1px solid var(--gris)}
+.eje-x span[aria-hidden]{order:2}
+.cierre{font-size:clamp(1.6rem,3.4vw,2.8rem);line-height:1.15;letter-spacing:-.04em;max-width:26ch;margin:0}
+.creditos{margin-top:clamp(24px,3.6vw,36px);max-width:62ch;color:var(--gris)}
+.cruce .rejilla h3 a{text-decoration:none}
+.cruce .rejilla h3 a:hover{color:var(--verde)}
+@media (min-width:1100px),print{
+  .escalera{grid-template-columns:repeat(4,minmax(0,1fr));grid-template-rows:minmax(780px,auto);align-items:end;border-top:0;border-bottom:1.5px solid var(--tinta)}
+  .peldano{grid-row:1;border:1.5px solid var(--tinta);border-bottom:0;border-right:0;padding:22px 22px 24px}
+  .peldano.see{grid-column:1;min-height:380px}
+  .peldano.think{grid-column:2;min-height:480px;border-top:4px solid var(--verde)}
+  .peldano.do{grid-column:3;min-height:620px}
+  .peldano.care{grid-column:4;min-height:780px;border-right:1.5px solid var(--tinta)}
+  .peldano dl{margin-top:auto}
+  .peldano>p{margin-bottom:20px}
+  .vpc{grid-row:1;grid-column:1/3;align-self:start;margin-right:22px;border:1px dashed var(--gris);padding:18px 22px;background:#fff}
+  .eje-y{display:flex;align-items:center;gap:10px}
+}
+@media print{
+  @page{size:A3 landscape;margin:10mm}
+  section.bloque:not(.oscuro){background:#fff!important;break-inside:auto!important}
+  body{font-size:10pt}
+  .portada{padding:0 0 4mm;border:0}
+  .portada .kicker,.cruce,.no-imprimir{display:none!important}
+  h1{font-size:30pt;line-height:1}
+  .lead{margin-top:3mm;max-width:none;font-size:12pt}
+  section.bloque{padding:3mm 0 0;border:0}
+  .wrap{max-width:none;padding:0}
+  .escalera{grid-template-rows:168mm}
+  .peldano.see{min-height:80mm}.peldano.think{min-height:100mm}.peldano.do{min-height:137mm}.peldano.care{min-height:168mm}
+  .peldano{padding:4mm!important}
+  .peldano.care,.peldano.care *{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .lamina>.rotulo,.lamina>h2{display:none}
+  .eje-y{margin-top:2mm}
+  .cierre{font-size:16pt;max-width:none}
+  .creditos{margin-top:2mm;font-size:9pt}
+}
+</style>
+</head>
+<body>
+<header class="barra"><div class="wrap"><a class="marca" href="/" aria-label="Chumbi, inicio">chu<span class="m">m</span>bi</a><nav aria-label="Principal"><ul><li><a href="/modelos/" aria-current="page">Modelos</a></li><li><a href="/tienda/">Tienda</a></li><li><a class="cta-nav" href="/#conversemos">Conversemos</a></li></ul></nav></div></header>
+
+<main>
+  <section class="portada">
+    <div class="wrap">
+      <p class="kicker"><b>Modelo de Chumbi · E³</b> · La escalera de engagement estratégico</p>
+      <h1>No se empuja. <b>Se acompaña.</b></h1>
+      <p class="lead">Cada etapa del viaje del usuario trabaja una necesidad humana distinta. No empujo hacia la compra: acompaño una progresión de necesidades. Y cada peldaño se mide con su propia métrica.</p>
+    </div>
+  </section>
+
+  <section class="bloque" aria-labelledby="t-escalera">
+    <div class="wrap lamina">
+      <span class="rotulo">El diagrama</span>
+      <h2 id="t-escalera">Cuatro peldaños, <b>cuatro métricas.</b></h2>
+
+      <p class="eje eje-y"><span aria-hidden="true">↑</span> Necesidad humana · pirámide de Maslow</p>
+
+      <ol class="escalera">
+        <li class="peldano see">
+          <div class="cab"><span class="n">01 · See</span><span class="necesidad">Necesidad básica</span></div>
+          <h3>¿Qué problema reconoce?</h3>
+          <p>Conectar con problemas concretos y beneficios funcionales. Aún no busca nada.</p>
+          <dl><dt>Métrica</dt><dd><b>Alcance cualificado</b></dd><dt>Evita</dt><dd>Hablar de producto muy pronto</dd></dl>
+        </li>
+
+        <li class="vpc" aria-labelledby="t-vpc">
+          <h3 id="t-vpc">Submotor de Think · Value Proposition Canvas</h3>
+          <div class="cols">
+            <p><b>Pains</b> → pain relievers<br><span>Frustraciones y riesgos reales.</span></p>
+            <p><b>Gains</b> → gain creators<br><span>Aspiraciones y resultados deseados.</span></p>
+            <p class="fuerzas"><b>Tres fuerzas:</b> seguridad (¿puedo confiar?) · pertenencia (¿es esta mi gente?) · valor (¿vale lo que cuesta?)</p>
+          </div>
+          <span class="alimenta"><span aria-hidden="true">▼</span> Alimenta Think</span>
+        </li>
+
+        <li class="peldano think">
+          <div class="cab"><span class="n">02 · Think</span><span class="necesidad">Seguridad · pertenencia</span></div>
+          <span class="corazon">El corazón del sistema</span>
+          <h3>¿Por qué debería confiar?</h3>
+          <p>Entrar al conjunto de consideración: pasar de «un anuncio más» a «una opción real». Aquí se comparan narrativas, no features.</p>
+          <dl><dt>Métrica</dt><dd><b>Engagement cualificado</b></dd><dt>Evita</dt><dd>Promesa sin evidencia</dd></dl>
+        </li>
+
+        <li class="peldano do">
+          <div class="cab"><span class="n">03 · Do</span><span class="necesidad">Autoestima</span></div>
+          <h3>¿Qué decisión toma?</h3>
+          <p>La compra como acto de merecimiento y autocuidado, con las objeciones ya resueltas.</p>
+          <dl><dt>Métrica</dt><dd><b>Conversión</b></dd><dt>Evita</dt><dd>CTA sin objeciones resueltas</dd></dl>
+        </li>
+
+        <li class="peldano care">
+          <div class="cab"><span class="n">04 · Care</span><span class="necesidad">Autorrealización</span></div>
+          <h3>¿En quién se convierte?</h3>
+          <p>La marca como aliada de proyectos personales a largo plazo. La relación que la gente quiere sostener.</p>
+          <div class="madre"><p class="eje">La pregunta madre</p><q>Si te elijo a ti, ¿en quién me convierto?</q></div>
+          <dl><dt>Métrica</dt><dd><b>Retención · referidos · NPS</b></dd><dt>Evita</dt><dd>Postventa sin relato</dd></dl>
+        </li>
+      </ol>
+
+      <p class="eje eje-x"><span>Viaje del usuario · See · Think · Do · Care</span><span aria-hidden="true">→</span></p>
+
+      <p class="cierre" style="margin-top:clamp(40px,6vw,72px)"><b>Brandformance:</b> marca y resultados en la misma escalera, no en guerra civil.</p>
+      <p class="creditos">La escalera E³ es mía. Cruza tres modelos ajenos: la pirámide de necesidades de Abraham Maslow, el See-Think-Do-Care de Avinash Kaushik y el Value Proposition Canvas de Strategyzer.</p>
+
+      <div class="acciones">
+        <button type="button" class="boton sec" id="imprimir">Imprimir en A3 <span aria-hidden="true">→</span></button>
+      </div>
+    </div>
+  </section>
+
+  <section class="bloque oscuro" aria-labelledby="t-kit">
+    <div class="wrap">
+      <span class="rotulo">Kit E³</span>
+      <div class="kit">
+        <div>
+          <h2 id="t-kit">Kit E³ · <b>Canvas, diagrama y rombo</b></h2>
+          <ul>
+            <li>Canvas imprimible A3</li>
+            <li>Plantilla editable</li>
+            <li>Guía de taller paso a paso</li>
+            <li>Ejemplo resuelto</li>
+          </ul>
+        </div>
+        <div>
+          <p class="precio num">S/ 149</p>
+          <div class="acciones"><a class="boton" href="/tienda/?comprar=modelo-kit-e3">Comprar el kit <span aria-hidden="true">→</span></a></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="bloque cruce" aria-labelledby="t-cruce">
+    <div class="wrap">
+      <span class="rotulo">Las otras piezas E³</span>
+      <h2 id="t-cruce">Llévalo <b>al taller.</b></h2>
+      <div class="rejilla c2">
+        <div><h3><a href="/modelos/canvas-e3/">Canvas E³</a></h3><p>¿Dónde vive tu marca en la escalera? Inventaría, marca los huecos y apuesta por tres movimientos.</p></div>
+        <div><h3><a href="/modelos/rombo-e3/">Rombo E³</a></h3><p>La pirámide de Maslow y el embudo de Kaushik, espejados. Dos modelos, una relación.</p></div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer><div class="wrap"><span>chumbi.digital · 2026</span><span>Modelo de Jorge Luis Chumbiauca</span></div></footer>
+
+<script>
+document.getElementById('imprimir').addEventListener('click',function(){window.print();});
+</script>
+</body>
+</html>

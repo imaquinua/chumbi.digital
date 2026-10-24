@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Chumbi · Gracias</title>
+<meta name="robots" content="noindex">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&display=swap" rel="stylesheet">
+<style>
+:root{--tinta:#141414;--papel:#FAFAF8;--gris:#4E4E4A;--verde:#0A7A3E;--max:1240px;--gut:clamp(16px,4vw,40px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--papel);color:var(--tinta);font-family:'Archivo',system-ui,sans-serif;font-weight:380;letter-spacing:-.005em;line-height:1.6;font-size:clamp(16px,1.05vw,18px)}
+.wrap{width:100%;max-width:var(--max);margin:0 auto;padding-inline:var(--gut)}
+header{border-bottom:1px solid var(--tinta)}
+header .wrap{display:flex;align-items:center;min-height:64px}
+.marca{font-weight:900;font-size:26px;letter-spacing:-.03em;text-decoration:none;line-height:1;color:inherit}
+.marca .m{color:var(--verde)}
+main{padding-block:clamp(64px,12vw,160px)}
+h1{margin:0;font-size:clamp(40px,6.4vw,96px);line-height:.94;letter-spacing:-.045em;font-weight:200}
+h1 b{font-weight:900}
+p{max-width:44ch;font-size:clamp(1.1rem,1.7vw,1.35rem);line-height:1.35}
+a.enlace{font-weight:900;text-decoration:none;border-bottom:1.5px solid var(--tinta);color:inherit}
+</style>
+</head>
+<body>
+<header><div class="wrap"><a class="marca" href="/">chu<span class="m">m</span>bi</a></div></header>
+<main><div class="wrap">
+  <h1 id="titulo">Gracias.<br><b>Ya está.</b></h1>
+  <p id="texto">Revisa tu correo: en unos minutos te llega lo que compraste. Si no aparece, mira en promociones o spam.</p>
+  <p><a class="enlace" href="/">Volver al inicio</a> · <a class="enlace" href="mailto:chumbi@imaquinua.com">¿Algún problema? Escríbeme</a></p>
+</div></main>
+<script>
+(function(){
+  var q=new URLSearchParams(location.search),s=q.get('collection_status')||q.get('status');
+  if(s==='pending'||s==='in_process'){
+    document.getElementById('titulo').innerHTML='Pago<br><b>en proceso.</b>';
+    document.getElementById('texto').textContent='Mercado Pago todavía está confirmando tu pago. Cuando se acredite te llega todo por correo, no tienes que hacer nada más.';
+  }
+})();
+</script>
+</body>
+</html>

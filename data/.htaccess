@@ -1,0 +1,2 @@
+# Si se despliega en Apache/cPanel: nada de data/ se sirve.
+Require all denied

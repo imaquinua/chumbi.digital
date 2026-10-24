@@ -1,0 +1,86 @@
+/* Sistema común de /modelos/. Mismos tokens que la portada (public/index.html). */
+:root{
+  --tinta:#141414;--papel:#FAFAF8;--gris:#4E4E4A;--linea:#C4C1B8;--verde:#0A7A3E;--banda:#F0EEE8;--verde-suave:#E3F0E8;
+  --escenario:#141414;--escenario-texto:#FAFAF8;--escenario-gris:#B4B4AF;--escenario-linea:#2E2E2C;
+  --max:1240px;--gut:clamp(16px,4vw,40px);
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
+body{margin:0;background:var(--papel);color:var(--tinta);font-family:'Archivo',system-ui,sans-serif;font-weight:380;letter-spacing:-.005em;line-height:1.6;font-size:clamp(16px,1.05vw,18px);overflow-x:hidden}
+a{color:inherit}
+b,strong{font-weight:900}
+img,svg{display:block;max-width:100%;height:auto}
+.wrap{width:100%;max-width:var(--max);margin:0 auto;padding-inline:var(--gut)}
+.num{font-variant-numeric:tabular-nums}
+
+/* Cabecera */
+header.barra{border-bottom:1px solid var(--tinta)}
+header.barra .wrap{display:flex;align-items:center;justify-content:space-between;gap:16px;min-height:64px}
+.marca{font-weight:900;font-size:26px;letter-spacing:-.03em;text-decoration:none;line-height:1}
+.marca .m{color:var(--verde)}
+nav ul{display:flex;gap:clamp(14px,2.4vw,32px);list-style:none;margin:0;padding:0}
+nav a{text-decoration:none;font-weight:200}
+nav a:hover,nav a[aria-current]{font-weight:900}
+nav .cta-nav{font-weight:900;color:var(--verde)}
+@media (max-width:640px){nav li:not(:last-child){display:none}}
+
+/* Portada de cada modelo */
+.portada{padding-block:clamp(40px,6vw,88px) clamp(32px,5vw,64px);border-bottom:1px solid var(--linea)}
+.kicker{margin:0 0 clamp(16px,2.4vw,24px);font-size:.95rem;color:var(--gris)}
+.kicker b{color:var(--tinta)}
+h1{margin:0;font-size:clamp(40px,6.4vw,96px);line-height:.94;letter-spacing:-.045em;font-weight:200}
+h1 b{font-stretch:112%}
+.lead{margin:clamp(20px,3vw,32px) 0 0;max-width:56ch;font-size:clamp(1.08rem,1.4vw,1.25rem);line-height:1.5}
+
+/* Secciones */
+section.bloque{padding-block:clamp(48px,7vw,96px);border-bottom:1px solid var(--linea)}
+section.oscuro{background:var(--escenario);color:var(--escenario-texto);border-bottom:0}
+section.oscuro .rotulo,section.oscuro .intro{color:var(--escenario-gris)}
+.rotulo{display:block;font-size:.85rem;font-weight:900;letter-spacing:.02em;text-transform:uppercase;color:var(--gris);margin-bottom:clamp(16px,2.4vw,24px)}
+h2{margin:0;font-size:clamp(28px,3.8vw,52px);line-height:1;letter-spacing:-.04em;font-weight:300;max-width:18ch}
+h2 b{font-weight:900}
+h3{margin:0 0 8px;font-size:1.3rem;font-weight:900;letter-spacing:-.03em;line-height:1.15}
+.intro{max-width:65ch;margin:clamp(16px,2.4vw,24px) 0 0;font-size:clamp(1.05rem,1.4vw,1.2rem);color:var(--gris)}
+.filete{border-top:1.5px solid var(--tinta)}
+
+/* Rejillas con filetes (sin tarjetas) */
+.rejilla{display:grid;grid-template-columns:repeat(var(--cols,3),1fr);margin-top:clamp(32px,5vw,56px);border-top:1.5px solid var(--tinta)}
+.rejilla>*{padding:24px 24px 24px 0;border-bottom:1px solid var(--linea)}
+.rejilla>*+*{padding-left:24px;border-left:1px solid var(--linea)}
+/* Primera celda de cada fila: --cols no sirve en nth-child, por eso una clase por ancho */
+.rejilla:not(.c2):not(.c4)>*:nth-child(3n+1),.rejilla.c2>*:nth-child(2n+1),.rejilla.c4>*:nth-child(4n+1){border-left:0;padding-left:0}
+.rejilla.c2{--cols:2}.rejilla.c4{--cols:4}
+.rejilla p{margin:0;color:var(--gris)}
+@media (max-width:820px){.rejilla{grid-template-columns:1fr}.rejilla>*+*{border-left:0;padding-left:0}}
+
+/* Campos editables */
+label{display:block;font-weight:900;font-size:.95rem;margin-bottom:6px}
+input[type=text],input[type=email],input[type=number],textarea,select{width:100%;font:inherit;padding:12px 14px;border:1px solid var(--tinta);background:#fff;color:var(--tinta);border-radius:0}
+textarea{min-height:96px;resize:vertical}
+input:focus,textarea:focus,select:focus{outline:2px solid var(--verde);outline-offset:0;border-color:var(--verde)}
+
+/* Acciones */
+.acciones{display:flex;flex-wrap:wrap;gap:12px 20px;align-items:center;margin-top:clamp(24px,3.6vw,36px)}
+.boton{display:inline-flex;align-items:center;gap:10px;font:inherit;font-weight:900;letter-spacing:-.02em;text-decoration:none;padding:14px 20px;background:var(--verde);color:var(--papel);border:1.5px solid var(--verde);cursor:pointer}
+.boton:hover{background:var(--tinta);border-color:var(--tinta)}
+.boton.sec{background:transparent;color:var(--tinta);border-color:var(--tinta)}
+.boton.sec:hover{background:var(--tinta);color:var(--papel)}
+.enlace{font-weight:900;text-decoration:none;border-bottom:1.5px solid var(--tinta);padding-bottom:2px}
+.enlace:hover{border-color:var(--verde);color:var(--verde)}
+.nota{margin:12px 0 0;color:var(--gris);font-size:.9rem}
+
+/* Bloque de venta del kit, al final de cada modelo */
+.kit{display:grid;grid-template-columns:7fr 5fr;gap:clamp(24px,5vw,72px);align-items:end}
+.kit ul{margin:16px 0 0;padding-left:1.1em;color:var(--escenario-gris)}
+.kit .precio{font-size:clamp(48px,7vw,96px);font-weight:900;letter-spacing:-.04em;line-height:1;margin:0}
+.kit .precio small{font-size:1rem;letter-spacing:0;color:var(--escenario-gris)}
+@media (max-width:820px){.kit{grid-template-columns:1fr}}
+
+footer{border-top:1px solid var(--tinta);padding-block:28px;font-size:.9rem;color:var(--gris)}
+footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px}
+
+/* Franjas: las secciones claras alternan fondo para que el ritmo se lea */
+section.bloque:nth-of-type(even):not(.oscuro){background:var(--banda)}
+:focus-visible{outline:2px solid var(--verde);outline-offset:3px}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important;scroll-behavior:auto!important}}
+@media print{header.barra,footer,.acciones,section.oscuro{display:none!important}body{background:#fff}section.bloque{break-inside:avoid}}

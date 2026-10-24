@@ -1,0 +1,216 @@
+<!doctype html>
+<html lang="es-PE">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Rombo E³ · Chumbi</title>
+<meta name="description" content="El rombo E³ cruza la pirámide de Maslow con el embudo See-Think-Do-Care de Avinash Kaushik: cada etapa del viaje resuelve una necesidad humana.">
+<link rel="canonical" href="https://chumbi.digital/modelos/rombo-e3/">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="chumbi">
+<meta property="og:locale" content="es_PE">
+<meta property="og:title" content="Rombo E³ · Chumbi">
+<meta property="og:description" content="Dos modelos, una relación: Maslow y See-Think-Do-Care espejados en un rombo.">
+<meta property="og:url" content="https://chumbi.digital/modelos/rombo-e3/">
+<meta property="og:image" content="https://chumbi.digital/og.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/modelos/modelos.css">
+<style>
+.rombo-grid{display:grid;grid-template-columns:minmax(0,7fr) minmax(0,5fr);gap:clamp(32px,5vw,72px);align-items:center;margin-top:clamp(32px,5vw,56px)}
+.rombo{width:100%;max-width:620px;margin-inline:auto}
+.rombo text{font-family:'Archivo',system-ui,sans-serif;fill:var(--tinta)}
+.rombo .claro{fill:var(--papel)}
+.rombo .peq{font-size:15px;font-weight:900;letter-spacing:.04em;text-transform:uppercase}
+.rombo .gris{fill:var(--gris)}
+.rombo .m{fill:#fff;stroke:var(--tinta);stroke-width:2}
+.rombo .f{fill:var(--tinta);stroke:var(--tinta);stroke-width:2}
+.rombo .f.think{fill:var(--verde);stroke:var(--tinta)}
+.rombo .guia{stroke:var(--gris);stroke-width:1.5}
+.rombo [data-par]{transition:opacity .2s}
+.rombo.activo [data-par]{opacity:.18}
+.rombo.activo [data-par].on{opacity:1}
+.rombo.activo .on .m{fill:var(--verde-suave);stroke:var(--verde);stroke-width:3}
+.pares{list-style:none;margin:0;padding:0;border-top:1.5px solid var(--tinta)}
+.pares li{border-bottom:1px solid var(--linea)}
+.pares button{all:unset;box-sizing:border-box;display:grid;grid-template-columns:auto 1fr;gap:4px 16px;width:100%;padding:18px 0;cursor:pointer}
+.pares button:focus-visible{outline:2px solid var(--verde);outline-offset:3px}
+.pares .n{grid-row:span 2;font-weight:900;font-size:2rem;line-height:1;color:var(--gris);min-width:1.2em}
+.pares .t{font-weight:900;font-size:1.15rem;letter-spacing:-.03em;line-height:1.2}
+.pares .s{font-size:.8rem;font-weight:900;letter-spacing:.04em;text-transform:uppercase;color:var(--gris)}
+.pares button:hover .t{color:var(--verde)}
+.pares button[aria-pressed=true] .n,.pares button[aria-pressed=true] .t{color:var(--verde)}
+.madre{margin:clamp(40px,6vw,72px) 0 0;font-size:clamp(1.6rem,3.6vw,3rem);line-height:1.08;letter-spacing:-.04em;font-weight:900;max-width:22ch;quotes:"«" "»"}
+.creditos{margin-top:clamp(20px,3vw,28px);max-width:62ch;color:var(--gris)}
+.cruce .rejilla h3 a{text-decoration:none}
+.cruce .rejilla h3 a:hover{color:var(--verde)}
+@media (max-width:900px){.rombo-grid{grid-template-columns:1fr}}
+@media print{
+  @page{size:A3 portrait;margin:12mm}
+  section.bloque:not(.oscuro){background:#fff!important;break-inside:auto!important}
+  body{font-size:11pt}
+  .portada{padding:0 0 5mm;border:0}
+  .portada .kicker,.cruce,.no-imprimir{display:none!important}
+  h1{font-size:34pt;line-height:1}
+  .lead{max-width:none;font-size:13pt}
+  section.bloque{padding:4mm 0 0;border:0}
+  .wrap{max-width:none;padding:0}
+  .lamina>.rotulo,.lamina>h2{display:none}
+  .rombo-grid{grid-template-columns:7fr 5fr;margin-top:4mm}
+  .rombo{max-height:250mm;width:auto}
+  .rombo *{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .rombo.activo [data-par]{opacity:1}
+  .madre{margin-top:6mm;font-size:22pt;max-width:none}
+}
+</style>
+</head>
+<body>
+<header class="barra"><div class="wrap"><a class="marca" href="/" aria-label="Chumbi, inicio">chu<span class="m">m</span>bi</a><nav aria-label="Principal"><ul><li><a href="/modelos/" aria-current="page">Modelos</a></li><li><a href="/tienda/">Tienda</a></li><li><a class="cta-nav" href="/#conversemos">Conversemos</a></li></ul></nav></div></header>
+
+<main>
+  <section class="portada">
+    <div class="wrap">
+      <p class="kicker"><b>Modelo de Chumbi · E³</b> · El rombo</p>
+      <h1>Dos modelos, <b>una relación.</b></h1>
+      <p class="lead">La pirámide de Maslow ordena lo que la persona necesita. El embudo See-Think-Do-Care de Avinash Kaushik ordena cómo la marca la acompaña. Espejados forman un rombo: cada etapa del viaje resuelve una necesidad humana.</p>
+    </div>
+  </section>
+
+  <section class="bloque" aria-labelledby="t-rombo">
+    <div class="wrap lamina">
+      <span class="rotulo">El rombo E³</span>
+      <h2 id="t-rombo">La marca no se define sola. <b>Se construye en la relación.</b></h2>
+      <p class="intro no-imprimir">Toca cada cruce para ver qué necesidad resuelve cada etapa.</p>
+
+      <div class="rombo-grid">
+        <svg class="rombo" id="rombo" viewBox="0 0 680 1060" role="img" aria-labelledby="rombo-t rombo-d">
+          <title id="rombo-t">El rombo E³</title>
+          <desc id="rombo-d">Arriba, la pirámide de Maslow: necesidades básicas, seguridad, social y pertenencia, autoestima y autorrealización. Abajo, espejado, el embudo de Kaushik: See, Think, Do y Care. Básicas se cruzan con See; seguridad y social con Think; autoestima con Do; autorrealización con Care.</desc>
+
+          <text class="peq gris" transform="translate(26 275) rotate(-90)" text-anchor="middle">La persona · Maslow ↑</text>
+          <text class="peq gris" transform="translate(26 805) rotate(-90)" text-anchor="middle">El viaje · Kaushik ↓</text>
+
+          <g data-par="4">
+            <polygon class="m" points="380,3 434,110 326,110"/>
+            <line class="guia" x1="306" y1="66" x2="346" y2="66"/>
+            <text x="300" y="74" text-anchor="end" font-size="24">Autorrealización</text>
+          </g>
+          <g data-par="3">
+            <polygon class="m" points="326,110 434,110 488,220 272,220"/>
+            <line class="guia" x1="252" y1="166" x2="296" y2="166"/>
+            <text x="246" y="174" text-anchor="end" font-size="24">Autoestima</text>
+          </g>
+          <g data-par="2">
+            <polygon class="m" points="272,220 488,220 542,330 218,330"/>
+            <text x="380" y="283" text-anchor="middle" font-size="24">Social · Pertenencia</text>
+          </g>
+          <g data-par="2">
+            <polygon class="m" points="218,330 542,330 596,440 164,440"/>
+            <text x="380" y="393" text-anchor="middle" font-size="24">Seguridad</text>
+          </g>
+          <g data-par="1">
+            <polygon class="m" points="164,440 596,440 650,550 110,550"/>
+            <text x="380" y="503" text-anchor="middle" font-size="24">Necesidades básicas</text>
+          </g>
+
+          <line x1="110" y1="558" x2="650" y2="558" stroke="var(--tinta)" stroke-width="2" stroke-dasharray="7 6"/>
+          <text class="peq" x="4" y="548" style="fill:var(--verde);font-size:13px">El cruce E³</text>
+
+          <g data-par="1">
+            <polygon class="f" points="110,566 650,566 582.5,686 177.5,686"/>
+            <text class="claro" x="380" y="622" text-anchor="middle" font-size="32" font-weight="900">See</text>
+            <text class="claro peq" x="380" y="650" text-anchor="middle">Awareness · alcance</text>
+          </g>
+          <g data-par="2">
+            <polygon class="f think" points="177.5,686 582.5,686 515,806 245,806"/>
+            <text class="claro" x="380" y="742" text-anchor="middle" font-size="32" font-weight="900">Think</text>
+            <text class="claro peq" x="380" y="770" text-anchor="middle">Consideración · el corazón</text>
+          </g>
+          <g data-par="3">
+            <polygon class="f" points="245,806 515,806 447.5,926 312.5,926"/>
+            <text class="claro" x="380" y="860" text-anchor="middle" font-size="32" font-weight="900">Do</text>
+            <text class="claro peq" x="380" y="888" text-anchor="middle">Conversión</text>
+          </g>
+          <g data-par="4">
+            <polygon class="f" points="312.5,926 447.5,926 380,1043"/>
+            <line class="guia" x1="300" y1="985" x2="342" y2="985"/>
+            <text x="292" y="983" text-anchor="end" font-size="24" font-weight="900">Care</text>
+            <text class="peq gris" x="292" y="1006" text-anchor="end">Fidelización</text>
+          </g>
+        </svg>
+
+        <div>
+          <h3 class="no-imprimir" style="margin-bottom:16px">Los cuatro cruces</h3>
+          <ol class="pares" id="pares">
+            <li><button type="button" data-par="1" aria-pressed="false"><span class="n num">1</span><span class="t">Awareness</span><span class="s">Básicas ↔ See</span></button></li>
+            <li><button type="button" data-par="2" aria-pressed="false"><span class="n num">2</span><span class="t">Consideración</span><span class="s">Seguridad + social ↔ Think</span></button></li>
+            <li><button type="button" data-par="3" aria-pressed="false"><span class="n num">3</span><span class="t">Decisión · «Me lo merezco»</span><span class="s">Autoestima ↔ Do</span></button></li>
+            <li><button type="button" data-par="4" aria-pressed="false"><span class="n num">4</span><span class="t">Fidelización · Relación</span><span class="s">Autorrealización ↔ Care</span></button></li>
+          </ol>
+          <div class="acciones">
+            <button type="button" class="boton sec" id="imprimir">Imprimir en A3 <span aria-hidden="true">→</span></button>
+          </div>
+        </div>
+      </div>
+
+      <p class="madre"><q>Si te elijo a ti, ¿en quién me convierto?</q></p>
+      <p class="creditos">El rombo E³ es mío. Cruza la pirámide de necesidades de Abraham Maslow con el embudo See-Think-Do-Care de Avinash Kaushik.</p>
+    </div>
+  </section>
+
+  <section class="bloque oscuro" aria-labelledby="t-kit">
+    <div class="wrap">
+      <span class="rotulo">Kit E³</span>
+      <div class="kit">
+        <div>
+          <h2 id="t-kit">Kit E³ · <b>Canvas, diagrama y rombo</b></h2>
+          <ul>
+            <li>Canvas imprimible A3</li>
+            <li>Plantilla editable</li>
+            <li>Guía de taller paso a paso</li>
+            <li>Ejemplo resuelto</li>
+          </ul>
+        </div>
+        <div>
+          <p class="precio num">S/ 149</p>
+          <div class="acciones"><a class="boton" href="/tienda/?comprar=modelo-kit-e3">Comprar el kit <span aria-hidden="true">→</span></a></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="bloque cruce" aria-labelledby="t-cruce">
+    <div class="wrap">
+      <span class="rotulo">Las otras piezas E³</span>
+      <h2 id="t-cruce">Del modelo <b>al taller.</b></h2>
+      <div class="rejilla c2">
+        <div><h3><a href="/modelos/diagrama-e3/">Diagrama E³</a></h3><p>La escalera de engagement, peldaño por peldaño: necesidad, métrica y lo que hay que evitar.</p></div>
+        <div><h3><a href="/modelos/canvas-e3/">Canvas E³</a></h3><p>¿Dónde vive tu marca en la escalera? Inventaría, marca los huecos y apuesta por tres movimientos.</p></div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer><div class="wrap"><span>chumbi.digital · 2026</span><span>Modelo de Jorge Luis Chumbiauca</span></div></footer>
+
+<script>
+(function(){
+  var svg=document.getElementById('rombo');
+  var botones=document.querySelectorAll('#pares button');
+  var grupos=svg.querySelectorAll('g[data-par]');
+  var actual=null;
+  function marcar(par){
+    actual=(actual===par)?null:par;
+    svg.classList.toggle('activo',!!actual);
+    grupos.forEach(function(g){g.classList.toggle('on',g.getAttribute('data-par')===actual);});
+    botones.forEach(function(b){b.setAttribute('aria-pressed',String(b.getAttribute('data-par')===actual));});
+  }
+  botones.forEach(function(b){b.addEventListener('click',function(){marcar(b.getAttribute('data-par'));});});
+  document.getElementById('imprimir').addEventListener('click',function(){window.print();});
+})();
+</script>
+</body>
+</html>
