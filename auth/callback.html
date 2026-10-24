@@ -60,6 +60,13 @@
     // Procesar callback
     {
       const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+      const getNextPath = () => {
+        const next = new URLSearchParams(window.location.search).get('next');
+        if (next && next.startsWith('/') && !next.startsWith('//')) {
+          return next;
+        }
+        return '/lms/dashboard/';
+      };
 
       // Procesar callback OAuth
       async function handleCallback() {
@@ -81,7 +88,7 @@
           if (session) {
             status.textContent = 'Acceso exitoso. Redirigiendo...';
             setTimeout(() => {
-              window.location.href = '/lms/dashboard/';
+              window.location.href = getNextPath();
             }, 1000);
           } else {
             status.textContent = 'No se pudo completar el acceso';

@@ -1,0 +1,218 @@
+:root {
+    --font-handwriting: 'Kalam', cursive;
+    --font-mono: 'Roboto Mono', monospace;
+    --color-paper: #fdfdfa;
+    --color-ink: #333;
+    --color-lines: #e0e0e0;
+    --color-highlight: #ffc;
+    --color-habit-1: #ffab91;
+    --color-habit-2: #81d4fa;
+    --color-habit-3: #c5e1a5;
+    --color-habit-4: #ce93d8;
+    --color-habit-5: #fff59d;
+    --color-habit-6: #90a4ae;
+    --color-habit-7: #ef9a9a;
+}
+
+body {
+    background-color: #f0f0f0;
+    font-family: var(--font-mono);
+    color: var(--color-ink);
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 2rem;
+    min-height: 100vh;
+}
+
+.notebook-container {
+    background-color: var(--color-paper);
+    background-image:
+        linear-gradient(var(--color-lines) 1px, transparent 1px),
+        linear-gradient(to right, var(--color-lines) 1px, var(--color-paper) 1px);
+    background-size: 20px 20px;
+    border: 1px solid #ccc;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+    padding: 2rem 3rem;
+    width: 100%;
+    max-width: 1200px;
+}
+
+.planner-header {
+    text-align: center;
+    border-bottom: 2px solid var(--color-lines);
+    padding-bottom: 1rem;
+    margin-bottom: 2rem;
+}
+
+.planner-title {
+    font-family: var(--font-handwriting);
+    font-size: 3rem;
+    color: var(--color-habit-1);
+    margin: 0;
+}
+
+#current-month {
+    font-family: var(--font-mono);
+    font-weight: 500;
+    margin: 0.5rem 0;
+}
+
+.mantra {
+    font-style: italic;
+    color: #777;
+}
+
+.planner-body {
+    display: grid;
+    gap: 2rem;
+}
+
+h3 {
+    font-family: var(--font-handwriting);
+    font-size: 1.5rem;
+    border-bottom: 1px solid var(--color-lines);
+    padding-bottom: 0.5rem;
+    margin-top: 0;
+}
+
+.key-events-list {
+    display: grid;
+    gap: 0.5rem;
+}
+
+.daily-event {
+    display: flex;
+    align-items: center;
+}
+
+.daily-event span {
+    font-weight: 500;
+    margin-right: 0.5rem;
+}
+
+.daily-event input {
+    background: var(--color-highlight);
+    border: none;
+    font-family: var(--font-mono);
+    padding: 0.25rem 0.5rem;
+    width: 100%;
+}
+
+.habit-tracker-section {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 2rem;
+}
+
+.habit-list .habit-row {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.habit-name {
+    flex-basis: 150px;
+    flex-shrink: 0;
+}
+
+.habit-days {
+    display: grid;
+    grid-template-columns: repeat(31, 20px);
+    gap: 2px;
+}
+
+.habit-checkbox {
+    width: 20px;
+    height: 20px;
+    border: 1px solid var(--color-lines);
+    cursor: pointer;
+    position: relative;
+}
+
+.habit-checkbox.checked::after {
+    content: 'X';
+    color: var(--color-ink);
+    font-weight: bold;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.habit-chart {
+    width: 100%;
+    height: 200px;
+    border: 1px solid var(--color-lines);
+    background: white;
+}
+
+.monthly-goals .goals-list {
+    display: grid;
+    gap: 0.5rem;
+}
+
+.monthly-goals input {
+    font-family: var(--font-mono);
+    border: 1px solid var(--color-lines);
+    padding: 0.5rem;
+    background: none;
+}
+
+.monthly-reflection .reflection-metrics {
+    display: grid;
+    gap: 1rem;
+}
+
+.metric {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.metric input[type="range"] {
+    flex-grow: 1;
+}
+
+.metric .metric-value {
+    font-weight: bold;
+    font-size: 1.25rem;
+}
+
+.planner-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 1rem;
+    margin-top: 2rem;
+    padding-top: 1rem;
+    border-top: 2px solid var(--color-lines);
+}
+
+.action-btn {
+    font-family: var(--font-mono);
+    font-weight: 500;
+    font-size: 0.875rem;
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    border: 1px solid var(--color-ink);
+    background-color: transparent;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.action-btn:hover {
+    background-color: var(--color-ink);
+    color: var(--color-paper);
+}
+
+.action-btn.danger {
+    border-color: #d9534f;
+    color: #d9534f;
+}
+
+.action-btn.danger:hover {
+    background-color: #d9534f;
+    color: var(--color-paper);
+}
+

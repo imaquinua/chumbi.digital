@@ -15,6 +15,18 @@ const SUPABASE_ANON_KEY = 'sb_publishable_64AxB3y1XI9_WrO4xW6bUg_hmlmBT7i';
 // Inicializar cliente Supabase
 const supabase = window.supabase?.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
+const getSafeNextPath = (nextPath) => {
+  if (!nextPath || typeof nextPath !== 'string') return null;
+  if (!nextPath.startsWith('/') || nextPath.startsWith('//')) return null;
+  return nextPath;
+};
+
+const buildOAuthRedirect = (nextPath) => {
+  const callbackUrl = `${window.location.origin}/auth/callback.html`;
+  const safeNext = getSafeNextPath(nextPath);
+  return safeNext ? `${callbackUrl}?next=${encodeURIComponent(safeNext)}` : callbackUrl;
+};
+
 // ============================================
 // AUTH STORE - Estado global de autenticacion
 // ============================================
@@ -177,13 +189,13 @@ const Auth = {
   },
 
   // Iniciar sesion con Google
-  async signInWithGoogle() {
+  async signInWithGoogle(nextPath) {
     if (!supabase) return { error: { message: 'Supabase no configurado' } };
 
     const { data, error } = await supabase.auth.signInWithOAuth({
       provider: 'google',
       options: {
-        redirectTo: `${window.location.origin}/auth/callback.html`
+        redirectTo: buildOAuthRedirect(nextPath)
       }
     });
 
@@ -191,13 +203,13 @@ const Auth = {
   },
 
   // Iniciar sesion con GitHub
-  async signInWithGitHub() {
+  async signInWithGitHub(nextPath) {
     if (!supabase) return { error: { message: 'Supabase no configurado' } };
 
     const { data, error } = await supabase.auth.signInWithOAuth({
       provider: 'github',
       options: {
-        redirectTo: `${window.location.origin}/auth/callback.html`
+        redirectTo: buildOAuthRedirect(nextPath)
       }
     });
 
