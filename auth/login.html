@@ -65,14 +65,14 @@
 
           this.success = true;
           setTimeout(() => {
-            window.location.href = '/lms/dashboard/';
+            window.location.href = this.getNextPath();
           }, 1000);
         },
 
         async handleGoogle() {
           this.loading = true;
           this.error = '';
-          const { error } = await Auth.signInWithGoogle();
+          const { error } = await Auth.signInWithGoogle(this.getNextPath());
           if (error) {
             this.error = this.translateError(error.message);
             this.loading = false;
@@ -82,11 +82,19 @@
         async handleGitHub() {
           this.loading = true;
           this.error = '';
-          const { error } = await Auth.signInWithGitHub();
+          const { error } = await Auth.signInWithGitHub(this.getNextPath());
           if (error) {
             this.error = this.translateError(error.message);
             this.loading = false;
           }
+        },
+
+        getNextPath() {
+          const next = new URLSearchParams(window.location.search).get('next');
+          if (next && next.startsWith('/') && !next.startsWith('//')) {
+            return next;
+          }
+          return '/lms/dashboard/';
         },
 
         translateError(msg) {

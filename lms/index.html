@@ -37,6 +37,55 @@
   </script>
   <style>
     [x-cloak] { display: none !important; }
+
+    /* Sombras y texturas */
+    .shadow-soft {
+      box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.08), 0 2px 8px -2px rgba(0, 0, 0, 0.04);
+    }
+    .shadow-soft-lg {
+      box-shadow: 0 8px 40px -4px rgba(0, 0, 0, 0.12), 0 4px 16px -4px rgba(0, 0, 0, 0.06);
+    }
+    .shadow-inner-white {
+      box-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.1);
+    }
+    .dark .shadow-soft {
+      box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.4), 0 2px 8px -2px rgba(0, 0, 0, 0.3);
+    }
+    .dark .shadow-soft-lg {
+      box-shadow: 0 8px 40px -4px rgba(0, 0, 0, 0.5), 0 4px 16px -4px rgba(0, 0, 0, 0.4);
+    }
+
+    /* Borde luminoso */
+    .border-glow {
+      border: 1px solid rgba(255, 255, 255, 0.15);
+    }
+    .dark .border-glow {
+      border: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    /* Efecto glassmorphism */
+    .glass {
+      background: rgba(255, 255, 255, 0.7);
+      backdrop-filter: blur(12px);
+    }
+    .dark .glass {
+      background: rgba(15, 14, 13, 0.7);
+    }
+
+    /* WhatsApp button animation */
+    @keyframes pulse-ring {
+      0% { transform: scale(0.8); opacity: 1; }
+      100% { transform: scale(1.5); opacity: 0; }
+    }
+    .whatsapp-pulse::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: 50%;
+      background: #25D366;
+      animation: pulse-ring 2s ease-out infinite;
+      z-index: -1;
+    }
   </style>
 
   <!-- Supabase SDK -->
@@ -209,6 +258,12 @@
         <!-- Auth buttons -->
         <template x-if="!user">
           <div class="flex items-center gap-2">
+            <a href="../auth/login.html?next=/lms/admin/" class="text-stone hover:text-accent transition-colors text-sm flex items-center gap-1" title="Acceso para docentes">
+              <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
+              </svg>
+              Docente
+            </a>
             <a href="../auth/login.html" class="text-stone hover:text-accent transition-colors text-sm">Entrar</a>
             <a href="../auth/register.html" class="bg-accent hover:bg-accent-hover text-cream px-4 py-2 rounded-full text-sm transition-colors">Crear cuenta</a>
           </div>
@@ -227,8 +282,16 @@
   </header>
 
   <!-- Hero Section -->
-  <section class="pt-32 pb-16 px-6">
-    <div class="max-w-6xl mx-auto text-center">
+  <section class="pt-32 pb-16 px-6 relative overflow-hidden">
+    <!-- Decorative elements -->
+    <div class="absolute top-20 left-10 w-72 h-72 bg-accent/5 rounded-full blur-3xl"></div>
+    <div class="absolute bottom-0 right-10 w-96 h-96 bg-white/30 dark:bg-white/5 rounded-full blur-3xl"></div>
+
+    <div class="max-w-6xl mx-auto text-center relative z-10">
+      <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/80 dark:bg-charcoal-light/80 shadow-soft border-glow mb-6">
+        <span class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
+        <span class="text-sm text-stone">Nuevos cursos disponibles</span>
+      </div>
       <h1 class="font-display text-5xl md:text-6xl text-ink dark:text-ash mb-4">
         Aprende en el <span class="text-accent">Dojo</span>
       </h1>
@@ -237,6 +300,111 @@
       </p>
     </div>
   </section>
+
+  <!-- Featured Course Section -->
+  <section class="px-6 pb-16">
+    <div class="max-w-6xl mx-auto">
+      <div class="bg-white dark:bg-charcoal-light rounded-3xl shadow-soft-lg border-glow overflow-hidden">
+        <div class="grid md:grid-cols-2 gap-0">
+          <!-- Course Image -->
+          <div class="relative aspect-video md:aspect-auto bg-gradient-to-br from-accent via-accent/80 to-orange-500 p-8 md:p-12 flex items-center justify-center">
+            <!-- Decorative pattern -->
+            <div class="absolute inset-0 opacity-10">
+              <svg class="w-full h-full" viewBox="0 0 100 100" preserveAspectRatio="none">
+                <pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse">
+                  <path d="M 10 0 L 0 0 0 10" fill="none" stroke="white" stroke-width="0.5"/>
+                </pattern>
+                <rect width="100" height="100" fill="url(#grid)"/>
+              </svg>
+            </div>
+            <!-- Course icon -->
+            <div class="relative">
+              <div class="w-32 h-32 md:w-40 md:h-40 bg-white/20 backdrop-blur rounded-3xl shadow-soft-lg flex items-center justify-center border border-white/30">
+                <svg class="w-16 h-16 md:w-20 md:h-20 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M4.26 10.147a60.436 60.436 0 00-.491 6.347A48.627 48.627 0 0112 20.904a48.627 48.627 0 018.232-4.41 60.46 60.46 0 00-.491-6.347m-15.482 0a50.57 50.57 0 00-2.658-.813A59.905 59.905 0 0112 3.493a59.902 59.902 0 0110.399 5.84c-.896.248-1.783.52-2.658.814m-15.482 0A50.697 50.697 0 0112 13.489a50.702 50.702 0 017.74-3.342M6.75 15a.75.75 0 100-1.5.75.75 0 000 1.5zm0 0v-3.675A55.378 55.378 0 0112 8.443m-7.007 11.55A5.981 5.981 0 006.75 15.75v-1.5"/>
+                </svg>
+              </div>
+              <!-- Floating badge -->
+              <div class="absolute -top-3 -right-3 bg-white text-accent px-3 py-1 rounded-full text-sm font-semibold shadow-soft">
+                NUEVO
+              </div>
+            </div>
+          </div>
+
+          <!-- Course Info -->
+          <div class="p-8 md:p-12 flex flex-col justify-center">
+            <div class="flex items-center gap-2 mb-4">
+              <span class="px-3 py-1 bg-amber-500/20 text-amber-600 dark:text-amber-400 rounded-full text-xs font-medium">Premium</span>
+              <span class="px-3 py-1 bg-ink/5 dark:bg-ash/10 text-stone rounded-full text-xs">8 horas</span>
+            </div>
+
+            <h2 class="font-display text-3xl md:text-4xl text-ink dark:text-ash mb-4">
+              Domina el Diseno Web Moderno
+            </h2>
+
+            <p class="text-stone mb-6 leading-relaxed">
+              Aprende a crear interfaces web profesionales con las herramientas mas modernas: Tailwind CSS, Alpine.js, y tecnicas avanzadas de UX/UI. Desde cero hasta produccion.
+            </p>
+
+            <!-- Features -->
+            <ul class="space-y-3 mb-8">
+              <li class="flex items-center gap-3 text-ink dark:text-ash">
+                <div class="w-6 h-6 rounded-full bg-green-500/20 flex items-center justify-center">
+                  <svg class="w-4 h-4 text-green-600 dark:text-green-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/>
+                  </svg>
+                </div>
+                <span>12 modulos con videos HD</span>
+              </li>
+              <li class="flex items-center gap-3 text-ink dark:text-ash">
+                <div class="w-6 h-6 rounded-full bg-green-500/20 flex items-center justify-center">
+                  <svg class="w-4 h-4 text-green-600 dark:text-green-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/>
+                  </svg>
+                </div>
+                <span>Proyectos practicos reales</span>
+              </li>
+              <li class="flex items-center gap-3 text-ink dark:text-ash">
+                <div class="w-6 h-6 rounded-full bg-green-500/20 flex items-center justify-center">
+                  <svg class="w-4 h-4 text-green-600 dark:text-green-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/>
+                  </svg>
+                </div>
+                <span>Certificado de finalizacion</span>
+              </li>
+            </ul>
+
+            <!-- CTA Buttons -->
+            <div class="flex flex-col sm:flex-row gap-3">
+              <a href="course/?slug=diseno-web-moderno" class="flex-1 py-3 px-6 bg-accent hover:bg-accent-hover text-cream font-medium rounded-xl transition-all duration-300 text-center shadow-soft hover:shadow-soft-lg hover:-translate-y-0.5">
+                Ver curso completo
+              </a>
+              <a href="https://wa.me/593999999999?text=Hola!%20Me%20interesa%20el%20curso%20de%20Diseno%20Web%20Moderno" target="_blank" class="flex-1 py-3 px-6 bg-[#25D366] hover:bg-[#20BD5A] text-white font-medium rounded-xl transition-all duration-300 text-center shadow-soft hover:shadow-soft-lg hover:-translate-y-0.5 flex items-center justify-center gap-2">
+                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+                </svg>
+                Comprar por WhatsApp
+              </a>
+            </div>
+
+            <!-- Price hint -->
+            <p class="text-stone text-sm mt-4 text-center sm:text-left">
+              Precio especial de lanzamiento disponible
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section Divider -->
+  <div class="max-w-6xl mx-auto px-6 pb-8">
+    <div class="flex items-center gap-4">
+      <div class="h-px flex-grow bg-gradient-to-r from-transparent via-ink/10 dark:via-ash/10 to-transparent"></div>
+      <span class="text-stone text-sm font-medium">Todos los cursos</span>
+      <div class="h-px flex-grow bg-gradient-to-r from-transparent via-ink/10 dark:via-ash/10 to-transparent"></div>
+    </div>
+  </div>
 
   <!-- Filters Section -->
   <section class="px-6 pb-8">
@@ -306,7 +474,7 @@
       <!-- Courses -->
       <div x-show="!loading" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         <template x-for="course in filteredCourses" :key="course.id">
-          <article class="group bg-paper dark:bg-charcoal-light rounded-2xl overflow-hidden border border-ink/5 dark:border-ash/10 hover:border-accent/30 transition-all">
+          <article class="group bg-white dark:bg-charcoal-light rounded-2xl overflow-hidden border-glow shadow-soft hover:shadow-soft-lg hover:-translate-y-1 transition-all duration-300">
             <!-- Thumbnail -->
             <div class="aspect-video bg-gradient-to-br from-accent/20 to-accent/5 relative overflow-hidden">
               <template x-if="course.thumbnail_url">
@@ -387,6 +555,18 @@
       </div>
     </div>
   </section>
+
+  <!-- WhatsApp Floating Button -->
+  <a
+    href="https://wa.me/593999999999?text=Hola!%20Me%20interesan%20los%20cursos%20del%20Dojo"
+    target="_blank"
+    class="fixed bottom-6 right-6 z-50 w-14 h-14 bg-[#25D366] hover:bg-[#20BD5A] rounded-full flex items-center justify-center shadow-soft-lg hover:shadow-xl transition-all duration-300 hover:scale-110 whatsapp-pulse"
+    title="Contactar por WhatsApp"
+  >
+    <svg class="w-7 h-7 text-white" fill="currentColor" viewBox="0 0 24 24">
+      <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+    </svg>
+  </a>
 
   <!-- Scripts -->
   <script src="../assets/js/supabase-client.js"></script>
