@@ -14,13 +14,16 @@ El sitio ya tiene los espacios reservados. Cada espacio busca su archivo en `pub
   - Peso máximo: 1,5 MB para el hero y 900 KB para las fichas.
   - Un póster `.jpg` del primer fotograma, de menos de 80 KB.
 
-## Pieza 1 · Hero (opcional)
+## Pieza 1 · Hero: la gota (`public/media/hero.webm` + `hero.mp4`)
 
-Desde el 25-10, el hero es motion en código (`public/assets/hero.js`): una regla cruza la portada, el título gana peso y la tinta se ordena en barras. Este prompt queda como alternativa si se quiere reemplazar por video. Para eso habría que volver a poner un espacio `data-video` en el hero.
+Hoy el hero usa el fotograma `public/media/hero.jpg` (Higgsfield, gpt_image_2_5, 25-10). El video debe partir de ese fotograma como imagen inicial, para que conserve la misma estética.
 
-- **Formato:** 4:5 vertical (1080×1350).
+- **Formato:** 16:9 (1920×1080), de 6 a 8 s, loop y sin audio.
+- **Modelo sugerido:** FLUX 3 Video con `start_image` = el fotograma de la gota. La cotización del 25-10 fue de 96 créditos por 12 s en 1080p; la de 6 a 8 s se confirma antes de generar.
 - **Prompt:**
-  > Minimal studio macro shot, off-white paper background (#FAFAF8), a thin precision measuring rule made of black anodized metal slowly slides across a field of fine black ink particles suspended in still air; wherever the rule passes, the particles condense and gain mass into solid heavy black bars, behind it they stay light and scattered. One single thin green (#0A7A3E) laser line marks the measuring edge. Soft top light, shallow depth of field, slow continuous camera dolly, seamless 8-second loop, monochrome editorial aesthetic, no text, no people.
+  > Same scene and framing as the start image. A single drop of black ink falls slowly along the thin green measuring line, touches the paper and blooms into a crisp radial ink splash; the splash breathes subtly and then calms, ready to loop. Extremely slow, elegant, macro, soft top light, shallow depth of field, off-white paper, monochrome with the single green hairline. No text, no people, no camera shake.
+
+El resto del recorrido (nube, regla, barras, campana de Gauss y gota final) es motion en código: `public/assets/relato.js`.
 
 ## Pieza 2 · Kit E³ (`public/media/kit-e3.webm`)
 

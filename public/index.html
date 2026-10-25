@@ -39,20 +39,60 @@
 
 <main>
 
-  <!-- 1. Tesis y una sola puerta: una regla cruza la portada y lo que mide gana peso -->
-  <section class="hero" data-hero>
-    <canvas aria-hidden="true"></canvas>
-    <span class="hero-regla" aria-hidden="true"></span>
+  <!-- 0. Hero: cae una gota y la regla la atraviesa. Video de Higgsfield cuando exista; mientras, el fotograma -->
+  <section class="hero-gota" data-video="/media/hero.webm" data-poster="/media/hero.jpg">
     <div class="wrap hero-texto">
       <p class="kicker"><b>Jorge Luis Chumbiauca</b> · marketing, IA y medición</p>
-      <h1 class="hero-titulo"><span class="revela"><span>Medir es</span></span><span class="pesa-wrap"><span class="ligero" data-ligero>intervenir.</span><span class="pesado" data-pesado aria-hidden="true">intervenir.</span></span></h1>
-      <p class="lead" data-aparece style="--d:.3s">Lo que mides decide lo que existe.<br>Aquí están los modelos con los que decido. Abiertos.</p>
+      <h1><span class="revela"><span>Medir es</span></span><span class="revela"><span style="--d:.12s"><b>intervenir.</b></span></span></h1>
+      <p class="lead" data-aparece style="--d:.3s">Todo se mide. Casi nadie decide qué.</p>
       <div class="una-puerta" data-aparece style="--d:.45s">
         <a class="boton" href="/organizacion/">Entra a La organización <span aria-hidden="true">→</span></a>
-        <p class="nota">Gratis. Sin registro.</p>
+        <a class="enlace" href="#relato">Ver por qué ↓</a>
       </div>
     </div>
-    <div class="hero-instrumento" aria-hidden="true"><span>Medición</span><b data-lectura>  0%</b></div>
+  </section>
+
+  <!-- 1-4. Relato con scroll: la misma tinta cambia de forma -->
+  <section class="relato" id="relato" data-relato>
+    <div class="relato-escena"><canvas aria-hidden="true"></canvas></div>
+    <div class="wrap relato-pasos">
+      <article class="paso" data-paso>
+        <span class="rotulo">01 · Medir</span>
+        <h2>Medir no es mirar. <b>Es elegir qué existe.</b></h2>
+        <p class="intro">Tu empresa produce miles de datos. Los que eliges, existen. El resto desaparece.</p>
+      </article>
+      <article class="paso" data-paso>
+        <span class="rotulo">02 · Intervenir</span>
+        <h2>Lo que mides, <b>cambia.</b></h2>
+        <p class="intro">Cuando eliges un indicador, tu equipo empieza a trabajar para ese número. Mide clics y tendrás clics. Mide clientes que vuelven y tendrás clientes.</p>
+        <p class="nota">Ley de Goodhart: cuando una medida se vuelve objetivo, deja de ser una buena medida.</p>
+      </article>
+      <article class="paso" data-paso>
+        <span class="rotulo">03 · Adopción</span>
+        <h2>¿Dónde está tu equipo <b>con la IA?</b></h2>
+        <p class="intro">Toda tecnología se adopta igual: pocos al inicio, la mayoría en el medio, algunos al final. Elige tu grupo o arrastra la gota.</p>
+        <div class="grupos" role="group" aria-label="Grupo de adopción">
+          <button type="button" data-grupo="0">Innovadores</button>
+          <button type="button" data-grupo="1">Tempranos</button>
+          <button type="button" data-grupo="2">Mayoría temprana</button>
+          <button type="button" data-grupo="3">Mayoría tardía</button>
+          <button type="button" data-grupo="4">Rezagados</button>
+        </div>
+        <p class="lectura-grupo" data-lectura-grupo aria-live="polite"></p>
+        <p class="reco" data-reco="0">Ya usas IA. Haz que el resultado dependa del método, no de la suerte. <a class="enlace" href="/modelos/metodo-claro/">Método CLARO →</a></p>
+        <p class="reco" data-reco="1" hidden>Pon la IA donde está tu cliente, no donde está la moda. <a class="enlace" href="/modelos/canvas-e3/">E³ · Canvas →</a></p>
+        <p class="reco" data-reco="2" hidden>Antes de escalar, distingue la señal del ruido. <a class="enlace" href="/modelos/lector-de-indicadores/">Lector de Indicadores →</a></p>
+        <p class="reco" data-reco="3" hidden>Ordena quién juega antes de sumar herramientas. <a class="enlace" href="/modelos/cancha-estrategica/">Cancha Estratégica →</a></p>
+        <p class="reco" data-reco="4" hidden>Empieza por una página, no por una plataforma. <a class="enlace" href="/modelos/rombo-e3/">E³ · Rombo →</a></p>
+        <p class="nota">Curva de difusión de innovaciones, Everett Rogers (1962).</p>
+      </article>
+      <article class="paso" data-paso>
+        <span class="rotulo">04 · Decidir</span>
+        <h2>Los modelos con los que decido. <b>Abiertos.</b></h2>
+        <p class="intro">La tinta cae en La organización: seis fichas gratis, sin registro.</p>
+        <div class="acciones"><a class="boton" href="#organizacion">Bajar a La organización ↓</a></div>
+      </article>
+    </div>
   </section>
 
   <!-- 2. La organización: la bóveda gratis -->
@@ -165,6 +205,6 @@
 </footer>
 
 <script src="/assets/sitio.js" defer></script>
-<script src="/assets/hero.js" defer></script>
+<script src="/assets/relato.js" defer></script>
 </body>
 </html>

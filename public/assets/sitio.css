@@ -149,21 +149,44 @@ h2[data-pesa].visto b{font-weight:900}
 .productos .destacado .boton.sec:hover{background:var(--escenario-texto);color:var(--tinta)}
 .pieza .cifra{font-size:clamp(56px,11vw,168px)}
 
-/* Hero v3: motion en código. Lienzo de partículas, regla que cruza y título en dos capas del mismo ancho */
-.hero{position:relative;min-height:min(92vh,880px);display:flex;align-items:center;border-bottom:1px solid var(--tinta);overflow:hidden;
-  background:linear-gradient(to right,var(--linea) 1px,transparent 1px) bottom left/24px 10px repeat-x,var(--papel)}
-.hero canvas{position:absolute;inset:0;display:block}
+/* Hero: la gota. Fondo fotográfico (Higgsfield) y, cuando exista, el video encima del póster */
+.hero-gota{position:relative;min-height:min(92vh,880px);display:flex;align-items:center;border-bottom:1px solid var(--tinta);overflow:hidden;
+  background:var(--papel) url(/media/hero.jpg) 70% 50%/cover no-repeat}
+.hero-gota video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:70% 50%}
 .hero-texto{position:relative;z-index:1;padding-block:clamp(48px,8vw,96px)}
-.hero-texto>*{max-width:min(100%,600px)}
-.hero-titulo{font-size:clamp(50px,7.2vw,118px);line-height:.92;letter-spacing:-.05em;max-width:none!important}
-.pesa-wrap{position:relative;display:inline-block;white-space:nowrap}
-.pesa-wrap .ligero{font-weight:100}
-.pesa-wrap .pesado{position:absolute;left:0;top:0;font-weight:900;white-space:nowrap;clip-path:inset(-10% 100% -10% 0)}
-.hero-regla{position:absolute;top:0;bottom:0;left:0;width:1.5px;background:var(--verde);opacity:0;transition:opacity .4s;z-index:2;pointer-events:none;will-change:transform}
-.hero-regla::before{content:"";position:absolute;top:0;left:-4px;width:9px;height:9px;background:var(--verde)}
-.hero-instrumento{position:absolute;right:var(--gut);bottom:22px;background:var(--papel);padding:4px 8px;z-index:1;display:flex;gap:10px;align-items:baseline;font-size:.75rem;text-transform:uppercase;letter-spacing:.06em;color:var(--gris)}
-.hero-instrumento b{font-size:1rem;letter-spacing:0;color:var(--verde);font-variant-numeric:tabular-nums}
-.hero .lead,.hero .kicker,.hero .una-puerta{position:relative}
-.hero .lead{background:color-mix(in srgb,var(--papel) 82%,transparent);box-shadow:0 0 0 8px color-mix(in srgb,var(--papel) 82%,transparent)}
-@media (max-width:900px){.hero{align-items:flex-start;min-height:100svh}.hero-texto{padding-bottom:45svh}}
-@media (prefers-reduced-motion:reduce){.pesa-wrap .pesado{clip-path:none}.pesa-wrap .ligero{visibility:hidden}}
+.hero-texto>*{max-width:min(100%,560px)}
+.hero-texto>h1{max-width:none}
+.hero-gota h1{font-size:clamp(52px,8vw,128px);line-height:.9;letter-spacing:-.05em}
+@media (max-width:900px){
+  .hero-gota{align-items:flex-end;background-position:70% 0;background-size:auto 62%;min-height:100svh}
+  .hero-gota video{object-position:70% 0;height:62%}
+  .hero-gota::after{content:"";position:absolute;inset:0;background:linear-gradient(to top,var(--papel) 42%,color-mix(in srgb,var(--papel) 0%,transparent) 62%);pointer-events:none}
+}
+
+/* Relato con scroll: escena fija y cuatro pasos que la recorren */
+.relato{position:relative;border-bottom:1px solid var(--tinta);overflow:clip}
+.relato-escena{position:sticky;top:0;height:100vh;height:100svh;margin-bottom:-100vh;margin-bottom:-100svh;pointer-events:none}
+.relato-escena canvas{width:100%;height:100%;display:block;pointer-events:auto;touch-action:pan-y}
+.relato-pasos{position:relative;pointer-events:none}
+.paso{min-height:100vh;min-height:100svh;display:flex;flex-direction:column;justify-content:center;max-width:460px;opacity:.18;transition:opacity .6s}
+.paso.activo{opacity:1}
+.paso a,.paso button{pointer-events:auto}
+.paso .nota{margin-top:20px}
+.grupos{display:flex;flex-wrap:wrap;gap:8px;margin-top:24px}
+.grupos button{font:inherit;font-size:.9rem;font-weight:380;padding:8px 12px;border:1px solid var(--tinta);background:var(--papel);color:var(--tinta);cursor:pointer}
+.grupos button[aria-pressed="true"]{background:var(--verde);border-color:var(--verde);color:var(--papel);font-weight:900}
+.lectura-grupo{margin:18px 0 0;font-weight:900;color:var(--verde);min-height:1.6em}
+.reco{margin:6px 0 0;font-size:1.1rem}
+@media (max-width:900px){
+  .paso{justify-content:flex-end;padding-bottom:6svh;max-width:none}
+  .paso:nth-child(3) .intro,.paso:nth-child(3) .nota{display:none}
+  .paso h2{font-size:clamp(26px,7.4vw,34px)}
+  .paso>*{background:color-mix(in srgb,var(--papel) 92%,transparent)}
+}
+
+/* La tinta llega a La organización: cada ficha recibe su gota al entrar */
+.fichas li{position:relative}
+.fichas li::before{content:"";position:absolute;left:-16px;top:50%;width:7px;height:7px;border-radius:50% 50% 50% 0;background:var(--verde);transform:translateY(-50%) rotate(-45deg) scale(0);transition:transform .7s cubic-bezier(.3,1.6,.5,1);transition-delay:calc(var(--d,0s) + .2s)}
+.fichas li.visto::before{transform:translateY(-50%) rotate(-45deg) scale(1)}
+@media (max-width:760px){.fichas li::before{left:-11px;width:5px;height:5px}}
+@media (prefers-reduced-motion:reduce){.paso{opacity:1}.fichas li::before{transform:translateY(-50%) rotate(-45deg) scale(1)}}
