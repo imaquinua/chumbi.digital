@@ -148,3 +148,22 @@ h2[data-pesa].visto b{font-weight:900}
 .productos .destacado .boton.sec{color:var(--escenario-texto);border-color:var(--escenario-texto)}
 .productos .destacado .boton.sec:hover{background:var(--escenario-texto);color:var(--tinta)}
 .pieza .cifra{font-size:clamp(56px,11vw,168px)}
+
+/* Hero v3: motion en código. Lienzo de partículas, regla que cruza y título en dos capas del mismo ancho */
+.hero{position:relative;min-height:min(92vh,880px);display:flex;align-items:center;border-bottom:1px solid var(--tinta);overflow:hidden;
+  background:linear-gradient(to right,var(--linea) 1px,transparent 1px) bottom left/24px 10px repeat-x,var(--papel)}
+.hero canvas{position:absolute;inset:0;display:block}
+.hero-texto{position:relative;z-index:1;padding-block:clamp(48px,8vw,96px)}
+.hero-texto>*{max-width:min(100%,600px)}
+.hero-titulo{font-size:clamp(50px,7.2vw,118px);line-height:.92;letter-spacing:-.05em;max-width:none!important}
+.pesa-wrap{position:relative;display:inline-block;white-space:nowrap}
+.pesa-wrap .ligero{font-weight:100}
+.pesa-wrap .pesado{position:absolute;left:0;top:0;font-weight:900;white-space:nowrap;clip-path:inset(-10% 100% -10% 0)}
+.hero-regla{position:absolute;top:0;bottom:0;left:0;width:1.5px;background:var(--verde);opacity:0;transition:opacity .4s;z-index:2;pointer-events:none;will-change:transform}
+.hero-regla::before{content:"";position:absolute;top:0;left:-4px;width:9px;height:9px;background:var(--verde)}
+.hero-instrumento{position:absolute;right:var(--gut);bottom:22px;z-index:1;display:flex;gap:10px;align-items:baseline;font-size:.75rem;text-transform:uppercase;letter-spacing:.06em;color:var(--gris)}
+.hero-instrumento b{font-size:1rem;letter-spacing:0;color:var(--verde);font-variant-numeric:tabular-nums}
+.hero .lead,.hero .kicker,.hero .una-puerta{position:relative}
+.hero .lead{background:color-mix(in srgb,var(--papel) 82%,transparent);box-shadow:0 0 0 8px color-mix(in srgb,var(--papel) 82%,transparent)}
+@media (max-width:900px){.hero{align-items:flex-start;min-height:100svh}.hero-texto{padding-bottom:45svh}}
+@media (prefers-reduced-motion:reduce){.pesa-wrap .pesado{clip-path:none}.pesa-wrap .ligero{visibility:hidden}}

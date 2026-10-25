@@ -14,7 +14,9 @@ El sitio ya tiene los espacios reservados. Cada espacio busca su archivo en `pub
   - Peso máximo: 1,5 MB para el hero y 900 KB para las fichas.
   - Un póster `.jpg` del primer fotograma, de menos de 80 KB.
 
-## Pieza 1 · Hero (`public/media/hero.webm` + `hero.jpg`)
+## Pieza 1 · Hero (opcional)
+
+Desde el 25-10, el hero es motion en código (`public/assets/hero.js`): una regla cruza la portada, el título gana peso y la tinta se ordena en barras. Este prompt queda como alternativa si se quiere reemplazar por video. Para eso habría que volver a poner un espacio `data-video` en el hero.
 
 - **Formato:** 4:5 vertical (1080×1350).
 - **Prompt:**

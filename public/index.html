@@ -39,31 +39,20 @@
 
 <main>
 
-  <!-- 1. Tesis y una sola puerta -->
-  <section class="portada-v2">
-    <div class="wrap">
-      <div>
-        <p class="kicker"><b>Jorge Luis Chumbiauca</b> · marketing, IA y medición</p>
-        <h1><span class="revela"><span>Medir es</span></span><span data-medidor>intervenir.</span></h1>
-        <p class="lead" data-aparece style="--d:.3s">Lo que mides decide lo que existe.<br>Aquí están los modelos con los que decido. Abiertos.</p>
-        <div class="una-puerta" data-aparece style="--d:.45s">
-          <a class="boton" href="/organizacion/">Entra a La organización <span aria-hidden="true">→</span></a>
-          <p class="nota">Gratis. Sin registro.</p>
-        </div>
+  <!-- 1. Tesis y una sola puerta: una regla cruza la portada y lo que mide gana peso -->
+  <section class="hero" data-hero>
+    <canvas aria-hidden="true"></canvas>
+    <span class="hero-regla" aria-hidden="true"></span>
+    <div class="wrap hero-texto">
+      <p class="kicker"><b>Jorge Luis Chumbiauca</b> · marketing, IA y medición</p>
+      <h1 class="hero-titulo"><span class="revela"><span>Medir es</span></span><span class="pesa-wrap"><span class="ligero" data-ligero>intervenir.</span><span class="pesado" data-pesado aria-hidden="true">intervenir.</span></span></h1>
+      <p class="lead" data-aparece style="--d:.3s">Lo que mides decide lo que existe.<br>Aquí están los modelos con los que decido. Abiertos.</p>
+      <div class="una-puerta" data-aparece style="--d:.45s">
+        <a class="boton" href="/organizacion/">Entra a La organización <span aria-hidden="true">→</span></a>
+        <p class="nota">Gratis. Sin registro.</p>
       </div>
-      <figure class="pieza" data-video="/media/hero.webm" data-poster="/media/hero.jpg" data-aparece style="--d:.2s">
-        <div class="respaldo">
-          <div class="tablero" data-tablero aria-hidden="true">
-            <div class="fila"><span>Alcance</span><span class="barra-dato"><i style="--v:.62"></i></span><span class="n">62</span></div>
-            <div class="fila"><span>Intención</span><span class="barra-dato"><i style="--v:.38"></i></span><span class="n">38</span></div>
-            <div class="fila"><span>Conversión</span><span class="barra-dato"><i style="--v:.21"></i></span><span class="n">21</span></div>
-            <div class="fila"><span>Retención</span><span class="barra-dato"><i style="--v:.47"></i></span><span class="n">47</span></div>
-            <p class="pie">El número que miras es el que crece.</p>
-          </div>
-        </div>
-        <figcaption>Tablero vivo</figcaption>
-      </figure>
     </div>
+    <div class="hero-instrumento" aria-hidden="true"><span>Medición</span><b data-lectura>  0%</b></div>
   </section>
 
   <!-- 2. La organización: la bóveda gratis -->
@@ -176,5 +165,6 @@
 </footer>
 
 <script src="/assets/sitio.js" defer></script>
+<script src="/assets/hero.js" defer></script>
 </body>
 </html>
