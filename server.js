@@ -11,7 +11,7 @@ const PUB = path.join(RAIZ, 'public');
 const TXT = process.env.SUSCRIPTORES_TXT || path.join(RAIZ, 'data', 'newsletter', 'suscriptores.txt');
 const PUERTO = Number(process.env.PORT || 3000);
 const almacen = almacenArchivo(TXT);
-const TIPOS = { '.html': 'text/html; charset=utf-8', '.svg': 'image/svg+xml', '.css': 'text/css', '.js': 'text/javascript', '.png': 'image/png', '.ico': 'image/x-icon' };
+const TIPOS = { '.html': 'text/html; charset=utf-8', '.svg': 'image/svg+xml', '.css': 'text/css', '.js': 'text/javascript', '.png': 'image/png', '.jpg': 'image/jpeg', '.ico': 'image/x-icon', '.webm': 'video/webm', '.mp4': 'video/mp4', '.txt': 'text/plain; charset=utf-8', '.woff2': 'font/woff2' };
 
 function json(res, status, obj) {
   res.writeHead(status, { 'Content-Type': 'application/json; charset=utf-8', 'Cache-Control': 'no-store' });

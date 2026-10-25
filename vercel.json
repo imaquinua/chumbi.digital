@@ -26,6 +26,27 @@
           "value": "no-cache"
         }
       ]
+    },
+    {
+      "source": "/media/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=31536000, immutable"
+        }
+      ]
+    }
+  ],
+  "redirects": [
+    {
+      "source": "/modelos",
+      "destination": "/organizacion/",
+      "permanent": true
+    },
+    {
+      "source": "/modelos/",
+      "destination": "/organizacion/",
+      "permanent": true
     }
   ]
 }

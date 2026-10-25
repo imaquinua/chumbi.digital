@@ -13,6 +13,7 @@ export default async function handler(req, res) {
   if (b.web) return res.status(400).json({ ok: false, mensaje: 'Solicitud inválida.' });
   const producto = buscar(b.producto);
   if (!producto) return res.status(400).json({ ok: false, mensaje: 'Ese producto no existe.' });
+  if (producto.estado !== 'venta') return res.status(400).json({ ok: false, mensaje: 'Ese producto todavía no está a la venta.' });
   const correo = limpiar(b.correo);
   if (!correo || correo.length > 254 || !RE.test(correo)) return res.status(400).json({ ok: false, mensaje: 'Ese correo no parece válido. Revísalo.' });
 

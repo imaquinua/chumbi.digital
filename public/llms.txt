@@ -1,0 +1,23 @@
+# Chumbi · chumbi.digital
+
+> Jorge Luis Chumbiauca (Chumbi), docente, autor e investigador de marketing, IA y medición en Lima, Perú. Tesis: medir es intervenir. Elegir un indicador es un acto de gobierno: decide qué existe para una organización.
+
+## La organización (gratis)
+- [La organización](https://chumbi.digital/organizacion/): bóveda abierta con los modelos estratégicos de Chumbi.
+- [E³ · Canvas](https://chumbi.digital/modelos/canvas-e3/): la pirámide de Maslow cruzada con See-Think-Do-Care (Avinash Kaushik) para mapear el recorrido del cliente.
+- [E³ · Diagrama](https://chumbi.digital/modelos/diagrama-e3/): el método E³ completo en una pieza.
+- [E³ · Rombo](https://chumbi.digital/modelos/rombo-e3/): el E³ en una página.
+- [Cancha Estratégica](https://chumbi.digital/modelos/cancha-estrategica/): el marketing como un equipo de fútbol, con once posiciones en tres tercios.
+- [Lector de Indicadores](https://chumbi.digital/modelos/lector-de-indicadores/): cómo distinguir señal de ruido en un tablero.
+- [Método CLARO](https://chumbi.digital/modelos/metodo-claro/): prompting en cinco partes (contexto, labor, anatomía, referencias, objetivo).
+
+## Tienda
+- [Kits de modelos estratégicos](https://chumbi.digital/tienda/): plantillas, guías de taller y casos resueltos. Pago único en soles con Mercado Pago.
+- Service design aplicado a IA, software y marketing: en preparación.
+
+## Obra
+- Epistemología de un KPI: libro en revisión.
+
+## Contacto
+- chumbi@imaquinua.com
+- https://www.linkedin.com/in/jlchumbiauca/

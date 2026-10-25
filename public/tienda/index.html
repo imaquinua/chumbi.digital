@@ -4,66 +4,44 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Chumbi · Tienda</title>
-<meta name="description" content="Síntesis de libros, modelos estratégicos, mentorías 1:1 y dirección de marketing fractional. Pago seguro con Mercado Pago.">
+<meta name="description" content="Kits de los modelos estratégicos de Chumbi y service design aplicado a IA, software y marketing. Pago único en soles con Mercado Pago.">
 <link rel="canonical" href="https://chumbi.digital/tienda/">
+<meta property="og:title" content="Tienda · Chumbi">
+<meta property="og:description" content="Pocos productos. Precios claros. La ficha es gratis; el kit trabaja contigo.">
+<meta property="og:image" content="https://chumbi.digital/og.png">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/modelos/modelos.css">
+<link rel="stylesheet" href="/assets/sitio.css">
 <style>
-:root{--tinta:#141414;--papel:#FAFAF8;--gris:#4E4E4A;--linea:#C4C1B8;--verde:#0A7A3E;--banda:#F0EEE8;--rojo:#B3261E;--max:1240px;--gut:clamp(16px,4vw,40px)}
-*{box-sizing:border-box}
-body{margin:0;background:var(--papel);color:var(--tinta);font-family:'Archivo',system-ui,sans-serif;font-weight:380;letter-spacing:-.005em;line-height:1.6;font-size:clamp(16px,1.05vw,18px);overflow-x:hidden}
-a{color:inherit}
-b,strong{font-weight:900}
-.wrap{width:100%;max-width:var(--max);margin:0 auto;padding-inline:var(--gut)}
-.num{font-variant-numeric:tabular-nums}
-header.barra{border-bottom:1px solid var(--tinta)}
-header.barra .wrap{display:flex;align-items:center;justify-content:space-between;gap:16px;min-height:64px}
-.marca{font-weight:900;font-size:26px;letter-spacing:-.03em;text-decoration:none;line-height:1}
-.marca .m{color:var(--verde)}
-nav a{text-decoration:none;font-weight:900;color:var(--verde)}
-.portada{padding-block:clamp(40px,6vw,88px) clamp(32px,5vw,64px);border-bottom:1px solid var(--linea)}
-h1{margin:0;font-size:clamp(40px,6.4vw,96px);line-height:.94;letter-spacing:-.045em;font-weight:200}
-h1 b{font-stretch:112%}
-.lead{margin:clamp(20px,3vw,32px) 0 0;max-width:56ch;font-size:clamp(1.08rem,1.4vw,1.25rem);line-height:1.5}
-section.grupo{padding-block:clamp(48px,7vw,96px);border-bottom:1px solid var(--linea)}
-.rotulo{display:block;font-size:.85rem;font-weight:900;text-transform:uppercase;letter-spacing:.02em;color:var(--gris);margin-bottom:20px}
-.lista{list-style:none;margin:0;padding:0;border-top:1.5px solid var(--tinta)}
-.lista li{display:grid;grid-template-columns:1fr auto auto;gap:8px 28px;align-items:center;padding:24px 0;border-bottom:1px solid var(--linea)}
-.lista h2{margin:0;font-size:clamp(1.25rem,2.4vw,1.9rem);line-height:1.1;letter-spacing:-.03em;font-weight:900}
-.lista p{margin:6px 0 0;color:var(--gris)}
-.precio{font-size:clamp(1.3rem,2.2vw,1.8rem);font-weight:900;white-space:nowrap}
-.precio small{font-size:.55em;font-weight:200;color:var(--gris)}
-.boton{display:inline-flex;align-items:center;gap:10px;font:inherit;font-weight:900;text-decoration:none;padding:14px 20px;background:var(--verde);color:var(--papel);border:1.5px solid var(--verde);cursor:pointer;letter-spacing:-.02em}
-.boton:hover{background:var(--tinta);border-color:var(--tinta)}
-.boton[disabled]{opacity:.5;cursor:wait}
-@media (max-width:720px){.lista li{grid-template-columns:1fr auto}.lista li>div:first-child{grid-column:1/-1}}
 dialog{border:1.5px solid var(--tinta);padding:0;max-width:min(520px,calc(100vw - 32px));width:100%;background:var(--papel);color:var(--tinta)}
 dialog::backdrop{background:rgba(20,20,20,.55)}
 dialog form{padding:28px}
-dialog h2{margin:0 0 4px;font-size:1.4rem;font-weight:900;letter-spacing:-.03em}
+dialog h2{margin:0 0 4px;font-size:1.4rem;font-weight:900;letter-spacing:-.03em;max-width:none}
 dialog .monto{margin:0 0 20px;color:var(--gris)}
-label{display:block;font-weight:900;margin-bottom:8px}
-input[type=email]{width:100%;font:inherit;padding:14px;border:1.5px solid var(--tinta);background:#fff;border-radius:0}
 .trampa{position:absolute;left:-9999px}
-.fila{display:flex;flex-wrap:wrap;gap:12px 20px;align-items:center;margin-top:20px}
+.fila-dlg{display:flex;flex-wrap:wrap;gap:12px 20px;align-items:center;margin-top:20px}
 .cerrar{background:none;border:0;font:inherit;font-weight:900;border-bottom:1.5px solid var(--tinta);padding:0 0 2px;cursor:pointer}
-.aviso{margin:14px 0 0;color:var(--gris);font-size:.9rem}
-.error{color:var(--rojo);font-weight:900;min-height:1.5em;margin:12px 0 0}
-.banda{margin:0;padding:14px var(--gut);background:var(--rojo);color:var(--papel);font-weight:900;text-align:center}
-footer{padding-block:28px;font-size:.9rem;color:var(--gris)}
-footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px}
-section.grupo:nth-of-type(even){background:var(--banda)}
-:focus-visible{outline:2px solid var(--verde);outline-offset:3px}
+.error{color:#B3261E;font-weight:900;min-height:1.5em;margin:12px 0 0}
+.banda{margin:0;padding:14px var(--gut);background:#B3261E;color:var(--papel);font-weight:900;text-align:center}
+.boton[disabled]{opacity:.5;cursor:wait}
 </style>
 </head>
 <body>
+<div class="progreso" aria-hidden="true"></div>
 
 <header class="barra">
   <div class="wrap">
     <a class="marca" href="/" aria-label="Chumbi, inicio">chu<span class="m">m</span>bi</a>
-    <nav aria-label="Principal"><a href="/#conversemos">Conversemos</a></nav>
+    <nav aria-label="Principal">
+      <ul>
+        <li><a href="/organizacion/">La organización</a></li>
+        <li><a href="/tienda/" aria-current="page">Tienda</a></li>
+        <li><a class="cta-nav" href="/organizacion/">Entrar gratis</a></li>
+      </ul>
+    </nav>
   </div>
 </header>
 
@@ -72,22 +50,46 @@ section.grupo:nth-of-type(even){background:var(--banda)}
 <main>
   <section class="portada">
     <div class="wrap">
-      <h1>Lo que uso<br><b>para decidir.</b></h1>
-      <p class="lead">Síntesis de libros con mis notas de aula, mis modelos estratégicos, mentorías 1:1 y dirección de marketing fractional. Pagas con Mercado Pago en soles.</p>
+      <h1><span class="revela"><span>Pocos productos.</span></span><span class="revela"><span style="--d:.12s"><b>Precios claros.</b></span></span></h1>
+      <p class="lead" data-aparece style="--d:.3s">La ficha de cada modelo es gratis. El kit es para trabajarlo con tu equipo. Pago único, en soles.</p>
     </div>
   </section>
 
-  <section class="grupo" aria-labelledby="t-resumen">
-    <div class="wrap"><span class="rotulo" id="t-resumen">Síntesis · descarga inmediata</span><ul class="lista" data-tipo="resumen"></ul></div>
+  <section class="bloque">
+    <div class="wrap">
+      <span class="rotulo">Modelos estratégicos · descarga inmediata</span>
+      <h2 data-pesa>Del modelo <b>al taller.</b></h2>
+<!--catalogo:modelos-->
+      <ul class="productos">
+        <li data-aparece style="--d:0.00s"><div><h3><a href="/tienda/kit-e3/">Kit E³ · Canvas, diagrama y rombo</a></h3><p>Las necesidades de Maslow cruzadas con See-Think-Do-Care para mapear el recorrido completo del cliente. Incluye guía de taller.</p></div><div class="precio-linea"><b>S/ 149</b><small>≈ US$ 40</small></div><button class="boton" type="button" data-comprar="modelo-kit-e3" data-nombre="Kit E³ · Canvas, diagrama y rombo" data-precio="149">Comprar</button></li>
+        <li data-aparece style="--d:0.06s"><div><h3><a href="/tienda/cancha-estrategica/">Cancha Estratégica</a></h3><p>Tu marketing como un equipo en la cancha: once posiciones para tus canales, herramientas y personas, y el tercio donde te meten goles.</p></div><div class="precio-linea"><b>S/ 69</b><small>≈ US$ 18</small></div><button class="boton" type="button" data-comprar="modelo-cancha-estrategica" data-nombre="Cancha Estratégica" data-precio="69">Comprar</button></li>
+        <li data-aparece style="--d:0.12s"><div><h3><a href="/tienda/lector-de-indicadores/">Lector de Indicadores · kit de lectura</a></h3><p>Lee un tablero con criterio: qué es señal y qué es ruido. Plantilla semanal y ejemplo resuelto.</p></div><div class="precio-linea"><b>S/ 69</b><small>≈ US$ 18</small></div><button class="boton" type="button" data-comprar="modelo-lector-indicadores" data-nombre="Lector de Indicadores · kit de lectura" data-precio="69">Comprar</button></li>
+        <li data-aparece style="--d:0.18s"><div><h3><a href="/tienda/metodo-claro/">Método CLARO · manual de prompting</a></h3><p>Contexto, labor, anatomía, referencias y objetivo: cinco partes para cada prompt. Manual, plantillas y hoja de chequeo.</p></div><div class="precio-linea"><b>S/ 49</b><small>≈ US$ 13</small></div><button class="boton" type="button" data-comprar="modelo-metodo-claro" data-nombre="Método CLARO · manual de prompting" data-precio="49">Comprar</button></li>
+        <li class="destacado" data-aparece style="--d:0.24s"><div><h3><a href="/tienda/pack-completo/">Pack completo · modelos estratégicos de Chumbi</a></h3><p>Los cuatro kits en una sola descarga: E³, Cancha Estratégica, Lector de Indicadores y Método CLARO.</p></div><div class="precio-linea"><b>S/ 249</b><small>≈ US$ 66</small></div><button class="boton" type="button" data-comprar="modelo-pack-completo" data-nombre="Pack completo · modelos estratégicos de Chumbi" data-precio="249">Comprar</button></li>
+      </ul>
+<!--/catalogo:modelos-->
+    </div>
   </section>
-  <section class="grupo" aria-labelledby="t-modelo">
-    <div class="wrap"><span class="rotulo" id="t-modelo">Modelos estratégicos · descarga inmediata</span><ul class="lista" data-tipo="modelo"></ul></div>
-  </section>
-  <section class="grupo" aria-labelledby="t-mentoria">
-    <div class="wrap"><span class="rotulo" id="t-mentoria">Mentorías</span><ul class="lista" data-tipo="mentoria"></ul></div>
-  </section>
-  <section class="grupo" aria-labelledby="t-fractional">
-    <div class="wrap"><span class="rotulo" id="t-fractional">Fractional · suscripción mensual</span><ul class="lista" data-tipo="fractional"></ul></div>
+
+  <section class="bloque">
+    <div class="wrap">
+      <span class="rotulo">Service design aplicado · en preparación</span>
+      <h2 data-pesa>IA, software y marketing. <b>Pronto.</b></h2>
+<!--catalogo:service-design-->
+      <ul class="productos">
+        <li data-aparece style="--d:0.00s"><div><h3>Service design para IA</h3><p>Diseñar el servicio antes que el agente: dónde entra la IA, qué decide sola y qué se mide para saber si sirve.</p></div><div class="precio-linea"><span class="estado">Pronto</span></div></li>
+        <li data-aparece style="--d:0.06s"><div><h3>Service design para software</h3><p>Del blueprint del servicio al backlog: que el producto resuelva el recorrido completo, no solo la pantalla.</p></div><div class="precio-linea"><span class="estado">Pronto</span></div></li>
+        <li data-aparece style="--d:0.12s"><div><h3>Service design para marketing</h3><p>El marketing como un servicio que el cliente recorre: puntos de contacto, momentos de verdad y el indicador de cada uno.</p></div><div class="precio-linea"><span class="estado">Pronto</span></div></li>
+      </ul>
+<!--/catalogo:service-design-->
+      <form class="en-linea" data-gracias="Anotado. Te aviso cuando abra.">
+        <label class="trampa" for="sd-web">No llenar</label><input class="trampa" id="sd-web" type="text" name="web" tabindex="-1" autocomplete="off">
+        <label class="trampa" for="sd-correo">Tu correo</label>
+        <input type="email" id="sd-correo" name="correo" required placeholder="tu@correo.com" autocomplete="email">
+        <button class="boton" type="submit">Avísame</button>
+      </form>
+      <p class="respuesta" role="status"></p>
+    </div>
   </section>
 </main>
 
@@ -98,9 +100,9 @@ section.grupo:nth-of-type(even){background:var(--banda)}
     <label for="correo">Tu correo</label>
     <input type="email" id="correo" name="correo" autocomplete="email" required placeholder="tu@correo.com">
     <input class="trampa" type="text" name="web" tabindex="-1" autocomplete="off" aria-hidden="true">
-    <p class="aviso" id="c-aviso"></p>
+    <p class="nota">Te enviamos el enlace de descarga a este correo apenas se confirme el pago.</p>
     <p class="error" id="c-error" role="alert"></p>
-    <div class="fila">
+    <div class="fila-dlg">
       <button class="boton" type="submit" id="pagar">Pagar con Mercado Pago <span aria-hidden="true">→</span></button>
       <button class="cerrar" type="button" id="cerrar">Cancelar</button>
     </div>
@@ -109,46 +111,28 @@ section.grupo:nth-of-type(even){background:var(--banda)}
 
 <footer><div class="wrap"><span>chumbi.digital · 2026</span><span>Pagos procesados por Mercado Pago · Lima, Perú</span></div></footer>
 
+<script src="/assets/sitio.js" defer></script>
 <script>
 (function(){
-  var AVISOS={
-    resumen:'Te enviamos el enlace de descarga a este correo apenas se confirme el pago.',
-    modelo:'Te enviamos el enlace de descarga a este correo apenas se confirme el pago.',
-    mentoria:'Después del pago te llega por correo el enlace para elegir el horario.',
-    fractional:'Es un cobro mensual automático. Lo cancelas cuando quieras desde Mercado Pago.'
-  };
-  var dlg=document.getElementById('compra'),form=document.getElementById('form'),err=document.getElementById('c-error'),btn=document.getElementById('pagar');
-  var actual=null;
-  if(new URLSearchParams(location.search).get('error')==='pago')document.getElementById('banda').hidden=false;
-  function soles(n){return 'S/ '+n.toLocaleString('es-PE')}
-  fetch('/api/catalogo').then(function(r){return r.json()}).then(function(d){
-    d.productos.forEach(function(p){
-      var ul=document.querySelector('.lista[data-tipo="'+p.tipo+'"]');if(!ul)return;
-      var li=document.createElement('li');
-      li.innerHTML='<div><h2></h2><p></p></div><span class="precio num"></span><button class="boton" type="button">'+(p.tipo==='fractional'?'Suscribirme':'Comprar')+'</button>';
-      li.querySelector('h2').textContent=p.nombre;
-      li.querySelector('p').textContent=p.bajada;
-      li.querySelector('.precio').innerHTML=soles(p.precio)+(p.tipo==='fractional'?' <small>/mes</small>':'');
-      li.querySelector('button').addEventListener('click',function(){abrir(p)});
-      ul.appendChild(li);
-    });
-    // Compra directa desde otra página: /tienda/?comprar=<id>
-    var directo=new URLSearchParams(location.search).get('comprar');
-    var p=directo&&d.productos.filter(function(x){return x.id===directo})[0];
-    if(p)abrir(p);
-  });
-  function abrir(p){
-    actual=p;err.textContent='';btn.disabled=false;
-    document.getElementById('c-nombre').textContent=p.nombre;
-    document.getElementById('c-monto').textContent=soles(p.precio)+(p.tipo==='fractional'?' al mes':'');
-    document.getElementById('c-aviso').textContent=AVISOS[p.tipo];
-    dlg.showModal();document.getElementById('correo').focus();
+  var dlg=document.getElementById('compra'),form=document.getElementById('form'),err=document.getElementById('c-error'),btn=document.getElementById('pagar'),actual=null;
+  var q=new URLSearchParams(location.search);
+  if(q.get('error')==='pago')document.getElementById('banda').hidden=false;
+  function abrir(b){
+    actual=b.getAttribute('data-comprar');err.textContent='';btn.disabled=false;
+    document.getElementById('c-nombre').textContent=b.getAttribute('data-nombre');
+    document.getElementById('c-monto').textContent='S/ '+b.getAttribute('data-precio')+' · pago único';
+    dlg.showModal();form.correo.focus();
   }
+  var botones=document.querySelectorAll('[data-comprar]');
+  botones.forEach(function(b){b.addEventListener('click',function(){abrir(b)})});
+  // Compra directa desde una ficha: /tienda/?comprar=<id>
+  var directo=q.get('comprar');
+  botones.forEach(function(b){if(b.getAttribute('data-comprar')===directo)abrir(b)});
   document.getElementById('cerrar').addEventListener('click',function(){dlg.close()});
   form.addEventListener('submit',function(e){
     e.preventDefault();err.textContent='';btn.disabled=true;
     fetch('/api/checkout',{method:'POST',headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({producto:actual.id,correo:form.correo.value,web:form.web.value})})
+      body:JSON.stringify({producto:actual,correo:form.correo.value,web:form.web.value})})
     .then(function(r){return r.json()})
     .then(function(d){if(d.ok&&d.url){location.href=d.url}else{err.textContent=d.mensaje||'Algo falló.';btn.disabled=false}})
     .catch(function(){err.textContent='Sin conexión. Intenta de nuevo.';btn.disabled=false});
