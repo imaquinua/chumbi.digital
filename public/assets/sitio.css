@@ -161,7 +161,7 @@ h2[data-pesa].visto b{font-weight:900}
 .pesa-wrap .pesado{position:absolute;left:0;top:0;font-weight:900;white-space:nowrap;clip-path:inset(-10% 100% -10% 0)}
 .hero-regla{position:absolute;top:0;bottom:0;left:0;width:1.5px;background:var(--verde);opacity:0;transition:opacity .4s;z-index:2;pointer-events:none;will-change:transform}
 .hero-regla::before{content:"";position:absolute;top:0;left:-4px;width:9px;height:9px;background:var(--verde)}
-.hero-instrumento{position:absolute;right:var(--gut);bottom:22px;z-index:1;display:flex;gap:10px;align-items:baseline;font-size:.75rem;text-transform:uppercase;letter-spacing:.06em;color:var(--gris)}
+.hero-instrumento{position:absolute;right:var(--gut);bottom:22px;background:var(--papel);padding:4px 8px;z-index:1;display:flex;gap:10px;align-items:baseline;font-size:.75rem;text-transform:uppercase;letter-spacing:.06em;color:var(--gris)}
 .hero-instrumento b{font-size:1rem;letter-spacing:0;color:var(--verde);font-variant-numeric:tabular-nums}
 .hero .lead,.hero .kicker,.hero .una-puerta{position:relative}
 .hero .lead{background:color-mix(in srgb,var(--papel) 82%,transparent);box-shadow:0 0 0 8px color-mix(in srgb,var(--papel) 82%,transparent)}
