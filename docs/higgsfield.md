@@ -16,7 +16,7 @@ El sitio ya tiene los espacios reservados. Cada espacio busca su archivo en `pub
 
 ## Pieza 1 · Hero: la gota (`public/media/hero.webm` + `hero.mp4`)
 
-Hoy el hero usa el fotograma `public/media/hero.jpg` (Higgsfield, gpt_image_2_5, 25-10). El video debe partir de ese fotograma como imagen inicial, para que conserve la misma estética.
+**Hecho el 25-10:** FLUX 3 Video, 8 s, 1080p, sin audio, 64 créditos, con `start_image` = el fotograma `public/media/hero.jpg`. Exportado como `hero.webm` (VP9, 200 KB) y `hero.mp4` (H.264, 375 KB). Se reproduce una sola vez y queda en el último cuadro (`data-una-vez`).
 
 - **Formato:** 16:9 (1920×1080), de 6 a 8 s, loop y sin audio.
 - **Modelo sugerido:** FLUX 3 Video con `start_image` = el fotograma de la gota. La cotización del 25-10 fue de 96 créditos por 12 s en 1080p; la de 6 a 8 s se confirma antes de generar.

@@ -103,10 +103,13 @@
       fetch(src, { method: 'HEAD' }).then(function (r) {
         if (!r.ok) return;
         var v = document.createElement('video');
-        v.muted = true; v.loop = true; v.autoplay = true; v.playsInline = true;
+        // data-una-vez: el clip se reproduce una vez y queda en su último cuadro (la gota ya cayó)
+        v.muted = true; v.loop = !fig.hasAttribute('data-una-vez'); v.autoplay = true; v.playsInline = true;
         v.setAttribute('aria-hidden', 'true');
         if (fig.getAttribute('data-poster')) v.poster = fig.getAttribute('data-poster');
-        v.src = src;
+        [[src, 'video/webm'], [src.replace(/\.webm$/, '.mp4'), 'video/mp4']].forEach(function (f) {
+          var s = document.createElement('source'); s.src = f[0]; s.type = f[1]; v.appendChild(s);
+        });
         fig.insertBefore(v, fig.firstChild);
         v.addEventListener('playing', function () { fig.classList.add('con-video'); });
         v.play().catch(function () {});
