@@ -128,6 +128,24 @@
         ],
         "createdAt": "2026-10-23T20:50:59.535Z",
         "reason": "Claude: es .marcador, titular display de 28 a 56px con interlineado 1.1; el texto corrido hereda 1.6 de modelos.css"
+      },
+      {
+        "rule": "cramped-padding",
+        "value": "*",
+        "files": [
+          "public/index.html"
+        ],
+        "createdAt": "2026-10-25T01:29:09.633Z",
+        "reason": "Claude: las secciones tienen padding-block de 48-96px y las listas filetadas tienen 22-24px por fila; el detector no lee el padding real"
+      },
+      {
+        "rule": "all-caps-body",
+        "value": "*",
+        "files": [
+          "public/index.html"
+        ],
+        "createdAt": "2026-10-25T01:29:09.669Z",
+        "reason": "Claude: son rótulos cortos (.rotulo) del sistema de marca 1a, no texto corrido"
       }
     ]
   }

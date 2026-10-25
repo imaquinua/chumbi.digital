@@ -89,7 +89,7 @@
       var f = filas[i % filas.length];
       f.classList.add('mirada');
       var v = 30 + Math.round(Math.random() * 65);
-      f.style.setProperty('--v', v + '%');
+      f.style.setProperty('--v', (v / 100).toFixed(2));
       f.querySelector('.n').textContent = v;
       i++;
     }, 1600);
