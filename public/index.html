@@ -63,17 +63,18 @@ var e=ttq._i[t]||[],n=0;n<ttq.methods.length;n++)ttq.setAndDefer(e,ttq.methods[n
 
 <main>
 
-  <!-- 1. Hero: el mundo del embudo vivo (loop de Higgsfield). El texto vive sobre papel liso. -->
-  <section class="mundo" aria-label="Portada">
-    <video class="mundo-video" autoplay muted loop playsinline preload="auto" poster="/media/mundo/loop.jpg" aria-hidden="true">
-      <source src="/media/mundo/loop.webm" type="video/webm">
-      <source src="/media/mundo/loop.mp4" type="video/mp4">
-    </video>
-    <div class="wrap mundo-texto">
-      <p class="kicker"><b>Marketing con agentes de IA</b></p>
-      <h1>Tus agentes de IA hacen lo que <b data-medidor>mides.</b></h1>
-      <p class="lead">Mide bien. Ellos hacen el resto.</p>
-      <div class="una-puerta"><a class="boton" href="#probar">Pruébalo gratis <span aria-hidden="true">↓</span></a></div>
+  <!-- 1. Hero: la oficina de agentes; el scroll mueve la cámara hasta el globo verde. El texto vive sobre papel liso. -->
+  <section class="cine" data-cine data-cuadros="/media/oficina/cuadros/" data-n="121" aria-label="Portada">
+    <div class="cine-escena">
+      <img class="cine-respaldo" src="/media/oficina/oficina.jpg" width="1800" height="1018" alt="" aria-hidden="true">
+      <canvas aria-hidden="true"></canvas>
+      <div class="wrap cine-texto" data-cine-texto>
+        <p class="kicker"><b>Marketing con agentes de IA</b></p>
+        <h1>Tus agentes de IA hacen lo que <b data-medidor>mides.</b></h1>
+        <p class="lead">Mide bien. Ellos hacen el resto.</p>
+        <div class="una-puerta"><a class="boton" href="#probar">Pruébalo gratis <span aria-hidden="true">↓</span></a></div>
+      </div>
+      <p class="cine-final" data-cine-final><span>Este es tu agente.</span> <a class="enlace" href="#probar">Pídele un veredicto ↓</a></p>
     </div>
   </section>
 
