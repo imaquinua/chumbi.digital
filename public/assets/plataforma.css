@@ -230,3 +230,5 @@
   .gota{position:relative;margin:0;aspect-ratio:4/3;overflow:hidden;border:1px solid var(--tinta);background:var(--papel)}
   .gota img,.gota video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:72% 50%}
   @media (max-width:900px){.gota{aspect-ratio:16/10}}
+  .gota video{z-index:1}
+  .gota.con-video img{visibility:hidden}
