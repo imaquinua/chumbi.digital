@@ -160,12 +160,18 @@ var e=ttq._i[t]||[],n=0;n<ttq.methods.length;n++)ttq.setAndDefer(e,ttq.methods[n
     </div>
   </section>
 
-  <!-- 5. Skills: avance; la biblioteca vive en /skills/ -->
+  <!-- 5. Skills: avance; la biblioteca vive en /skills/. La campana: el ruido se ordena y queda una sola señal. -->
   <section class="bloque" id="boveda">
-    <div class="wrap">
-      <span class="rotulo">04 · Skills · gratis</span>
-      <h2 data-pesa>Skills de marketing para IA, <b>con lo que hay que medir.</b></h2>
-      <div class="una-puerta"><a class="boton sec" href="/skills/">Ver las 18 skills <span aria-hidden="true">→</span></a></div>
+    <div class="wrap dos-col">
+      <div>
+        <span class="rotulo">04 · Skills · gratis</span>
+        <h2 data-pesa>Skills de marketing para IA, <b>con lo que hay que medir.</b></h2>
+        <div class="una-puerta"><a class="boton sec" href="/skills/">Ver las 18 skills <span aria-hidden="true">→</span></a></div>
+      </div>
+      <figure class="campana" data-campana aria-hidden="true">
+        <canvas></canvas>
+        <figcaption><span class="punto"></span>Una señal entre cientos de datos.</figcaption>
+      </figure>
     </div>
   </section>
 
@@ -190,17 +196,22 @@ var e=ttq._i[t]||[],n=0;n<ttq.methods.length;n++)ttq.setAndDefer(e,ttq.methods[n
     </div>
   </section>
 
-  <!-- 7. Newsletter -->
+  <!-- 7. Newsletter, con la gota: cae una vez al entrar en pantalla y queda en su último cuadro -->
   <section class="bloque" id="newsletter">
-    <div class="wrap">
-      <span class="rotulo">06 · Newsletter</span>
-      <h2 data-pesa>Un caso cada dos semanas. <b>Cero humo.</b></h2>
-      <form class="en-linea" data-gracias="Anotado. El próximo caso te llega al correo." style="margin-top:28px;display:flex;flex-wrap:wrap;gap:10px">
-        <input type="email" name="correo" placeholder="tu@correo.com" required aria-label="Tu correo" style="flex:1 1 260px;font:inherit;padding:14px;border:1.5px solid var(--tinta);background:transparent">
-        <input type="text" name="web" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px">
-        <button class="boton" type="submit">Suscribirme</button>
-      </form>
-      <p class="respuesta" aria-live="polite"></p>
+    <div class="wrap dos-col">
+      <div>
+        <span class="rotulo">06 · Newsletter</span>
+        <h2 data-pesa>Un caso cada dos semanas. <b>Cero humo.</b></h2>
+        <form class="en-linea" data-gracias="Anotado. El próximo caso te llega al correo." style="margin-top:28px;display:flex;flex-wrap:wrap;gap:10px">
+          <input type="email" name="correo" placeholder="tu@correo.com" required aria-label="Tu correo" style="flex:1 1 220px;font:inherit;padding:14px;border:1.5px solid var(--tinta);background:transparent">
+          <input type="text" name="web" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px">
+          <button class="boton" type="submit">Suscribirme</button>
+        </form>
+        <p class="respuesta" aria-live="polite"></p>
+      </div>
+      <figure class="gota" data-video="/media/hero.webm" data-poster="/media/hero.jpg" data-una-vez aria-hidden="true">
+        <img src="/media/hero.jpg" alt="" loading="lazy">
+      </figure>
     </div>
   </section>
 

@@ -122,6 +122,65 @@
     medir('select_content', { content_type: 'skill', item_id: skill ? skill.textContent : '' }, 'ClickButton', { content_name: skill ? skill.textContent : '' });
   });
 
+  // Campana de Gauss (skills): los puntos caen desde una nube y se apilan; un solo punto, fuera de 2σ, es la señal
+  var campana = document.querySelector('[data-campana]');
+  if (campana) {
+    var cv = campana.querySelector('canvas'), cc = cv.getContext('2d');
+    var puntos = [], senal = null, inicio = null, W2 = 0, H2 = 0, r = 3;
+    var azar = function (k) { var x = Math.sin(k * 9301 + 49297) * 233280; return x - Math.floor(x); };
+    var armar = function () {
+      var dpr = Math.min(devicePixelRatio || 1, 2);
+      W2 = cv.clientWidth; H2 = cv.clientHeight;
+      cv.width = W2 * dpr; cv.height = H2 * dpr; cc.setTransform(dpr, 0, 0, dpr, 0, 0);
+      var columnas = Math.max(21, Math.round(W2 / 14)), paso = W2 / columnas;
+      r = Math.max(2, paso * 0.32);
+      var filas = Math.floor((H2 - 12) / (r * 2.6)), base = H2 - r - 2;
+      puntos = [];
+      for (var c = 0; c < columnas; c++) {
+        var s = (c + 0.5) / columnas * 6 - 3, alto = Math.round(Math.exp(-s * s / 2) * filas);
+        if (Math.abs(s) > 2.2) alto = Math.min(alto, 1);
+        if (s > 2.2) alto = 0; // más allá de 2σ a la derecha solo queda la señal
+        for (var f = 0; f < alto; f++) {
+          var k = puntos.length;
+          puntos.push({ x: (c + 0.5) * paso, y: base - f * r * 2.6, x0: azar(k + 1) * W2, y0: azar(k + 7) * H2 * 0.6, d: azar(k + 3) * 0.5 });
+        }
+      }
+      var sx = (2.6 + 3) / 6 * W2;
+      senal = { x: sx, y: base, x0: W2 * 0.5, y0: 0 };
+    };
+    var suave2 = function (t) { t = t < 0 ? 0 : t > 1 ? 1 : t; return 1 - Math.pow(1 - t, 3); };
+    var pintarCampana = function (ahora) {
+      var t = quieto ? 9 : inicio === null ? 0 : (ahora - inicio) / 1000;
+      cc.clearRect(0, 0, W2, H2);
+      cc.fillStyle = '#141414';
+      puntos.forEach(function (p, i) {
+        var k = suave2((t - p.d) / 1.4), x = p.x0 + (p.x - p.x0) * k, y = p.y0 + (p.y - p.y0) * k;
+        if (k >= 1 && !quieto) y += Math.sin(ahora / 900 + i) * 0.4;
+        cc.beginPath(); cc.arc(x, y, r, 0, 6.2832); cc.fill();
+      });
+      // Líneas de 2σ: lo que cae fuera merece atención
+      var a = suave2((t - 1.6) / 0.6);
+      if (a > 0) {
+        cc.globalAlpha = a * 0.5; cc.strokeStyle = '#141414'; cc.setLineDash([3, 4]); cc.lineWidth = 1;
+        [-2, 2].forEach(function (z) { var lx = (z + 3) / 6 * W2; cc.beginPath(); cc.moveTo(lx, 8); cc.lineTo(lx, H2); cc.stroke(); });
+        cc.setLineDash([]); cc.globalAlpha = 1;
+        var pulso = quieto ? 1 : 1 + Math.sin(ahora / 400) * 0.18;
+        cc.fillStyle = '#0A7A3E';
+        cc.beginPath(); cc.arc(senal.x, senal.y - (1 - a) * 40, r * 1.5 * pulso, 0, 6.2832); cc.fill();
+      }
+      if (!quieto) requestAnimationFrame(pintarCampana);
+    };
+    armar();
+    addEventListener('resize', armar);
+    if (quieto) pintarCampana(0);
+    else {
+      new IntersectionObserver(function (es, o) {
+        if (es[0].isIntersecting) { inicio = performance.now(); o.disconnect(); }
+      }, { threshold: 0.4 }).observe(campana);
+      requestAnimationFrame(pintarCampana);
+    }
+  }
+
   // Bóveda: búsqueda y filtros (solo en la página de skills)
   var bov = document.querySelector('[data-boveda]');
   if (bov) {
