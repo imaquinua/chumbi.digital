@@ -54,6 +54,7 @@ var e=ttq._i[t]||[],n=0;n<ttq.methods.length;n++)ttq.setAndDefer(e,ttq.methods[n
         <li><a href="#agentes">Agentes</a></li>
         <li><a href="#modelos">Modelos</a></li>
         <li><a href="/skills/">Skills</a></li>
+        <li><a href="#catedra">Cátedra</a></li>
         <li><a href="/tienda/">Tienda</a></li>
         <li><a class="cta-nav" href="#probar">Probar gratis</a></li>
       </ul>
@@ -175,11 +176,44 @@ var e=ttq._i[t]||[],n=0;n<ttq.methods.length;n++)ttq.setAndDefer(e,ttq.methods[n
     </div>
   </section>
 
+  <!-- 6. Cátedra: solo lo verificado (Cerebro: Chumbi/docencia/) -->
+  <section class="bloque" id="catedra">
+    <div class="wrap">
+      <span class="rotulo">05 · Cátedra</span>
+      <h2 data-pesa>Enseño a medir. <b>Desde el aula.</b></h2>
+      <div class="catedra">
+        <article class="curso">
+          <span class="etq">Curso firma</span>
+          <h3>Epistemología de un KPI</h3>
+          <p class="sub">Por qué medir es intervenir.</p>
+          <ul class="datos"><li><b>16</b> sesiones</li><li><b>48</b> horas académicas</li><li>Presencial o híbrido</li></ul>
+          <p class="para">Para directores de marketing, CMO, consultores y posgrado.</p>
+          <a class="boton" href="mailto:chumbi@imaquinua.com?subject=C%C3%A1tedra%3A%20Epistemolog%C3%ADa%20de%20un%20KPI">Llévalo a tu programa <span aria-hidden="true">→</span></a>
+        </article>
+        <div>
+          <h3 class="mini">Temas para posgrado, MBA y diplomados</h3>
+          <ul class="temas">
+            <li>Epistemología de la medición organizacional</li>
+            <li>Del dato a la decisión: marketing basado en evidencia</li>
+            <li>Arquitectura de valor y posicionamiento (Marco E³)</li>
+            <li>Equipos creativos de alto desempeño (X-Shaped People)</li>
+            <li>Marketing y filosofía: el cliente no está al centro</li>
+          </ul>
+          <h3 class="mini">Aula</h3>
+          <ul class="temas">
+            <li>Profesor de Estrategia Digital, UPC<span>2018–2024</span></li>
+            <li>Comité Consultivo Académico de Comunicación y Publicidad, UPC<span>2018–2024</span></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <!-- 6. Por qué -->
   <section class="bloque oscuro">
     <div class="wrap porque">
       <div>
-        <span class="rotulo">05 · Por qué</span>
+        <span class="rotulo">06 · Por qué</span>
         <p class="cita" data-pesa>Un equipo tarda meses en hacer trampa con un indicador. <b>Un agente, una tarde.</b></p>
       </div>
       <div>
@@ -196,11 +230,28 @@ var e=ttq._i[t]||[],n=0;n<ttq.methods.length;n++)ttq.setAndDefer(e,ttq.methods[n
     </div>
   </section>
 
+  <!-- 8. Pregúntame: agente de preguntas abiertas -->
+  <section class="bloque" id="pregunta">
+    <div class="wrap">
+      <span class="rotulo">07 · Pregúntame</span>
+      <form class="agente agente-ancho pregunta-form" data-pregunta novalidate>
+        <label for="pregunta-texto">Pregúntame lo que quieras <b>de marketing.</b></label>
+        <textarea id="pregunta-texto" name="pregunta" rows="3" maxlength="500" placeholder="Ej.: ¿Cómo mido si mis TikToks venden?" required></textarea>
+        <div class="una-puerta" style="margin-top:14px"><button class="boton" type="submit">Preguntar <span aria-hidden="true">→</span></button></div>
+        <p class="estado-agente" aria-live="polite" data-p-estado></p>
+        <div class="respuesta-pregunta" data-p-respuesta hidden>
+          <p data-p-texto></p>
+          <a class="boton sec" data-p-siguiente href="#probar">Siguiente paso</a>
+        </div>
+      </form>
+    </div>
+  </section>
+
   <!-- 7. Newsletter, con la gota en loop -->
   <section class="bloque" id="newsletter">
     <div class="wrap dos-col">
       <div>
-        <span class="rotulo">06 · Newsletter</span>
+        <span class="rotulo">08 · Newsletter</span>
         <h2 data-pesa>Un caso cada dos semanas. <b>Cero humo.</b></h2>
         <form class="en-linea" data-gracias="Anotado. El próximo caso te llega al correo." style="margin-top:28px;display:flex;flex-wrap:wrap;gap:10px">
           <input type="email" name="correo" placeholder="tu@correo.com" required aria-label="Tu correo" style="flex:1 1 220px;font:inherit;padding:14px;border:1.5px solid var(--tinta);background:transparent">

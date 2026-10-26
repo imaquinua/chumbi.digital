@@ -6,6 +6,7 @@ import { fileURLToPath } from 'node:url';
 import { procesar } from './lib/suscribir.js';
 import { almacenArchivo } from './lib/almacen-archivo.js';
 import { diagnosticar } from './lib/agente.js';
+import { responder } from './lib/pregunta.js';
 
 const RAIZ = path.dirname(fileURLToPath(import.meta.url));
 const PUB = path.join(RAIZ, 'public');
@@ -27,6 +28,14 @@ http.createServer(async (req, res) => {
     for await (const c of req) { datos += c; if (datos.length > 4096) return json(res, 413, { ok: false, mensaje: 'Demasiado grande.' }); }
     let body; try { body = JSON.parse(datos); } catch { return json(res, 400, { ok: false, mensaje: 'Solicitud inválida.' }); }
     const r = await procesar(body, almacen);
+    return json(res, r.status, r);
+  }
+  if (url.pathname === '/api/pregunta') {
+    if (req.method !== 'POST') return json(res, 405, { ok: false, mensaje: 'Método no permitido.' });
+    let datos = '';
+    for await (const c of req) { datos += c; if (datos.length > 4096) return json(res, 413, { ok: false, mensaje: 'Demasiado grande.' }); }
+    let body; try { body = JSON.parse(datos); } catch { return json(res, 400, { ok: false, mensaje: 'Solicitud inválida.' }); }
+    const r = await responder(body, req.socket.remoteAddress);
     return json(res, r.status, r);
   }
   if (url.pathname === '/api/agente') {

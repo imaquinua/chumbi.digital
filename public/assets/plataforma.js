@@ -202,6 +202,43 @@
     });
   }
 
+  // Agente de preguntas abiertas
+  var fp = document.querySelector('[data-pregunta]');
+  if (fp) {
+    var SIG = {
+      'veredicto': ['Pide un veredicto ↑', '#probar'],
+      'diagrama-e3': ['Abre el Diagrama E³ →', '/modelos/diagrama-e3/'],
+      'canvas-e3': ['Abre el Canvas E³ →', '/modelos/canvas-e3/'],
+      'cancha-estrategica': ['Abre la Cancha Estratégica →', '/modelos/cancha-estrategica/'],
+      'lector-de-indicadores': ['Abre el Lector de Indicadores →', '/modelos/lector-de-indicadores/'],
+      'metodo-claro': ['Abre el Método CLARO →', '/modelos/metodo-claro/'],
+      'skills': ['Ver las skills →', '/skills/'],
+      'newsletter': ['Suscríbete al newsletter ↓', '#newsletter']
+    };
+    var pe = fp.querySelector('[data-p-estado]'), pr = fp.querySelector('[data-p-respuesta]'), pb = fp.querySelector('button[type=submit]');
+    fp.addEventListener('submit', function (e) {
+      e.preventDefault();
+      var q = fp.pregunta.value.trim();
+      if (q.length < 6) { pe.textContent = 'Escribe tu pregunta.'; fp.pregunta.focus(); return; }
+      medir('agente_pregunta', {}, 'Search');
+      pb.disabled = true; pe.textContent = 'Pensando…'; pr.hidden = true;
+      fetch('/api/pregunta', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ pregunta: q }) })
+        .then(function (r) { return r.json().catch(function () { return { ok: false }; }); })
+        .then(function (d) {
+          if (d.ok) {
+            pe.textContent = '';
+            fp.querySelector('[data-p-texto]').textContent = d.respuesta;
+            var sg = SIG[d.siguiente] || SIG.veredicto, a = fp.querySelector('[data-p-siguiente]');
+            a.textContent = sg[0]; a.href = sg[1]; pr.hidden = false;
+          } else if (d.demo) {
+            pe.textContent = 'El agente en vivo llega pronto. Mientras, pide un veredicto de tu indicador ↑';
+          } else pe.textContent = d.mensaje || 'El agente no respondió. Intenta otra vez.';
+        })
+        .catch(function () { pe.textContent = 'Sin conexión. Intenta de nuevo.'; })
+        .then(function () { pb.disabled = false; });
+    });
+  }
+
   // Agente de diagnóstico
   var NOMBRES = {
     'lector-de-indicadores': ['Lector de Indicadores', '/modelos/lector-de-indicadores/'],
