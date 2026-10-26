@@ -134,7 +134,14 @@
         body: JSON.stringify({ correo: f.correo.value, web: f.web.value })
       }).then(function (r) { return r.json(); }).then(function (d) {
         resp.textContent = d.ok ? (f.getAttribute('data-gracias') || d.mensaje) : d.mensaje;
-        if (d.ok) f.reset();
+        if (d.ok) {
+          f.reset();
+          // Medición: suscripción (GA4 + TikTok)
+          try {
+            if (window.gtag) gtag('event', 'sign_up', { method: 'newsletter' });
+            if (window.ttq) ttq.track('Subscribe');
+          } catch (e) {}
+        }
       }).catch(function () {
         resp.textContent = 'Sin conexión. Intenta de nuevo.';
       }).then(function () { b.disabled = false; });

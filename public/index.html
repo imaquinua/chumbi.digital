@@ -1,15 +1,37 @@
 <!doctype html>
 <html lang="es">
 <head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-0PMDX384SM"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-0PMDX384SM');
+</script>
+<!-- TikTok Pixel Code Start -->
+<script>
+!function (w, d, t) {
+  w.TiktokAnalyticsObject=t;var ttq=w[t]=w[t]||[];ttq.methods=["page","track","identify","instances","debug","on","off","once","ready","alias","group","enableCookie","disableCookie","holdConsent","revokeConsent","grantConsent"],ttq.setAndDefer=function(t,e){t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}};for(var i=0;i<ttq.methods.length;i++)ttq.setAndDefer(ttq,ttq.methods[i]);ttq.instance=function(t){for(
+var e=ttq._i[t]||[],n=0;n<ttq.methods.length;n++)ttq.setAndDefer(e,ttq.methods[n]);return e},ttq.load=function(e,n){var r="https://analytics.tiktok.com/i18n/pixel/events.js",o=n&&n.partner;ttq._i=ttq._i||{},ttq._i[e]=[],ttq._i[e]._u=r,ttq._t=ttq._t||{},ttq._t[e]=+new Date,ttq._o=ttq._o||{},ttq._o[e]=n||{};n=document.createElement("script")
+;n.type="text/javascript",n.async=!0,n.src=r+"?sdkid="+e+"&lib="+t;e=document.getElementsByTagName("script")[0];e.parentNode.insertBefore(n,e)};
+
+
+  ttq.load('DBF806BC77UF91062890');
+  ttq.page();
+}(window, document, 'ttq');
+</script>
+<!-- TikTok Pixel Code End -->
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Chumbi · Medir es intervenir</title>
-<meta name="description" content="Decidir qué se mide es decidir qué existe. Modelos estratégicos abiertos en La organización, kits para trabajar con tu equipo y service design aplicado a IA, software y marketing.">
+<title>Chumbi · Marketing con agentes de IA</title>
+<meta name="description" content="Agentes, modelos estratégicos y skills de marketing para que la IA trabaje para el número correcto. Pruébalo gratis: escribe el número que miras cada lunes.">
 <link rel="canonical" href="https://chumbi.digital/">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="chumbi">
-<meta property="og:title" content="Chumbi · Medir es intervenir">
-<meta property="og:description" content="Decidir qué se mide es decidir qué existe. Los modelos con los que decido, abiertos.">
+<meta property="og:title" content="Chumbi · Tus agentes de IA hacen lo que mides">
+<meta property="og:description" content="Agentes, modelos y skills de marketing para que la IA trabaje para el número correcto.">
 <meta property="og:url" content="https://chumbi.digital/">
 <meta property="og:image" content="https://chumbi.digital/og.png">
 <meta name="twitter:card" content="summary_large_image">
@@ -19,19 +41,21 @@
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/modelos/modelos.css">
 <link rel="stylesheet" href="/assets/sitio.css">
+<link rel="stylesheet" href="/assets/plataforma.css">
 </head>
 <body>
 <div class="progreso" aria-hidden="true"></div>
 
 <header class="barra">
   <div class="wrap">
-    <a class="marca" href="/" aria-label="Chumbi, inicio">chu<span class="m">m</span>bi</a>
+    <a class="marca" href="/" aria-label="chumbi, inicio" data-logo>chu<span class="m">m</span>bi</a>
     <nav aria-label="Principal">
       <ul>
-        <li><a href="/organizacion/">La organización</a></li>
+        <li><a href="#agentes">Agentes</a></li>
+        <li><a href="#modelos">Modelos</a></li>
+        <li><a href="/skills/">Skills</a></li>
         <li><a href="/tienda/">Tienda</a></li>
-        <li><a href="#service-design">Service design</a></li>
-        <li><a class="cta-nav" href="/organizacion/">Entrar gratis</a></li>
+        <li><a class="cta-nav" href="#probar">Probar gratis</a></li>
       </ul>
     </nav>
   </div>
@@ -39,151 +63,143 @@
 
 <main>
 
-  <!-- 0. Hero: cae una gota y la regla la atraviesa. Video de Higgsfield cuando exista; mientras, el fotograma -->
-  <section class="hero-gota" data-video="/media/hero.webm" data-poster="/media/hero.jpg" data-una-vez>
-    <div class="wrap hero-texto">
-      <p class="kicker"><b>Jorge Luis Chumbiauca</b> · marketing, IA y medición</p>
-      <h1><span class="revela"><span>Medir es</span></span><span class="revela"><span style="--d:.12s"><b>intervenir.</b></span></span></h1>
-      <p class="lead" data-aparece style="--d:.3s">Todo se mide. Casi nadie decide qué.</p>
-      <div class="una-puerta" data-aparece style="--d:.45s">
-        <a class="boton" href="/organizacion/">Entra a La organización <span aria-hidden="true">→</span></a>
-        <a class="enlace" href="#relato">Ver por qué ↓</a>
-      </div>
+  <!-- 1. Hero: el mundo del embudo vivo (loop de Higgsfield). El texto vive sobre papel liso. -->
+  <section class="mundo" aria-label="Portada">
+    <video class="mundo-video" autoplay muted loop playsinline preload="auto" poster="/media/mundo/loop.jpg" aria-hidden="true">
+      <source src="/media/mundo/loop.webm" type="video/webm">
+      <source src="/media/mundo/loop.mp4" type="video/mp4">
+    </video>
+    <div class="wrap mundo-texto">
+      <p class="kicker"><b>Marketing con agentes de IA</b></p>
+      <h1>Tus agentes de IA hacen lo que <b data-medidor>mides.</b></h1>
+      <p class="lead">Mide bien. Ellos hacen el resto.</p>
+      <div class="una-puerta"><a class="boton" href="#probar">Pruébalo gratis <span aria-hidden="true">↓</span></a></div>
     </div>
   </section>
 
-  <!-- 1-4. Relato con scroll: la misma tinta cambia de forma -->
-  <section class="relato" id="relato" data-relato>
-    <div class="relato-escena"><canvas aria-hidden="true"></canvas></div>
-    <div class="wrap relato-pasos">
-      <article class="paso" data-paso>
-        <span class="rotulo">01 · Medir</span>
-        <h2>Medir no es mirar. <b>Es elegir qué existe.</b></h2>
-        <p class="intro">Tu empresa produce miles de datos. Los que eliges, existen. El resto desaparece.</p>
-      </article>
-      <article class="paso" data-paso>
-        <span class="rotulo">02 · Intervenir</span>
-        <h2>Lo que mides, <b>cambia.</b></h2>
-        <p class="intro">Cuando eliges un indicador, tu equipo empieza a trabajar para ese número. Mide clics y tendrás clics. Mide clientes que vuelven y tendrás clientes.</p>
-        <p class="nota">Ley de Goodhart: cuando una medida se vuelve objetivo, deja de ser una buena medida.</p>
-      </article>
-      <article class="paso" data-paso>
-        <span class="rotulo">03 · Adopción</span>
-        <h2>¿Dónde está tu equipo <b>con la IA?</b></h2>
-        <p class="intro">Toda tecnología se adopta igual: pocos al inicio, la mayoría en el medio, algunos al final. Elige tu grupo o arrastra la gota.</p>
-        <div class="grupos" role="group" aria-label="Grupo de adopción">
-          <button type="button" data-grupo="0">Innovadores</button>
-          <button type="button" data-grupo="1">Tempranos</button>
-          <button type="button" data-grupo="2">Mayoría temprana</button>
-          <button type="button" data-grupo="3">Mayoría tardía</button>
-          <button type="button" data-grupo="4">Rezagados</button>
+  <!-- 2. Veredicto: el agente con toda la sección -->
+  <section class="bloque probar" id="probar">
+    <div class="wrap">
+      <span class="rotulo">01 · Veredicto</span>
+      <form class="agente agente-ancho" data-agente novalidate>
+        <label for="numero">Dime tu indicador. <b>Te doy el veredicto.</b></label>
+        <div class="campo">
+          <input id="numero" name="numero" maxlength="120" autocomplete="off" placeholder="El número que miras cada lunes" required>
+          <button class="boton" type="submit">Veredicto <span aria-hidden="true">→</span></button>
         </div>
-        <p class="lectura-grupo" data-lectura-grupo aria-live="polite"></p>
-        <p class="reco" data-reco="0">Ya usas IA. Haz que el resultado dependa del método, no de la suerte. <a class="enlace" href="/modelos/metodo-claro/">Método CLARO →</a></p>
-        <p class="reco" data-reco="1" hidden>Pon la IA donde está tu cliente, no donde está la moda. <a class="enlace" href="/modelos/canvas-e3/">E³ · Canvas →</a></p>
-        <p class="reco" data-reco="2" hidden>Antes de escalar, distingue la señal del ruido. <a class="enlace" href="/modelos/lector-de-indicadores/">Lector de Indicadores →</a></p>
-        <p class="reco" data-reco="3" hidden>Ordena quién juega antes de sumar herramientas. <a class="enlace" href="/modelos/cancha-estrategica/">Cancha Estratégica →</a></p>
-        <p class="reco" data-reco="4" hidden>Empieza por una página, no por una plataforma. <a class="enlace" href="/modelos/rombo-e3/">E³ · Rombo →</a></p>
-        <p class="nota">Curva de difusión de innovaciones, Everett Rogers (1962).</p>
-      </article>
-      <article class="paso" data-paso>
-        <span class="rotulo">04 · Decidir</span>
-        <h2>Los modelos con los que decido. <b>Abiertos.</b></h2>
-        <p class="intro">La tinta cae en La organización: seis fichas gratis, sin registro.</p>
-        <div class="acciones"><a class="boton" href="#organizacion">Bajar a La organización ↓</a></div>
-      </article>
-    </div>
-  </section>
-
-  <!-- 2. La organización: la bóveda gratis -->
-  <section class="bloque oscuro" id="organizacion">
-    <div class="wrap">
-      <div class="cabecera-escenario">
-        <p class="cifra" aria-hidden="true">6</p>
-        <div>
-          <span class="rotulo">La organización · gratis</span>
-          <h2 data-pesa>Seis modelos. <b>Abiertos.</b></h2>
-          <p class="intro">Úsalos hoy. Sin correo, sin muro.</p>
+        <ul class="fichas-rapidas" aria-label="Ejemplos">
+          <li><button type="button">Seguidores</button></li>
+          <li><button type="button">Clics</button></li>
+          <li><button type="button">Leads del mes</button></li>
+          <li><button type="button">Alcance</button></li>
+          <li><button type="button">Ventas del mes</button></li>
+        </ul>
+        <p class="estado-agente" aria-live="polite" data-estado></p>
+        <div class="respuesta-agente" data-respuesta hidden>
+          <dl>
+            <div class="fila"><dt>La trampa</dt><dd data-r="la_trampa"></dd></div>
+            <div class="fila mejor"><dt>Mide esto</dt><dd><span data-r="mira_en_su_lugar"></span><small data-r="por_que"></small></dd></div>
+            <div class="fila pregunta"><dt>Pregunta del lunes</dt><dd data-r="pregunta_del_lunes"></dd></div>
+          </dl>
+          <div class="siguiente">
+            <a class="boton sec" data-r-agente href="#agentes">Ver el agente</a>
+          </div>
         </div>
-      </div>
-      <ul class="fichas">
-        <li data-aparece><a href="/modelos/canvas-e3/"><span class="i">01</span><span class="nombre">E³ · Canvas</span><span class="para">Dónde vive tu marca en el recorrido.</span><span class="ir">Abrir →</span></a></li>
-        <li data-aparece style="--d:.06s"><a href="/modelos/diagrama-e3/"><span class="i">02</span><span class="nombre">E³ · Diagrama</span><span class="para">El método completo en una pieza.</span><span class="ir">Abrir →</span></a></li>
-        <li data-aparece style="--d:.12s"><a href="/modelos/rombo-e3/"><span class="i">03</span><span class="nombre">E³ · Rombo</span><span class="para">El E³ en una página.</span><span class="ir">Abrir →</span></a></li>
-        <li data-aparece style="--d:.18s"><a href="/modelos/cancha-estrategica/"><span class="i">04</span><span class="nombre">Cancha Estratégica</span><span class="para">Quién juega y dónde te meten goles.</span><span class="ir">Abrir →</span></a></li>
-        <li data-aparece style="--d:.24s"><a href="/modelos/lector-de-indicadores/"><span class="i">05</span><span class="nombre">Lector de Indicadores</span><span class="para">Señal o ruido, en cinco líneas.</span><span class="ir">Abrir →</span></a></li>
-        <li data-aparece style="--d:.3s"><a href="/modelos/metodo-claro/"><span class="i">06</span><span class="nombre">Método CLARO</span><span class="para">Cinco partes para cada prompt.</span><span class="ir">Abrir →</span></a></li>
-      </ul>
-    </div>
-  </section>
-
-  <!-- 3. Kits: pocos productos, precios claros -->
-  <section class="bloque" id="kits">
-    <div class="wrap">
-      <span class="rotulo">Kits · pago único</span>
-      <h2 data-pesa>La ficha es gratis. <b>El kit trabaja contigo.</b></h2>
-      <p class="intro">Plantillas, guía y un caso resuelto. Pagas en soles con Mercado Pago.</p>
-<!--catalogo:modelos-->
-      <ul class="productos">
-        <li data-aparece style="--d:0.00s"><div><h3><a href="/tienda/kit-e3/">Kit E³ · Canvas, diagrama y rombo</a></h3><p>Las necesidades de Maslow cruzadas con See-Think-Do-Care para mapear el recorrido completo del cliente. Incluye guía de taller.</p></div><div class="precio-linea"><b>S/ 149</b><small>≈ US$ 40</small></div><a class="boton sec" href="/tienda/kit-e3/">Ver kit</a></li>
-        <li data-aparece style="--d:0.06s"><div><h3><a href="/tienda/cancha-estrategica/">Cancha Estratégica</a></h3><p>Tu marketing como un equipo en la cancha: once posiciones para tus canales, herramientas y personas, y el tercio donde te meten goles.</p></div><div class="precio-linea"><b>S/ 69</b><small>≈ US$ 18</small></div><a class="boton sec" href="/tienda/cancha-estrategica/">Ver kit</a></li>
-        <li data-aparece style="--d:0.12s"><div><h3><a href="/tienda/lector-de-indicadores/">Lector de Indicadores · kit de lectura</a></h3><p>Lee un tablero con criterio: qué es señal y qué es ruido. Plantilla semanal y ejemplo resuelto.</p></div><div class="precio-linea"><b>S/ 69</b><small>≈ US$ 18</small></div><a class="boton sec" href="/tienda/lector-de-indicadores/">Ver kit</a></li>
-        <li data-aparece style="--d:0.18s"><div><h3><a href="/tienda/metodo-claro/">Método CLARO · manual de prompting</a></h3><p>Contexto, labor, anatomía, referencias y objetivo: cinco partes para cada prompt. Manual, plantillas y hoja de chequeo.</p></div><div class="precio-linea"><b>S/ 49</b><small>≈ US$ 13</small></div><a class="boton sec" href="/tienda/metodo-claro/">Ver kit</a></li>
-        <li class="destacado" data-aparece style="--d:0.24s"><div><h3><a href="/tienda/pack-completo/">Pack completo · modelos estratégicos de Chumbi</a></h3><p>Los cuatro kits en una sola descarga: E³, Cancha Estratégica, Lector de Indicadores y Método CLARO.</p></div><div class="precio-linea"><b>S/ 249</b><small>≈ US$ 66</small></div><a class="boton sec" href="/tienda/pack-completo/">Ver kit</a></li>
-      </ul>
-<!--/catalogo:modelos-->
-    </div>
-  </section>
-
-  <!-- 4. Service design aplicado -->
-  <section class="bloque" id="service-design">
-    <div class="wrap">
-      <span class="rotulo">Service design aplicado · en preparación</span>
-      <h2 data-pesa>Primero el servicio. <b>Después la herramienta.</b></h2>
-      <div class="terrenos">
-        <article data-aparece><span class="letra">IA</span><h3>Antes del agente</h3><p>Qué decide la IA, qué decide la persona y qué se mide.</p><span class="estado">Pronto</span></article>
-        <article data-aparece style="--d:.1s"><span class="letra">SW</span><h3>Antes del backlog</h3><p>El recorrido completo, no solo la pantalla.</p><span class="estado">Pronto</span></article>
-        <article data-aparece style="--d:.2s"><span class="letra">MK</span><h3>Antes de la campaña</h3><p>Cada punto de contacto con su indicador.</p><span class="estado">Pronto</span></article>
-      </div>
-      <form class="en-linea" data-gracias="Anotado. Te aviso cuando abra.">
-        <label class="trampa" for="sd-web">No llenar</label><input class="trampa" id="sd-web" type="text" name="web" tabindex="-1" autocomplete="off">
-        <label class="trampa" for="sd-correo">Tu correo</label>
-        <input type="email" id="sd-correo" name="correo" required placeholder="tu@correo.com" autocomplete="email">
-        <button class="boton" type="submit">Avísame</button>
       </form>
-      <p class="respuesta" role="status"></p>
     </div>
   </section>
 
-  <!-- 5. Trayectoria como tesis -->
-  <section class="bloque" id="tesis">
+  <!-- 3. Agentes: uno por etapa del embudo, los mismos del mundo -->
+  <section class="bloque" id="agentes">
     <div class="wrap">
-      <span class="rotulo">Trayectoria</span>
-      <h2 data-pesa>Cinco industrias. <b>El mismo problema.</b></h2>
-      <p class="intro">En todas, el número elegido decidió el resto.</p>
-      <ol class="industrias">
-        <li data-aparece><span class="sector">Telecomunicaciones</span><span class="pregunta">¿Qué mide una marca que todos ya conocen?</span><span class="donde">Telefónica</span></li>
-        <li data-aparece style="--d:.06s"><span class="sector">Consumo masivo</span><span class="pregunta">¿Qué número decide el presupuesto de medios?</span><span class="donde">Gloria</span></li>
-        <li data-aparece style="--d:.12s"><span class="sector">Publicidad y medios</span><span class="pregunta">¿Quién cuenta el resultado: el medio o la marca?</span><span class="donde">Publicis · GroupM</span></li>
-        <li data-aparece style="--d:.18s"><span class="sector">Educación</span><span class="pregunta">¿Qué aprende un equipo cuando cambia lo que se evalúa?</span><span class="donde">UPC · USIL · Campus Romero</span></li>
-        <li data-aparece style="--d:.24s"><span class="sector">Consultoría e IA</span><span class="pregunta">¿Qué deja de verse cuando todo se automatiza?</span><span class="donde">Imaquinua</span></li>
-      </ol>
+      <span class="rotulo">02 · Agentes</span>
+      <h2 data-pesa>Un agente por etapa. <b>Uno que los mide a todos.</b></h2>
+      <div class="agentes-grid">
+        <ul class="lista-agentes">
+          <li><h3>Pauta<small>See</small></h3><span class="estado">Pronto</span><p>Anuncios que traen clientes, no clics.</p></li>
+          <li><h3>SEO<small>See</small></h3><span class="estado">Pronto</span><p>Que te encuentren en Google.</p></li>
+          <li><h3>GEO<small>See</small></h3><span class="estado">Pronto</span><p>Que ChatGPT y Claude te recomienden.</p></li>
+          <li><h3>Copy<small>Think</small></h3><span class="estado">Pronto</span><p>Textos que se entienden en 5 segundos.</p></li>
+          <li><h3>Conversión<small>Do</small></h3><span class="estado">Pronto</span><p>Más ventas con el mismo tráfico.</p></li>
+          <li><h3>Retención<small>Care</small></h3><span class="estado">Pronto</span><p>Clientes que vuelven.</p></li>
+          <li><h3>Analytics<small>Todo el embudo</small></h3><a class="estado vivo" href="#probar">Pruébalo ↑</a><p>Mide a los demás. Te dice qué mirar.</p></li>
+        </ul>
+      </div>
     </div>
   </section>
 
-  <!-- 6. Libro y correo -->
-  <section class="bloque oscuro" id="correo">
+  <!-- 4. Modelos estratégicos -->
+  <section class="bloque" id="modelos">
     <div class="wrap">
-      <span class="rotulo">Epistemología de un KPI · en revisión</span>
-      <h2 data-pesa>Elegir un indicador es <b>un acto de gobierno.</b></h2>
-      <p class="intro">Un ensayo cada dos semanas, sacado del libro. Sin relleno.</p>
-      <form class="en-linea">
-        <label class="trampa" for="nl-web">No llenar</label><input class="trampa" id="nl-web" type="text" name="web" tabindex="-1" autocomplete="off">
-        <label class="trampa" for="nl-correo">Tu correo</label>
-        <input type="email" id="nl-correo" name="correo" required placeholder="tu@correo.com" autocomplete="email">
+      <span class="rotulo">03 · Modelos · abiertos</span>
+      <h2 data-pesa>Los modelos con los que <b>decido.</b></h2>
+      <div class="modelos-grupos">
+        <div>
+          <h3>Propios</h3>
+          <ul class="modelos">
+            <li><a href="/modelos/diagrama-e3/"><span class="nombre">Diagrama E³</span><span class="ir">Abrir →</span><span class="para">El embudo, etapa por etapa, con su métrica.</span></a></li>
+            <li><a href="/modelos/canvas-e3/"><span class="nombre">Canvas E³</span><span class="ir">Abrir →</span><span class="para">Encuentra la etapa vacía.</span></a></li>
+            <li><a href="/modelos/rombo-e3/"><span class="nombre">Rombo E³</span><span class="ir">Abrir →</span><span class="para">Todo el método en una página.</span></a></li>
+            <li><a href="/modelos/cancha-estrategica/"><span class="nombre">Cancha Estratégica</span><span class="ir">Abrir →</span><span class="para">Tu marketing como un equipo de fútbol.</span></a></li>
+            <li><a href="/modelos/lector-de-indicadores/"><span class="nombre">Lector de Indicadores</span><span class="ir">Abrir →</span><span class="para">Señal o ruido, en cinco líneas.</span></a></li>
+            <li><a href="/modelos/metodo-claro/"><span class="nombre">Método CLARO</span><span class="ir">Abrir →</span><span class="para">El prompt como brief.</span></a></li>
+          </ul>
+        </div>
+        <div>
+          <h3>Clásicos, con mi lectura</h3>
+          <ul class="modelos">
+            <li><span class="sin"><span class="nombre">Matriz Rumsfeld</span><span class="ir">Pronto</span></span></li>
+            <li><span class="sin"><span class="nombre">Distribución normal</span><span class="ir">Pronto</span></span></li>
+            <li><span class="sin"><span class="nombre">Ciclo de vida del producto</span><span class="ir">Pronto</span></span></li>
+            <li><span class="sin"><span class="nombre">Matriz de impacto</span><span class="ir">Pronto</span></span></li>
+            <li><span class="sin"><span class="nombre">RACI de ejecución</span><span class="ir">Pronto</span></span></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5. Skills: avance; la biblioteca vive en /skills/ -->
+  <section class="bloque" id="boveda">
+    <div class="wrap">
+      <span class="rotulo">04 · Skills · gratis</span>
+      <h2 data-pesa>Skills de marketing para IA, <b>con lo que hay que medir.</b></h2>
+      <div class="una-puerta"><a class="boton sec" href="/skills/">Ver las 18 skills <span aria-hidden="true">→</span></a></div>
+    </div>
+  </section>
+
+  <!-- 6. Por qué -->
+  <section class="bloque oscuro">
+    <div class="wrap porque">
+      <div>
+        <span class="rotulo">05 · Por qué</span>
+        <p class="cita" data-pesa>Un equipo tarda meses en hacer trampa con un indicador. <b>Un agente, una tarde.</b></p>
+      </div>
+      <div>
+        <span class="rotulo">Quién está detrás</span>
+        <ul class="trayectoria">
+          <li><b>Jorge Luis Chumbiauca</b><span>Chumbi</span></li>
+          <li>Agencia y holding<span>Publicis Groupe · Mayo Group · Sonr</span></li>
+          <li>Telecomunicaciones<span>Telefónica</span></li>
+          <li>Consumo masivo<span>Gloria</span></li>
+          <li>Educación<span>USIL · Norbert Wiener</span></li>
+          <li>Marketing Technology (Martech)<span>Imaquinua</span></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- 7. Newsletter -->
+  <section class="bloque" id="newsletter">
+    <div class="wrap">
+      <span class="rotulo">06 · Newsletter</span>
+      <h2 data-pesa>Un caso cada dos semanas. <b>Cero humo.</b></h2>
+      <form class="en-linea" data-gracias="Anotado. El próximo caso te llega al correo." style="margin-top:28px;display:flex;flex-wrap:wrap;gap:10px">
+        <input type="email" name="correo" placeholder="tu@correo.com" required aria-label="Tu correo" style="flex:1 1 260px;font:inherit;padding:14px;border:1.5px solid var(--tinta);background:transparent">
+        <input type="text" name="web" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px">
         <button class="boton" type="submit">Suscribirme</button>
       </form>
-      <p class="respuesta" role="status"></p>
+      <p class="respuesta" aria-live="polite"></p>
     </div>
   </section>
 
@@ -191,20 +207,12 @@
 
 <footer class="pie-v2">
   <div class="wrap">
-    <div class="pie-cols">
-      <div><h3>La organización</h3><ul><li><a href="/organizacion/">Todos los modelos</a></li><li><a href="/modelos/canvas-e3/">E³</a></li><li><a href="/modelos/cancha-estrategica/">Cancha Estratégica</a></li><li><a href="/modelos/metodo-claro/">Método CLARO</a></li></ul></div>
-      <div><h3>Tienda</h3><ul><li><a href="/tienda/">Kits</a></li><li><a href="/tienda/pack-completo/">Pack completo</a></li><li><a href="#service-design">Service design</a></li></ul></div>
-      <div><h3>Chumbi</h3><ul><li><a href="mailto:chumbi@imaquinua.com?subject=C%C3%A1tedra">Cátedra</a></li><li><a href="mailto:chumbi@imaquinua.com?subject=Charla">Charlas</a></li><li><a href="mailto:chumbi@imaquinua.com?subject=Prensa">Prensa</a></li></ul></div>
-      <div><h3>Sígueme</h3><ul><li><a href="https://www.linkedin.com/in/jlchumbiauca/" target="_blank" rel="noopener">LinkedIn</a></li><li><a href="https://www.tiktok.com/@chumbi.ai" target="_blank" rel="noopener">TikTok</a></li><li><a href="mailto:chumbi@imaquinua.com">chumbi@imaquinua.com</a></li></ul></div>
-    </div>
-    <div class="pie-final">
-      <span>chumbi.digital · Lima, 2026</span>
-      <span><span class="runto">Runto</span> · incubadora de agentes · pronto</span>
-    </div>
+    <a class="marca-grande" href="/" aria-label="chumbi" data-logo-grande>chu<span class="m">m</span>bi</a>
+    <div class="pie-final"><span>chumbi.digital · Marketing con agentes de IA</span><span>Lima, Perú</span></div>
   </div>
 </footer>
 
-<script src="/assets/sitio.js" defer></script>
-<script src="/assets/relato.js" defer></script>
+<script src="/assets/sitio.js"></script>
+<script src="/assets/plataforma.js"></script>
 </body>
 </html>

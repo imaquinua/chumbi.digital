@@ -146,6 +146,51 @@
         ],
         "createdAt": "2026-10-25T01:29:09.669Z",
         "reason": "Claude: son rótulos cortos (.rotulo) del sistema de marca 1a, no texto corrido"
+      },
+      {
+        "rule": "tight-leading",
+        "value": "*",
+        "files": [
+          "public/prueba/hero-medido/index.html"
+        ],
+        "createdAt": "2026-10-25T20:53:37.960Z",
+        "reason": "Claude: titulares display (h1 .9, medidas 1.05) siguen la escala tipográfica del sitio; no es texto de cuerpo"
+      },
+      {
+        "rule": "all-caps-body",
+        "value": "*",
+        "files": [
+          "public/prueba/home/index.html"
+        ],
+        "createdAt": "2026-10-25T21:31:14.792Z",
+        "reason": "Claude: rótulos cortos en mayúsculas son el sistema de etiquetas del sitio (sitio.css .rotulo/.estado), no texto corrido"
+      },
+      {
+        "rule": "tight-leading",
+        "value": "*",
+        "files": [
+          "public/prueba/home/index.html"
+        ],
+        "createdAt": "2026-10-25T21:31:14.819Z",
+        "reason": "Claude: 1.05 solo en la métrica recomendada a 22–30px, tipo display"
+      },
+      {
+        "rule": "heading-rhythm",
+        "value": "*",
+        "files": [
+          "public/prueba/home/index.html"
+        ],
+        "createdAt": "2026-10-25T21:31:14.843Z",
+        "reason": "Claude: h3 dentro de tarjetas de una grilla de 3 columnas; el espacio de arriba es el borde de la fila, no otra sección"
+      },
+      {
+        "rule": "extreme-negative-tracking",
+        "value": "*",
+        "files": [
+          "public/prueba/home/index.html"
+        ],
+        "createdAt": "2026-10-25T21:32:45.202Z",
+        "reason": "Claude: -0.05/-0.06em solo en titular y wordmark gigantes (60–320px), tracking óptico del sistema del sitio"
       }
     ]
   }

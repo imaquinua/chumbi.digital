@@ -1,6 +1,28 @@
 <!doctype html>
 <html lang="es">
 <head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-0PMDX384SM"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-0PMDX384SM');
+</script>
+<!-- TikTok Pixel Code Start -->
+<script>
+!function (w, d, t) {
+  w.TiktokAnalyticsObject=t;var ttq=w[t]=w[t]||[];ttq.methods=["page","track","identify","instances","debug","on","off","once","ready","alias","group","enableCookie","disableCookie","holdConsent","revokeConsent","grantConsent"],ttq.setAndDefer=function(t,e){t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}};for(var i=0;i<ttq.methods.length;i++)ttq.setAndDefer(ttq,ttq.methods[i]);ttq.instance=function(t){for(
+var e=ttq._i[t]||[],n=0;n<ttq.methods.length;n++)ttq.setAndDefer(e,ttq.methods[n]);return e},ttq.load=function(e,n){var r="https://analytics.tiktok.com/i18n/pixel/events.js",o=n&&n.partner;ttq._i=ttq._i||{},ttq._i[e]=[],ttq._i[e]._u=r,ttq._t=ttq._t||{},ttq._t[e]=+new Date,ttq._o=ttq._o||{},ttq._o[e]=n||{};n=document.createElement("script")
+;n.type="text/javascript",n.async=!0,n.src=r+"?sdkid="+e+"&lib="+t;e=document.getElementsByTagName("script")[0];e.parentNode.insertBefore(n,e)};
+
+
+  ttq.load('DBF806BC77UF91062890');
+  ttq.page();
+}(window, document, 'ttq');
+</script>
+<!-- TikTok Pixel Code End -->
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Chumbi · Gracias</title>
@@ -38,6 +60,19 @@ a.enlace{font-weight:900;text-decoration:none;border-bottom:1.5px solid var(--ti
   if(s==='pending'||s==='in_process'){
     document.getElementById('titulo').innerHTML='Pago<br><b>en proceso.</b>';
     document.getElementById('texto').textContent='Mercado Pago todavía está confirmando tu pago. Cuando se acredite te llega todo por correo, no tienes que hacer nada más.';
+  }
+  // Medición: compra aprobada (GA4 + TikTok), una sola vez por pedido
+  var pedido=q.get('pedido');
+  if((s==='approved')&&pedido){
+    try{
+      var item=JSON.parse(sessionStorage.getItem('chumbi-compra')||'null'),marca='chumbi-medida-'+pedido;
+      if(!sessionStorage.getItem(marca)){
+        sessionStorage.setItem(marca,'1');
+        var v=item?item.precio:undefined,lista=item?[{item_id:item.id,item_name:item.nombre,price:item.precio,quantity:1}]:[];
+        if(window.gtag)gtag('event','purchase',{transaction_id:pedido,currency:'PEN',value:v,items:lista});
+        if(window.ttq)ttq.track('CompletePayment',{contents:item?[{content_id:item.id,content_name:item.nombre,quantity:1,price:item.precio}]:[],content_type:'product',value:v,currency:'PEN'});
+      }
+    }catch(e){}
   }
 })();
 </script>
